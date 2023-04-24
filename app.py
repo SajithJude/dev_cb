@@ -183,12 +183,12 @@ except (KeyError, AttributeError) as e:
 
 try:
     with refine_toc:
-        column1, column2 = st.columns(2, gap="small")
+        column1, column2 = st.columns(2, gap="medium")
         data = st.session_state.table_of_contents
         topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
         if "topic_data" not in st.session_state:
             st.session_state['topic_data'] = topic_data
-        column1.title("Topics and Subtopics Editor")
+        column1.write("## Editor")
 
         topic_name = column1.text_input("Enter topic name:")
 
