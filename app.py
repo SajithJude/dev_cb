@@ -315,6 +315,15 @@ try:
             expander.markdown(f"**{subtopic['Subtopic']}**")
             expander.write(subtopic["content"])
 
+
+
+except (KeyError, AttributeError) as e:
+    st.info("Error addming missing Data")
+    print(f"Error: {type(e).__name__} - {e}")
+
+
+
+try:
     topic_names = [key for key, value in st.session_state.contents_list.items()]
     new_query = secb.text_input("Name of the missing Subtopic")
     topic_belong = secb.selectbox("Select the belonging topic",topic_names)
@@ -330,13 +339,10 @@ try:
         # # st.experimental_rerun()
     extract_col.write(st.session_state.contents_list)
 
+
 except (KeyError, AttributeError) as e:
-    st.info("Error addming missing Data")
+    st.info(" try addming missing Data")
     print(f"Error: {type(e).__name__} - {e}")
-
-
-
-
 
 
 
