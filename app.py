@@ -109,7 +109,7 @@ def process_pdf(uploaded_file):
     return index
         
 
-index_filenames = [f for f in os.listdir(DATA_DIR) if f.endswith(".json")]
+# index_filenames = [f for f in os.listdir(DATA_DIR) if f.endswith(".json")]
 
 upload_col,  extract_col, edit_col, xml_col, manage_col = st.tabs(["⚪ __Upload Chapter__", "⚪ __Extract_Contents__", "⚪ __Edit Contents__", "⚪ __Export Generated XML__", "⚪ __Manage XMLs__"])
 
