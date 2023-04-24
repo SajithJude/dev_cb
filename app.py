@@ -338,6 +338,7 @@ try:
         # st.session_state.contents_list[topic_belong][new_query].append(content_value)
         # # st.experimental_rerun()
     extract_col.write(st.session_state.contents_list)
+    st.experimental_rerun()
 
 
 except (KeyError, AttributeError) as e:
