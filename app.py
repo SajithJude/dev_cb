@@ -308,7 +308,7 @@ try:
         st.session_state.contents_list = st.session_state.new_dict
 
                 
-    for topic_key, topic_value in st.session_state.contents_list.items():
+    for topic_key, topic_value in st.session_state.new_dict.items():
         expander = seca.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
