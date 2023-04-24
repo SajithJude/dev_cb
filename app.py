@@ -241,6 +241,10 @@ except (KeyError, AttributeError) as e:
 ######################       extract content      ##########################################
 
 try:
+
+
+    st.session_state.table_of_contents = st.session_state['topic_data']
+
     if "new_dict" not in st.session_state:
             st.session_state.new_dict = {}
     for topic in st.session_state.table_of_contents["Topics"]:
