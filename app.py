@@ -245,7 +245,10 @@ except (KeyError, AttributeError) as e:
 ######################       extract content      ##########################################
 
 try:
+    st.write("topic data")
     st.write(st.session_state['topic_data'])
+    st.write("TOC topics")
+
     st.write(st.session_state.table_of_contents["Topics"])
 
     if "new_dict" not in st.session_state:
