@@ -325,7 +325,7 @@ try:
         content_value = missing_info.response
 
         # if new_query not in st.session_state.contents_list[topic_belong]:
-        st.session_state.contents_list[topic_belong][new_query] = []
+        # st.session_state.contents_list[topic_belong][new_query] = []
         st.session_state.contents_list[topic_belong][new_query].append(content_value)
         # st.experimental_rerun()
     extract_col.write(st.session_state.contents_list)
