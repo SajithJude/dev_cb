@@ -67,8 +67,8 @@ if col1.button("Add Subtopic"):
         if new_subtopic not in st.session_state['topic_data']:
             st.session_state['topic_data'][selected_topic].append(new_subtopic)
             st.write(st.session_state['topic_data'][selected_topic])
-            #update_json(st.session_state['topic_data'])
-            #st.experimental_rerun()
+            update_json(st.session_state['topic_data'])
+            st.experimental_rerun()
 
 col2.write("## Updated JSON:")
 col2.json({"Topics": [{k: v} for k, v in st.session_state['topic_data'].items()]})
