@@ -45,10 +45,9 @@ col1.title("Topics and Subtopics Editor")
 
 topic_name = col1.text_input("Enter New topic name to add:")
 
-if col1.button("Add & New Topic"):
-    if topic_name and topic_name not in topic_data:
-        topic_data[topic_name] = []
-        update_json(topic_data)
+if col1.button("Add & New Topic") and topic_name and topic_name not in topic_data:
+    topic_data[topic_name] = []
+    update_json(topic_data)
 
 if "selected_topic" not in st.session_state:
     st.session_state.selected_topic = list(topic_data.keys())[0]
