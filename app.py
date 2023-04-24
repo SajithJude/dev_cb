@@ -324,10 +324,10 @@ try:
         missing_info =  index.query("extract the information about "+str(new_query))
         content_value = missing_info.response
 
-        # if new_query not in st.session_state.contents_list[topic_belong]:
+        # # if new_query not in st.session_state.contents_list[topic_belong]:
         # st.session_state.contents_list[topic_belong][new_query] = []
-        st.session_state.contents_list[topic_belong][new_query].append(content_value)
-        # st.experimental_rerun()
+        # st.session_state.contents_list[topic_belong][new_query].append(content_value)
+        # # st.experimental_rerun()
     extract_col.write(st.session_state.contents_list)
 
 except (KeyError, AttributeError) as e:
