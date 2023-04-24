@@ -297,7 +297,7 @@ try:
         extract_col.markdown(f"**{topic_key}**")
         extract_col.write(topic_value["content"])
     
-        expander = st.expander("Subtopics",key=str(topic_key))
+        expander = st.expander("Subtopics")
         for subtopic in topic_value["Subtopics"]:
             expander.markdown(f"**{subtopic['Subtopic']}**")
             expander.write(subtopic["content"])
