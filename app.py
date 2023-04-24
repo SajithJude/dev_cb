@@ -289,7 +289,7 @@ try:
             progress_bar.progress(items_processed / total_items)
 
 
-            updated_json = json.dumps(st.session_state.new_dict, indent=2)
+            updated_json = json.loads(st.session_state.new_dict, indent=2)
         
         if "updated_json" not in st.session_state:
             st.session_state.updated_json = updated_json
