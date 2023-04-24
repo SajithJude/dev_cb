@@ -60,14 +60,17 @@ subtopics_input = col1.multiselect("", subtopics, default=subtopics)
 if col1.button("Save Subtopics"):
     st.session_state['topic_data'][selected_topic] = subtopics_input
     update_json(st.session_state['topic_data'])
-
-if col1.button("Add Subtopic"):
+add = col1.button("Add Subtopic")
+if "add" in st.session_state  or add:
+    st.session_state['add'] = True
     new_subtopic = col1.text_input("Enter subtopic name:")
     if col1.button("Update"):
-        if new_subtopic not in st.session_state['topic_data']:
+        if new_subtopic not in st.session_state['topic_data'][selected_topic]:
             st.session_state['topic_data'][selected_topic].append(new_subtopic)
-            st.write(st.session_state['topic_data'][selected_topic])
-            update_json(st.session_state['topic_data'])
+            #col1.write(st.session_state['topic_data'][selected_topic])
+            #update_json(st.session_state['topic_data'])
+            add= None;
+            st.session_state['add'] = False
             st.experimental_rerun()
 
 col2.write("## Updated JSON:")
