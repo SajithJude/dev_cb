@@ -255,7 +255,7 @@ try:
 
     if "new_dict" not in st.session_state:
             st.session_state.new_dict = {}
-    for topic in st.session_state['topic_data']:
+    for topic in st.session_state.toc:
         for key, value in topic.items():
             # Add a description for the topic
             st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
