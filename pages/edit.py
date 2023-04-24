@@ -79,4 +79,3 @@ col2.json({"Topics": [{k: v} for k, v in st.session_state['topic_data'].items()]
 
 
 
-st.write(st.session_state['table_of_contents'])
