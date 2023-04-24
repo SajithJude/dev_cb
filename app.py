@@ -190,6 +190,7 @@ try:
             st.session_state['topic_data'] = topic_data
         column1.write("## Editor")
 
+        column1.write("# Topics:")
         topic_name = column1.text_input("Enter New topic name:")
 
         if column1.button("Save New Topic"):
@@ -202,7 +203,7 @@ try:
 
         subtopics = st.session_state['topic_data'][selected_topic]
 
-        column1.write("## Subtopics:")
+        column1.write("# Subtopics:")
         subtopics_input = column1.multiselect("Remove Unwanted Subtopics", subtopics, default=subtopics)
 
         if column1.button("Save Subtopic changes"):
