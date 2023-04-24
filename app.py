@@ -292,14 +292,15 @@ try:
             updated_json = json.dumps(st.session_state.new_dict, indent=2)
         
     extract_col.write(st.session_state.new_dict)
+    expander = st.expander("Subtopics"):
+
     for topic_key, topic_value in st.session_state.new_dict.items():
         extract_col.markdown(f"**{topic_key}**")
         extract_col.write(topic_value["content"])
 
-        with st.expander("Subtopics"):
-            for subtopic in topic_value["Subtopics"]:
-                extract_col.markdown(f"**{subtopic['Subtopic']}**")
-                extract_col.write(subtopic["content"])
+        for subtopic in topic_value["Subtopics"]:
+            extract_col.markdown(f"**{subtopic['Subtopic']}**")
+            expander.write(subtopic["content"])
 
 except (KeyError, AttributeError) as e:
     st.info("Error Extracting Data")
