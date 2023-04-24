@@ -218,23 +218,24 @@ try:
     quer = extract_col.button("Extract Selected")
 
 
-    new_dict = {}
+    if "new_dict" not in st.session_state:
+            st.session_state.new_dict = {}
     for topic in st.session_state['topic_data']["Topics"]:
         for key, value in topic.items():
             # Add a description for the topic
-            new_dict[key] = {'content': '', 'Subtopics': []}
+            st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
             # Add descriptions for the values
             for item in value:
-                new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
+                st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
 
 
     # edit_col.write(new_dict)
 
     if quer:
         progress_bar = extract_col.progress(0)
-        total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in new_dict.items()) + len(new_dict)
+        total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
         items_processed = 0
-        for topic, subtopics_dict in new_dict.items():
+        for topic, subtopics_dict in st.session_state.new_dict.items():
             for subtopic_dict in subtopics_dict['Subtopics']:
                 subtopic_name = subtopic_dict['Subtopic']
                 subtopicres = index.query("extract the information about "+str(subtopic_name))
@@ -249,9 +250,9 @@ try:
             progress_bar.progress(items_processed / total_items)
 
 
-            updated_json = json.dumps(new_dict, indent=2)
+            updated_json = json.dumps(st.session_state.new_dict, indent=2)
         
-        extract_col.write(new_dict)
+        extract_col.write(st.session_state.new_dict)
 
         if "new_dict" not in st.session_state:
             st.session_state.new_dict = new_dict
