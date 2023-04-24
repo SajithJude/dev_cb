@@ -318,26 +318,17 @@ try:
     topic_belong = secb.selectbox("Select the belonging topic",topic_names)
     query_again = secb.button("extract missing")
 
-    
     if query_again:
+        missing_info =  index.query("extract the information about "+str(new_query))
         selected_topic = topic_belong
         new_subtopic = new_query
-        content_value = missing_info
+        content_value = missing_info.response
 
-        # Check if the selected topic exists in the new_dict
-        if selected_topic not in st.session_state.contents_list:
-            # If not, create a new dictionary with the new subtopic and content value
-            st.session_state.contents_list[selected_topic] = {new_subtopic: [content_value]}
-        else:
-            # If the selected topic exists, check if the new subtopic is in the selected topic
-            if new_subtopic not in st.session_state.contents_list[selected_topic]:
-                # If not, create a new list for the subtopic with the content value
-                st.session_state.contents_list[selected_topic][new_subtopic] = [content_value]
-            else:
-                # If the subtopic exists, append the content value to it
-                st.session_state.contents_list[selected_topic][new_subtopic].append(content_value)
-
-        extract_col.write(st.session_state.contents_list)
+        if new_subtopic not in st.session_state.contents_list[selected_topic]:
+            st.session_state.contents_list[selected_topic][new_subtopic] = []
+             st.session_state.contents_list[selected_topic][new_subtopic].append(content_value)
+        # st.experimental_rerun()
+    extract_col.write(st.session_state.contents_list)
 
 except (KeyError, AttributeError) as e:
     st.info("Error addming missing Data")
