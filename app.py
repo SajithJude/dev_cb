@@ -298,6 +298,8 @@ try:
         extract_col.write(topic_value["content"])
     
         expander = st.expander(f"{topic_key}")
+        expander.write(topic_value["content"])
+
         for subtopic in topic_value["Subtopics"]:
             expander.markdown(f"**{subtopic['Subtopic']}**")
             expander.write(subtopic["content"])
