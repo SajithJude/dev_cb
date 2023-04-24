@@ -198,7 +198,7 @@ try:
                 update_json(topic_data)
 
         topic_options = list(st.session_state['topic_data'].keys())
-        selected_topic = column1.selectbox("Select a topic to edit subtopics", topic_options)
+        selected_topic = column1.selectbox("Select a Topic to edit Subtopics", topic_options)
 
         subtopics = st.session_state['topic_data'][selected_topic]
 
