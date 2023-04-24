@@ -41,13 +41,12 @@ topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
 
 col1.title("Topics and Subtopics Editor")
 
-if col1.button("Add Topic"):
-    topic_name = col1.text_input("Enter topic name:")
+topic_name = col1.text_input("Enter topic name:")
+
+if col1.button("Save Topic"):
     if topic_name and topic_name not in topic_data:
         topic_data[topic_name] = []
         update_json(topic_data)
-
-topic_name = col1.text_input("Enter topic name:")
 
 topic_options = list(topic_data.keys())
 selected_topic = col1.selectbox("Select a topic:", topic_options)
