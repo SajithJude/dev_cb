@@ -203,7 +203,7 @@ try:
         subtopics = st.session_state['topic_data'][selected_topic]
 
         column1.write("## Subtopics:")
-        subtopics_input = column1.multiselect("", subtopics, default=subtopics)
+        subtopics_input = column1.multiselect("Remove Unwanted Subtopics", subtopics, default=subtopics)
 
         if column1.button("Save Subtopic changes"):
             st.session_state['topic_data'][selected_topic] = subtopics_input
