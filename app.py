@@ -226,15 +226,16 @@ try:
             for subtopic in subtopics:
                 column2.write(f"- {subtopic}")
 
-        if st.button("save total edits"):
-            st.session_state.table_of_contents = st.session_state['topic_data']
+        # if st.button("save total edits"):
+        #     # st.session_state.table_of_contents = st.session_state['topic_data']
+        #     st.success("TOC Edits Saved Successfully ")
 
 
 
 
 
 except (KeyError, AttributeError) as e:
-    st.info("Error refining toc")
+    print("Error refining toc")
     print(f"Error: {type(e).__name__} - {e}")
 
 
