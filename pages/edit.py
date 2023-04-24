@@ -37,6 +37,8 @@ json_data = '''
 '''
 
 column1, column2 = st.columns(2)
+
+
 data = json.loads(json_data)
 topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
 if "topic_data" not in st.session_state:
