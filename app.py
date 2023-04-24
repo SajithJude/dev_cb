@@ -319,7 +319,7 @@ try:
     query_again = secb.button("extract missing")
 
     
-    if st.button('query_again'):
+    if query_again:
         selected_topic = topic_belong
         new_subtopic = new_query
         content_value = missing_info
