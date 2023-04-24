@@ -291,16 +291,17 @@ try:
 
             updated_json = json.dumps(st.session_state.new_dict, indent=2)
         
-
+    extract_col.write()
     for topic_key, topic_value in st.session_state.new_dict.items():
         expander = seca.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
             expander.markdown(f"**{subtopic['Subtopic']}**")
             expander.write(subtopic["content"])
-    
+
+    topic_names = [key for key, value in st.session_state.new_dict.items()]
     new_query = secb.text_input("Name of the missing Subtopic")
-    topic_belong = secb.selectbox("Select the belonging topic",[])
+    topic_belong = secb.selectbox("Select the belonging topic",topic_names)
     query_again = secb.button("extract missing")
 
 
