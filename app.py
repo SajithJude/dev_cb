@@ -183,36 +183,36 @@ except (KeyError, AttributeError) as e:
 
 try:
     with refine_toc:
-        column1, column2 = st.columns(2, gap="medium")
+        column1, column2 = st.columns(2, gap="large")
         data = st.session_state.table_of_contents
         topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
         if "topic_data" not in st.session_state:
             st.session_state['topic_data'] = topic_data
         column1.write("## Editor")
 
-        topic_name = column1.text_input("Enter topic name:")
+        topic_name = column1.text_input("Enter New topic name:")
 
-        if column1.button("Save Topic"):
+        if column1.button("Save New Topic"):
             if topic_name not in st.session_state['topic_data']:
                 st.session_state['topic_data'][topic_name] = []
                 update_json(topic_data)
 
         topic_options = list(st.session_state['topic_data'].keys())
-        selected_topic = column1.selectbox("Select a topic:", topic_options)
+        selected_topic = column1.selectbox("Select a topic to edit subtopics", topic_options)
 
         subtopics = st.session_state['topic_data'][selected_topic]
 
         column1.write("## Subtopics:")
         subtopics_input = column1.multiselect("", subtopics, default=subtopics)
 
-        if column1.button("Save Subtopics"):
+        if column1.button("Save Subtopic changes"):
             st.session_state['topic_data'][selected_topic] = subtopics_input
             update_json(st.session_state['topic_data'])
-        add = column1.button("Add Subtopic")
+        add = column1.button("Add New Subtopic")
         if "add" in st.session_state  or add:
             st.session_state['add'] = True
-            new_subtopic = column1.text_input("Enter subtopic name:")
-            if column1.button("Update"):
+            new_subtopic = column1.text_input("Enter New Subtopic name:")
+            if column1.button("Save New Subtopic"):
                 if new_subtopic not in st.session_state['topic_data'][selected_topic]:
                     st.session_state['topic_data'][selected_topic].append(new_subtopic)
                     add= None
