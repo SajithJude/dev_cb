@@ -156,25 +156,34 @@ try:
         upload_col.write(st.session_state.table_of_contents)
 
         upload_col.success("TOC loaded, Go to the next tab")
-    
+
+except (KeyError, AttributeError) as e:
+    st.info("Error generating TOC")
+    print(f"Error: {type(e).__name__} - {e}")
 
 
-    # if "selected_items" not in st.session_state:
-    #     st.session_state.selected_items = []
-    # edit_col.warning("Select the Neccessary topics and go the next page")
+try:
 
-    quer = extract_col.button("Extract Selected")
-
-
-    new_dict = {}
+    if "new_dict" not in st.session_state:
+            st.session_state.new_dict = {}
     for topic in st.session_state.table_of_contents["Topics"]:
         for key, value in topic.items():
             # Add a description for the topic
-            new_dict[key] = {'content': '', 'Subtopics': []}
+            st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
             # Add descriptions for the values
             for item in value:
-                new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
+                st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
+    
+    extract_col.write(st.session_state.new_dict)
 
+except (KeyError, AttributeError) as e:
+    st.info("Error Formating TOC")
+    print(f"Error: {type(e).__name__} - {e}")
+
+
+
+try:
+    quer = extract_col.button("Extract Selected")
 
     # edit_col.write(new_dict)
 
@@ -200,6 +209,13 @@ try:
             updated_json = json.dumps(new_dict, indent=2)
         
         extract_col.write(new_dict)
+
+except (KeyError, AttributeError) as e:
+    st.info("Error Extracting Data")
+    print(f"Error: {type(e).__name__} - {e}")
+
+
+try:
 
         if "new_dict" not in st.session_state:
             st.session_state.new_dict = new_dict
