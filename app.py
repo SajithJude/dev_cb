@@ -289,10 +289,10 @@ try:
             progress_bar.progress(items_processed / total_items)
 
 
-            updated_json = json.loads(st.session_state.new_dict, indent=2)
+            updated_json = json.dumps(st.session_state.new_dict, indent=2)
         
         if "updated_json" not in st.session_state:
-            st.session_state.updated_json = updated_json
+            st.session_state.update_json = updated_json
 
     
 
@@ -305,16 +305,15 @@ except (KeyError, AttributeError) as e:
 
 
 try:
-    st.write("updated json")
-    st.write(st.session_state.updated_json)   
-    for topic_key, topic_value in st.session_state.updated_json.items():
+                
+    for topic_key, topic_value in st.session_state.new_dict.items():
         expander = seca.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
             expander.markdown(f"**{subtopic['Subtopic']}**")
             expander.write(subtopic["content"])
 
-    topic_names = [key for key, value in st.session_state.updated_json.items()]
+    topic_names = [key for key, value in st.session_state.new_dict.items()]
     new_query = secb.text_input("Name of the missing Subtopic")
     topic_belong = secb.selectbox("Select the belonging topic",topic_names)
     query_again = secb.button("extract missing")
@@ -325,14 +324,14 @@ try:
         new_subtopic = new_query
         content_value = missing_info.response
 
-        if new_subtopic not in st.session_state.updated_json[selected_topic]:
-            st.session_state.updated_json[selected_topic][new_subtopic] = []
+        if new_subtopic not in st.session_state.new_dict[selected_topic]:
+            st.session_state.new_dict[selected_topic][new_subtopic] = []
 
-        st.session_state.updated_json[selected_topic][new_subtopic].append(content_value)
-        extract_col.write(st.session_state.updated_json)
+        st.session_state.new_dict[selected_topic][new_subtopic].append(content_value)
+        extract_col.write(st.session_state.new_dict)
 
 except (KeyError, AttributeError) as e:
-    st.info("Error Add missing"+ str(e))
+    st.info("Error addming missing Data")
     print(f"Error: {type(e).__name__} - {e}")
 
 
