@@ -1,0 +1,6 @@
+streamlit
+openai
+llama-index
+langchain
+PyPDF2
+pyperclip
