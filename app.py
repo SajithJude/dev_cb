@@ -326,7 +326,7 @@ try:
 
         if new_subtopic not in st.session_state.contents_list[selected_topic]:
             st.session_state.contents_list[selected_topic][new_subtopic] = []
-             st.session_state.contents_list[selected_topic][new_subtopic].append(content_value)
+            st.session_state.contents_list[selected_topic][new_subtopic].append(content_value)
         # st.experimental_rerun()
     extract_col.write(st.session_state.contents_list)
 
