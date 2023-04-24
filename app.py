@@ -304,19 +304,25 @@ except (KeyError, AttributeError) as e:
 ######################       edit contents      ##########################################
 
 try:
-    with edit_col:
-        sec1,sec2 = st.columns(2)
-        for topic, subtopics_dict in st.session_state.new_dict.items():
-            content = subtopics_dict['content']
-            subtopics_dict['content'] = sec1.text_area(f"Topic {topic}:", value=content)
-            for subtopic_dict in subtopics_dict['Subtopics']:
-                subtopic_name = subtopic_dict['Subtopic']
-                content = subtopic_dict['content']
-                subtopic_dict['content'] = sec2.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
-        pass 
+    for topic, subtopics_dict in st.session_state.new_dict.items():
+        content = subtopics_dict['content']
+        subtopics_dict['content'] = edit_col.text_area(f"Topic {topic}:", value=content)
+        
+        for subtopic_dict in subtopics_dict['Subtopics']:
+            subtopic_name = subtopic_dict['Subtopic']
+            content = subtopic_dict['content']
+            
+            # Indent subtopic text area boxes using Markdown and CSS
+            edit_col.markdown("<style>.indent {margin-left: 20px;}</style>", unsafe_allow_html=True)
+            
+            with edit_col.container().add_class("indent"):
+                # Add spacing between the topic and subtopic text area boxes
+                edit_col.write("", height=10)
+                subtopic_dict['content'] = edit_col.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
+    pass 
 
-        if sec1.button("Save"):
-            edit_col.write(st.session_state.new_dict)
+    if edit_col.button("Save"):
+        edit_col.write(st.session_state.new_dict)
 
 except (KeyError, AttributeError) as e:
     st.info("Error saving Edited content")
