@@ -206,7 +206,7 @@ try:
         column1.write("### Subtopics:")
         subtopics_input = column1.multiselect("Remove Unwanted Subtopics", subtopics, default=subtopics)
 
-        if column1.button("Save Subtopic changes"):
+        if subtopics_input:
             st.session_state['topic_data'][selected_topic] = subtopics_input
             update_json(st.session_state['topic_data'])
         add = column1.button("Create New Subtopic")
