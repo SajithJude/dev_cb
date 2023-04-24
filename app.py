@@ -263,7 +263,8 @@ try:
             for item in value:
                 st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
     
-    extract_col.write(st.session_state.new_dict)
+    extract_col.success("TOC formated correctly")
+    
 
 except (KeyError, AttributeError) as e:
     st.info("Error Formating TOC "+str(e))
