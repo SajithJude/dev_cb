@@ -291,8 +291,8 @@ try:
 
             updated_json = json.dumps(st.session_state.new_dict, indent=2)
         
-        if "updated_json" not in st.session_state:
-            st.session_state.update_json = updated_json
+    if "contents_list" not in st.session_state:
+        st.session_state.contents_list = st.session_state.new_dict
 
     
 
@@ -306,14 +306,14 @@ except (KeyError, AttributeError) as e:
 
 try:
                 
-    for topic_key, topic_value in st.session_state.new_dict.items():
+    for topic_key, topic_value in st.session_state.contents_list.items():
         expander = seca.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
             expander.markdown(f"**{subtopic['Subtopic']}**")
             expander.write(subtopic["content"])
 
-    topic_names = [key for key, value in st.session_state.new_dict.items()]
+    topic_names = [key for key, value in st.session_state.contents_list.items()]
     new_query = secb.text_input("Name of the missing Subtopic")
     topic_belong = secb.selectbox("Select the belonging topic",topic_names)
     query_again = secb.button("extract missing")
@@ -324,12 +324,12 @@ try:
         new_subtopic = new_query
         content_value = missing_info.response
 
-        if new_subtopic not in st.session_state.new_dict[selected_topic]:
-            st.session_state.new_dict[selected_topic][new_subtopic] = []
+        if new_subtopic not in st.session_state.contents_list[selected_topic]:
+            st.session_state.contents_list[selected_topic][new_subtopic] = []
 
-        st.session_state.new_dict[selected_topic][new_subtopic].append(content_value)
+        st.session_state.contents_list[selected_topic][new_subtopic].append(content_value)
         st.experimental_rerun()
-        extract_col.write(st.session_state.new_dict)
+        extract_col.write(st.session_state.contents_list)
 
 except (KeyError, AttributeError) as e:
     st.info("Error addming missing Data")
