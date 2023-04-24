@@ -208,7 +208,7 @@ try:
         if column1.button("Save Subtopic changes"):
             st.session_state['topic_data'][selected_topic] = subtopics_input
             update_json(st.session_state['topic_data'])
-        add = column1.button("Add New Subtopic")
+        add = column1.button("Create New Subtopic")
         if "add" in st.session_state  or add:
             st.session_state['add'] = True
             new_subtopic = column1.text_input("Enter New Subtopic name:")
