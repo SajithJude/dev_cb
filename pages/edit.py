@@ -3,7 +3,7 @@ import json
 
 def update_json(topic_data):
     with open("output.json", "w") as f:
-        
+
         json.dump({"Topics": [{k: v} for k, v in topic_data.items()]}, f)
 
 json_data = '''
@@ -75,7 +75,12 @@ if "add" in st.session_state  or add:
             st.experimental_rerun()
 
 col2.write("## Updated JSON:")
-col2.json(st.session_state['topic_data'])
+# col2.json(st.session_state['topic_data'])
+
+for topic, subtopics in st.session_state['topic_data'].items():
+    col2.markdown(f"**{topic}**")
+    for subtopic in subtopics:
+        col2.write(f"- {subtopic}")
 
 
 
