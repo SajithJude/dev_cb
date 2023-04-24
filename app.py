@@ -170,7 +170,7 @@ try:
     topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
     if "topic_data" not in st.session_state:
         st.session_state['topic_data'] = topic_data
-    column1.title("Topics and Subtopics Editor")
+    column1.title("Editor")
 
     topic_name = column1.text_input("Enter topic name:")
 
@@ -203,7 +203,7 @@ try:
                 st.session_state['add'] = False
                 st.experimental_rerun()
 
-    column2.write("## Updated JSON:")
+    column2.write("## Table of contents")
     # column2.json(st.session_state['topic_data'])
 
     for topic, subtopics in st.session_state['topic_data'].items():
