@@ -308,7 +308,7 @@ try:
         missing_info =  index.query("extract the information about "+str(new_query))
         selected_topic = topic_belong
         new_subtopic = new_query
-        content_value = missing_info
+        content_value = missing_info.response
 
         if new_subtopic not in st.session_state.new_dict[selected_topic]:
             st.session_state.new_dict[selected_topic][new_subtopic] = []
