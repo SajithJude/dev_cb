@@ -151,159 +151,160 @@ if uploaded_file is not None:
 
 
 toc = upload_col.button("Genererate TOC")
-try:
-    column1, column2 = st.columns(2)
-    if toc:
-        toc_res = st.session_state.index.query(f"create a table of contents with topics and subtopics by reading through the document and create a table of contents that accurately reflects the main topics and subtopics covered in the document. The table of contents should be in the following format: " + str(forma))
-        str_toc = str(toc_res)
-        table_of_contents = json.loads(str_toc)
+
+column1, column2 = st.columns(2)
+if toc:
+    toc_res = st.session_state.index.query(f"create a table of contents with topics and subtopics by reading through the document and create a table of contents that accurately reflects the main topics and subtopics covered in the document. The table of contents should be in the following format: " + str(forma))
+    str_toc = str(toc_res)
+    table_of_contents = json.loads(str_toc)
 
 
-        if "table_of_contents" not in st.session_state:
-            st.session_state.table_of_contents = table_of_contents
-        # upload_col.write(st.session_state.table_of_contents)
+    if "table_of_contents" not in st.session_state:
+        st.session_state.table_of_contents = table_of_contents
+    # upload_col.write(st.session_state.table_of_contents)
 
-        # upload_col.success("TOC loaded, Go to the next tab")
-    
-
-    data = st.session_state.table_of_contents
-
-    topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
-    if "topic_data" not in st.session_state:
-        st.session_state['topic_data'] = topic_data
-    column1.title("Editor")
-
-    topic_name = column1.text_input("Enter topic name:")
-
-    if column1.button("Save Topic"):
-        if topic_name not in st.session_state['topic_data']:
-            st.session_state['topic_data'][topic_name] = []
-            update_json(topic_data)
-
-    topic_options = list(st.session_state['topic_data'].keys())
-    selected_topic = column1.selectbox("Select a topic:", topic_options)
-
-    subtopics = st.session_state['topic_data'][selected_topic]
-
-    column1.write("## Subtopics:")
-    subtopics_input = column1.multiselect("", subtopics, default=subtopics)
-
-    if column1.button("Save Subtopics"):
-        st.session_state['topic_data'][selected_topic] = subtopics_input
-        update_json(st.session_state['topic_data'])
-    add = column1.button("Add Subtopic")
-    if "add" in st.session_state  or add:
-        st.session_state['add'] = True
-        new_subtopic = column1.text_input("Enter subtopic name:")
-        if column1.button("Update"):
-            if new_subtopic not in st.session_state['topic_data'][selected_topic]:
-                st.session_state['topic_data'][selected_topic].append(new_subtopic)
-                #column1.write(st.session_state['topic_data'][selected_topic])
-                #update_json(st.session_state['topic_data'])
-                add= None
-                st.session_state['add'] = False
-                st.experimental_rerun()
-
-    column2.write("## Table of contents")
-    # column2.json(st.session_state['topic_data'])
-
-    for topic, subtopics in st.session_state['topic_data'].items():
-        column2.markdown(f"**{topic}**")
-        for subtopic in subtopics:
-            column2.write(f"   - {subtopic}")
-
-    
+    # upload_col.success("TOC loaded, Go to the next tab")
 
 
-    quer = extract_col.button("Extract Selected")
+data = st.session_state.table_of_contents
+
+topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
+if "topic_data" not in st.session_state:
+    st.session_state['topic_data'] = topic_data
+column1.title("Editor")
+
+topic_name = column1.text_input("Enter topic name:")
+
+if column1.button("Save Topic"):
+    if topic_name not in st.session_state['topic_data']:
+        st.session_state['topic_data'][topic_name] = []
+        update_json(topic_data)
+
+topic_options = list(st.session_state['topic_data'].keys())
+selected_topic = column1.selectbox("Select a topic:", topic_options)
+
+subtopics = st.session_state['topic_data'][selected_topic]
+
+column1.write("## Subtopics:")
+subtopics_input = column1.multiselect("", subtopics, default=subtopics)
+
+if column1.button("Save Subtopics"):
+    st.session_state['topic_data'][selected_topic] = subtopics_input
+    update_json(st.session_state['topic_data'])
+add = column1.button("Add Subtopic")
+if "add" in st.session_state  or add:
+    st.session_state['add'] = True
+    new_subtopic = column1.text_input("Enter subtopic name:")
+    if column1.button("Update"):
+        if new_subtopic not in st.session_state['topic_data'][selected_topic]:
+            st.session_state['topic_data'][selected_topic].append(new_subtopic)
+            #column1.write(st.session_state['topic_data'][selected_topic])
+            #update_json(st.session_state['topic_data'])
+            add= None
+            st.session_state['add'] = False
+            st.experimental_rerun()
+
+column2.write("## Table of contents")
+# column2.json(st.session_state['topic_data'])
+
+for topic, subtopics in st.session_state['topic_data'].items():
+    column2.markdown(f"**{topic}**")
+    for subtopic in subtopics:
+        column2.write(f"   - {subtopic}")
 
 
-    if "new_dict" not in st.session_state:
-            st.session_state.new_dict = {}
-    for topic in st.session_state['topic_data']["Topics"]:
-        for key, value in topic.items():
-            # Add a description for the topic
-            st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
-            # Add descriptions for the values
-            for item in value:
-                st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
 
 
-    edit_col.write(new_dict)
+quer = extract_col.button("Extract Selected")
 
-    if quer:
-        progress_bar = extract_col.progress(0)
-        total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
-        items_processed = 0
-        for topic, subtopics_dict in st.session_state.new_dict.items():
-            for subtopic_dict in subtopics_dict['Subtopics']:
-                subtopic_name = subtopic_dict['Subtopic']
-                subtopicres = index.query("extract the information about "+str(subtopic_name))
-                subtopic_dict['content'] = subtopicres.response
-                items_processed += 1
-                progress_bar.progress(items_processed / total_items)
-                extract_col.info(f"Extracted {subtopic_name}")
-            
-            topicres = index.query("extract the information about "+str(topic))
-            subtopics_dict['content'] = topicres.response
+
+if "new_dict" not in st.session_state:
+        st.session_state.new_dict = {}
+        
+for topic in st.session_state['topic_data']["Topics"]:
+    for key, value in topic.items():
+        # Add a description for the topic
+        st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
+        # Add descriptions for the values
+        for item in value:
+            st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
+
+
+edit_col.write(new_dict)
+
+if quer:
+    progress_bar = extract_col.progress(0)
+    total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
+    items_processed = 0
+    for topic, subtopics_dict in st.session_state.new_dict.items():
+        for subtopic_dict in subtopics_dict['Subtopics']:
+            subtopic_name = subtopic_dict['Subtopic']
+            subtopicres = index.query("extract the information about "+str(subtopic_name))
+            subtopic_dict['content'] = subtopicres.response
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
-
-
-            updated_json = json.dumps(st.session_state.new_dict, indent=2)
+            extract_col.info(f"Extracted {subtopic_name}")
         
-        extract_col.write(st.session_state.new_dict)
-
-        if "new_dict" not in st.session_state:
-            st.session_state.new_dict = new_dict
-            
-        for topic, subtopics_dict in st.session_state.new_dict.items():
-            content = subtopics_dict['content']
-            subtopics_dict['content'] = edit_col.text_area(f"Topic {topic}:", value=content)
-            for subtopic_dict in subtopics_dict['Subtopics']:
-                subtopic_name = subtopic_dict['Subtopic']
-                content = subtopic_dict['content']
-                subtopic_dict['content'] = edit_col.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
-        pass 
-
-    if edit_col.button("Save"):
-        edit_col.write(st.session_state.new_dict)
+        topicres = index.query("extract the information about "+str(topic))
+        subtopics_dict['content'] = topicres.response
+        items_processed += 1
+        progress_bar.progress(items_processed / total_items)
 
 
+        updated_json = json.dumps(st.session_state.new_dict, indent=2)
+    
+    extract_col.write(st.session_state.new_dict)
 
-    chapter_name = xml_col.text_input("enter chapter name")
-    NoOfBullets = xml_col.text_input("No. of Bullets per Sub Topic")
-    NoOfWordsPerBullet = xml_col.text_input("No. of words per Bullet")
-    NoOfWordsForVOPerBullet = xml_col.text_input("No. of words for Voice Over per Bullet")
+    if "new_dict" not in st.session_state:
+        st.session_state.new_dict = new_dict
+        
+    for topic, subtopics_dict in st.session_state.new_dict.items():
+        content = subtopics_dict['content']
+        subtopics_dict['content'] = edit_col.text_area(f"Topic {topic}:", value=content)
+        for subtopic_dict in subtopics_dict['Subtopics']:
+            subtopic_name = subtopic_dict['Subtopic']
+            content = subtopic_dict['content']
+            subtopic_dict['content'] = edit_col.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
+    pass 
 
-    save_xml = xml_col.button("Save XML")
-    if save_xml:
-        xml_output = json_to_xml(st.session_state.new_dict, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
-        # response = post_xml_string(xml_output)
-        # if response is not None:
-        #     st.info(response)
-        pretty_xml = minidom.parseString(xml_output).toprettyxml()
+if edit_col.button("Save"):
+    edit_col.write(st.session_state.new_dict)
 
-        db = load_db()
-        db[chapter_name] = pretty_xml
 
-        with open("db.json", "w") as f:
-            json.dump(db, f)
 
-        with xml_col.expander("XML content"):
-            xml_col.code(pretty_xml)
+chapter_name = xml_col.text_input("enter chapter name")
+NoOfBullets = xml_col.text_input("No. of Bullets per Sub Topic")
+NoOfWordsPerBullet = xml_col.text_input("No. of words per Bullet")
+NoOfWordsForVOPerBullet = xml_col.text_input("No. of words for Voice Over per Bullet")
 
-        st.session_state.table_of_contents = {}
-        st.session_state.selected_items = []
-        st.session_state.new_dict = {}
-        st.session_state.index = ""
+save_xml = xml_col.button("Save XML")
+if save_xml:
+    xml_output = json_to_xml(st.session_state.new_dict, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
+    # response = post_xml_string(xml_output)
+    # if response is not None:
+    #     st.info(response)
+    pretty_xml = minidom.parseString(xml_output).toprettyxml()
+
+    db = load_db()
+    db[chapter_name] = pretty_xml
+
+    with open("db.json", "w") as f:
+        json.dump(db, f)
+
+    with xml_col.expander("XML content"):
+        xml_col.code(pretty_xml)
+
+    st.session_state.table_of_contents = {}
+    st.session_state.selected_items = []
+    st.session_state.new_dict = {}
+    st.session_state.index = ""
 
 
  
                 
-except (KeyError, AttributeError) as e:
-    st.info("Click on Generate TOC to get started")
-    print(f"Error: {type(e).__name__} - {e}")
+# except (KeyError, AttributeError) as e:
+#     st.info("Click on Generate TOC to get started")
+#     print(f"Error: {type(e).__name__} - {e}")
 db = load_db()
 chapter_list = list(db.keys())
 
