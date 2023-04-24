@@ -245,10 +245,12 @@ except (KeyError, AttributeError) as e:
 ######################       extract content      ##########################################
 
 try:
-    
+    st.write(st.session_state['topic_data'])
+    st.write(st.session_state.table_of_contents["Topics"])
+
     if "new_dict" not in st.session_state:
             st.session_state.new_dict = {}
-    for topic in st.session_state.table_of_contents:
+    for topic in st.session_state.table_of_contents["Topics"]:
         for key, value in topic.items():
             # Add a description for the topic
             st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
