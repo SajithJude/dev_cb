@@ -315,7 +315,7 @@ try:
             # Indent subtopic text area boxes using Markdown and CSS
             edit_col.markdown("<style>.indent {margin-left: 20px;}</style>", unsafe_allow_html=True)
             
-            with edit_col.container().add_class("indent"):
+            with edit_col.container():
                 # Add spacing between the topic and subtopic text area boxes
                 edit_col.write("", height=10)
                 subtopic_dict['content'] = edit_col.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
