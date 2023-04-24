@@ -30,35 +30,35 @@ json_data = '''
   ]
 }
 '''
-
+col1, col2 = st.columns(2)
 data = json.loads(json_data)
 topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
 
 st.title("Topics and Subtopics Editor")
 
-if st.button("Add Topic"):
+if col1.button("Add Topic"):
     topic_name = st.text_input("Enter topic name:")
     if topic_name:
         topic_data[topic_name] = []
 
 topic_options = list(topic_data.keys())
-selected_topic = st.selectbox("Select a topic:", topic_options)
+selected_topic = col1.selectbox("Select a topic:", topic_options)
 
 subtopics = topic_data[selected_topic]
 
-st.write("## Subtopics:")
-subtopics_input = st.multiselect("", subtopics, default=subtopics)
+col1.write("## Subtopics:")
+subtopics_input = col1.multiselect("", subtopics, default=subtopics)
 
 if st.button("Save Subtopics"):
     topic_data[selected_topic] = subtopics_input
 
 if st.button("Add Subtopic"):
-    new_subtopic = st.text_input("Enter subtopic name:")
+    new_subtopic = col1.text_input("Enter subtopic name:")
     if new_subtopic:
         topic_data[selected_topic].append(new_subtopic)
 
 with open("output.json", "w") as f:
     json.dump({"Topics": [{k: v} for k, v in topic_data.items()]}, f)
 
-st.write("## Updated JSON:")
-st.json({"Topics": [{k: v} for k, v in topic_data.items()]})
+col2.write("## Updated JSON:")
+col2.json({"Topics": [{k: v} for k, v in topic_data.items()]})
