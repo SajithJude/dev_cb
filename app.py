@@ -31,6 +31,7 @@ loader = PDFReader()
 
 def update_json(topic_data):
     with open("output.json", "w") as f:
+        st.session_state.toc = {"Topics": [{k: v} for k, v in topic_data.items()]}
         json.dump({"Topics": [{k: v} for k, v in topic_data.items()]}, f)
 
 
@@ -119,7 +120,8 @@ def process_pdf(uploaded_file):
 
 upload_col, refine_toc,  extract_col, edit_col, xml_col, manage_col = st.tabs(["⚪ __Upload Chapter__","⚪ __Refine_TOC__", "⚪ __Extract_Contents__", "⚪ __Edit Contents__", "⚪ __Export Generated XML__", "⚪ __Manage XMLs__"])
 
-
+if "toc" not in st.session_state:
+    st.session_state.toc = {}
 
 
 
