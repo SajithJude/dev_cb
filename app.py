@@ -173,7 +173,7 @@ try:
         upload_col.success("TOC loaded, Go to the next tab")
 
 except (KeyError, AttributeError) as e:
-    st.info("Error generating TOC")
+    print("Error generating TOC")
     print(f"Error: {type(e).__name__} - {e}")
 
 
@@ -261,7 +261,7 @@ try:
     
 
 except (KeyError, AttributeError) as e:
-    st.info("Error Formating TOC "+str(e))
+    print("Error Formating TOC "+str(e))
     print(f"Error: {type(e).__name__} - {e}")
 
 
