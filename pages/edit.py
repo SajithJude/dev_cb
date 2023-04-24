@@ -3,8 +3,8 @@ import json
 
 def update_json(topic_data):
     with open("output.json", "w") as f:
-        st.session_state['table_of_contents'] = {"Topics": [{k: v} for k, v in topic_data.items()]}
-        json.dump(st.session_state['table_of_contents'], f)
+        
+        json.dump({"Topics": [{k: v} for k, v in topic_data.items()]}, f)
 
 json_data = '''
 {
