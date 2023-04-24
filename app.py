@@ -292,7 +292,7 @@ try:
             updated_json = json.dumps(st.session_state.new_dict, indent=2)
         
     extract_col.write(st.session_state.new_dict)
-    expander = st.expander("Subtopics"):
+    expander = st.expander("Subtopics")
 
     for topic_key, topic_value in st.session_state.new_dict.items():
         extract_col.markdown(f"**{topic_key}**")
