@@ -188,9 +188,9 @@ try:
         topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
         if "topic_data" not in st.session_state:
             st.session_state['topic_data'] = topic_data
-        column1.write("## Editor")
+        column1.write("# Editor")
 
-        column1.write("# Topics:")
+        column1.write("### Topics:")
         topic_name = column1.text_input("Enter New topic name:")
 
         if column1.button("Save New Topic"):
@@ -203,7 +203,7 @@ try:
 
         subtopics = st.session_state['topic_data'][selected_topic]
 
-        column1.write("# Subtopics:")
+        column1.write("### Subtopics:")
         subtopics_input = column1.multiselect("Remove Unwanted Subtopics", subtopics, default=subtopics)
 
         if column1.button("Save Subtopic changes"):
@@ -220,7 +220,7 @@ try:
                     st.session_state['add'] = False
                     st.experimental_rerun()
 
-        column2.write("## Table of Contents")
+        column2.write("# Table of Contents")
 
         for topic, subtopics in st.session_state['topic_data'].items():
             column2.markdown(f"**{topic}**")
