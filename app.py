@@ -232,8 +232,12 @@ try:
     if edit_col.button("Save"):
         edit_col.write(st.session_state.new_dict)
 
+except (KeyError, AttributeError) as e:
+    st.info("Error saving Edited content")
+    print(f"Error: {type(e).__name__} - {e}")
 
 
+try:
     chapter_name = xml_col.text_input("enter chapter name")
     NoOfBullets = xml_col.text_input("No. of Bullets per Sub Topic")
     NoOfWordsPerBullet = xml_col.text_input("No. of words per Bullet")
@@ -260,12 +264,10 @@ try:
         st.session_state.selected_items = []
         st.session_state.new_dict = {}
         st.session_state.index = ""
-
-
  
                 
 except (KeyError, AttributeError) as e:
-    st.info("Click on Generate TOC to get started")
+    st.info("Error saving XML")
     print(f"Error: {type(e).__name__} - {e}")
 db = load_db()
 chapter_list = list(db.keys())
