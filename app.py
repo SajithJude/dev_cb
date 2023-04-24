@@ -28,6 +28,12 @@ PDFReader = download_loader("PDFReader")
 
 loader = PDFReader()
 
+
+def update_json(topic_data):
+    with open("output.json", "w") as f:
+        json.dump({"Topics": [{k: v} for k, v in topic_data.items()]}, f)
+
+
 def load_db():
     if not os.path.exists("db.json"):
         with open("db.json", "w") as f:
@@ -147,21 +153,18 @@ if uploaded_file is not None:
 toc = upload_col.button("Genererate TOC")
 try:
     if toc:
-        toc_res = st.session_state.index.query(f" create a table of contents with topics and subtopics by reading through the document and create a table of contents that accurately reflects the main topics and subtopics covered in the document. The table of contents should be in the following format: " + str(forma))
+        toc_res = st.session_state.index.query(f"create a table of contents with topics and subtopics by reading through the document and create a table of contents that accurately reflects the main topics and subtopics covered in the document. The table of contents should be in the following format: " + str(forma))
         str_toc = str(toc_res)
         table_of_contents = json.loads(str_toc)
+
 
         if "table_of_contents" not in st.session_state:
             st.session_state.table_of_contents = table_of_contents
         upload_col.write(st.session_state.table_of_contents)
 
-        upload_col.success("TOC loaded, Go to the next tab")
+        # upload_col.success("TOC loaded, Go to the next tab")
     
-
-
-    # if "selected_items" not in st.session_state:
-    #     st.session_state.selected_items = []
-    # edit_col.warning("Select the Neccessary topics and go the next page")
+    
 
     quer = extract_col.button("Extract Selected")
 
