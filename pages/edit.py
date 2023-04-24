@@ -76,7 +76,7 @@ if "add" in st.session_state  or add:
 
 col2.write("## Updated JSON:")
 col2.json(st.session_state['table_of_contents'])
-st.experimental_rerun()
+
 
 
 
