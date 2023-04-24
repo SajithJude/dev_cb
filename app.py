@@ -166,51 +166,51 @@ try:
         # upload_col.success("TOC loaded, Go to the next tab")
     
 
-        data = st.session_state.table_of_contents
+    data = st.session_state.table_of_contents
 
-        topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
-        if "topic_data" not in st.session_state:
-            st.session_state['topic_data'] = topic_data
-        column1.title("Editor")
+    topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
+    if "topic_data" not in st.session_state:
+        st.session_state['topic_data'] = topic_data
+    column1.title("Editor")
 
-        topic_name = column1.text_input("Enter topic name:")
+    topic_name = column1.text_input("Enter topic name:")
 
-        if column1.button("Save Topic"):
-            if topic_name not in st.session_state['topic_data']:
-                st.session_state['topic_data'][topic_name] = []
-                update_json(topic_data)
+    if column1.button("Save Topic"):
+        if topic_name not in st.session_state['topic_data']:
+            st.session_state['topic_data'][topic_name] = []
+            update_json(topic_data)
 
-        topic_options = list(st.session_state['topic_data'].keys())
-        selected_topic = column1.selectbox("Select a topic:", topic_options)
+    topic_options = list(st.session_state['topic_data'].keys())
+    selected_topic = column1.selectbox("Select a topic:", topic_options)
 
-        subtopics = st.session_state['topic_data'][selected_topic]
+    subtopics = st.session_state['topic_data'][selected_topic]
 
-        column1.write("## Subtopics:")
-        subtopics_input = column1.multiselect("", subtopics, default=subtopics)
+    column1.write("## Subtopics:")
+    subtopics_input = column1.multiselect("", subtopics, default=subtopics)
 
-        if column1.button("Save Subtopics"):
-            st.session_state['topic_data'][selected_topic] = subtopics_input
-            update_json(st.session_state['topic_data'])
-        add = column1.button("Add Subtopic")
-        if "add" in st.session_state  or add:
-            st.session_state['add'] = True
-            new_subtopic = column1.text_input("Enter subtopic name:")
-            if column1.button("Update"):
-                if new_subtopic not in st.session_state['topic_data'][selected_topic]:
-                    st.session_state['topic_data'][selected_topic].append(new_subtopic)
-                    #column1.write(st.session_state['topic_data'][selected_topic])
-                    #update_json(st.session_state['topic_data'])
-                    add= None
-                    st.session_state['add'] = False
-                    st.experimental_rerun()
+    if column1.button("Save Subtopics"):
+        st.session_state['topic_data'][selected_topic] = subtopics_input
+        update_json(st.session_state['topic_data'])
+    add = column1.button("Add Subtopic")
+    if "add" in st.session_state  or add:
+        st.session_state['add'] = True
+        new_subtopic = column1.text_input("Enter subtopic name:")
+        if column1.button("Update"):
+            if new_subtopic not in st.session_state['topic_data'][selected_topic]:
+                st.session_state['topic_data'][selected_topic].append(new_subtopic)
+                #column1.write(st.session_state['topic_data'][selected_topic])
+                #update_json(st.session_state['topic_data'])
+                add= None
+                st.session_state['add'] = False
+                st.experimental_rerun()
 
-        column2.write("## Table of contents")
-        # column2.json(st.session_state['topic_data'])
+    column2.write("## Table of contents")
+    # column2.json(st.session_state['topic_data'])
 
-        for topic, subtopics in st.session_state['topic_data'].items():
-            column2.markdown(f"**{topic}**")
-            for subtopic in subtopics:
-                column2.write(f"   - {subtopic}")
+    for topic, subtopics in st.session_state['topic_data'].items():
+        column2.markdown(f"**{topic}**")
+        for subtopic in subtopics:
+            column2.write(f"   - {subtopic}")
 
     
 
