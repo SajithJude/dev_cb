@@ -300,7 +300,7 @@ try:
             expander.write(subtopic["content"])
     
     new_query = secb.text_input("Name of the missing Subtopic")
-    topic_belong = secb.selectbox("Select the belonging topic")
+    topic_belong = secb.selectbox("Select the belonging topic",[])
     query_again = secb.button("extract missing")
 
 
