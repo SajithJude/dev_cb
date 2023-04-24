@@ -216,18 +216,18 @@ except (KeyError, AttributeError) as e:
 
 
 try:
-
-        if "new_dict" not in st.session_state:
-            st.session_state.new_dict = new_dict
-            
-        for topic, subtopics_dict in st.session_state.new_dict.items():
-            content = subtopics_dict['content']
-            subtopics_dict['content'] = edit_col.text_area(f"Topic {topic}:", value=content)
-            for subtopic_dict in subtopics_dict['Subtopics']:
-                subtopic_name = subtopic_dict['Subtopic']
-                content = subtopic_dict['content']
-                subtopic_dict['content'] = edit_col.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
-        pass 
+    
+    if "new_dict" not in st.session_state:
+        st.session_state.new_dict = new_dict
+        
+    for topic, subtopics_dict in st.session_state.new_dict.items():
+        content = subtopics_dict['content']
+        subtopics_dict['content'] = edit_col.text_area(f"Topic {topic}:", value=content)
+        for subtopic_dict in subtopics_dict['Subtopics']:
+            subtopic_name = subtopic_dict['Subtopic']
+            content = subtopic_dict['content']
+            subtopic_dict['content'] = edit_col.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
+    pass 
 
     if edit_col.button("Save"):
         edit_col.write(st.session_state.new_dict)
