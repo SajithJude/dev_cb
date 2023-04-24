@@ -269,7 +269,7 @@ except (KeyError, AttributeError) as e:
 
 try:
     quer = extract_col.button("Extract Selected")
-
+    seca, secb = extract_col.columns(2)
     if quer:
         progress_bar = extract_col.progress(0)
         total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
@@ -293,11 +293,18 @@ try:
         
 
     for topic_key, topic_value in st.session_state.new_dict.items():
-        expander = extract_col.expander(f"{topic_key}")
+        expander = seca.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
             expander.markdown(f"**{subtopic['Subtopic']}**")
             expander.write(subtopic["content"])
+    
+    new_query = secb.text_input("Name of the missing Subtopic")
+    topic_belong = secb.selectbox("Select the belonging topic")
+    query_again = secb.button("extract missing")
+
+
+    
 
 except (KeyError, AttributeError) as e:
     st.info("Error Extracting Data")
