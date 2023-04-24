@@ -328,6 +328,7 @@ try:
             st.session_state.new_dict[selected_topic][new_subtopic] = []
 
         st.session_state.new_dict[selected_topic][new_subtopic].append(content_value)
+        st.experimental_rerun()
         extract_col.write(st.session_state.new_dict)
 
 except (KeyError, AttributeError) as e:
