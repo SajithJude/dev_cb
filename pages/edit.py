@@ -3,6 +3,7 @@ import json
 
 def update_json(topic_data):
     st.session_state['table_of_contents'] = {"Topics": [{k: v} for k, v in topic_data.items()]}
+    col2.json(st.session_state['table_of_contents'])
 
 json_data = '''
 {
