@@ -4,6 +4,8 @@ import json
 def update_json(topic_data):
     with open("output.json", "w") as f:
         json.dump({"Topics": [{k: v} for k, v in topic_data.items()]}, f)
+    col2.write("## Updated JSON:")
+    col2.json({"Topics": [{k: v} for k, v in topic_data.items()]})
 
 json_data = '''
 {
@@ -41,9 +43,9 @@ topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
 
 col1.title("Topics and Subtopics Editor")
 
-topic_name = col1.text_input("Enter topic name:")
+topic_name = col1.text_input("Enter New topic name to add:")
 
-if col1.button("Save Topic"):
+if col1.button("Add & New Topic"):
     if topic_name and topic_name not in topic_data:
         topic_data[topic_name] = []
         update_json(topic_data)
@@ -66,5 +68,4 @@ if col1.button("Add Subtopic"):
         topic_data[selected_topic].append(new_subtopic)
         update_json(topic_data)
 
-col2.write("## Updated JSON:")
-col2.json({"Topics": [{k: v} for k, v in topic_data.items()]})
+
