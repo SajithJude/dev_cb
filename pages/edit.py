@@ -34,10 +34,10 @@ col1, col2 = st.columns(2)
 data = json.loads(json_data)
 topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
 
-st.title("Topics and Subtopics Editor")
+col1.title("Topics and Subtopics Editor")
 
 if col1.button("Add Topic"):
-    topic_name = st.text_input("Enter topic name:")
+    topic_name = col1.text_input("Enter topic name:")
     if topic_name:
         topic_data[topic_name] = []
 
@@ -49,7 +49,7 @@ subtopics = topic_data[selected_topic]
 col1.write("## Subtopics:")
 subtopics_input = col1.multiselect("", subtopics, default=subtopics)
 
-if st.button("Save Subtopics"):
+if col1.button("Save Subtopics"):
     topic_data[selected_topic] = subtopics_input
 
 if st.button("Add Subtopic"):
