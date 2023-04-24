@@ -2,8 +2,7 @@ import streamlit as st
 import json
 
 def update_json(topic_data):
-    with open("output.json", "w") as f:
-        json.dump({"Topics": [{k: v} for k, v in topic_data.items()]}, f)
+    st.session_state['table_of_contents'] = {"Topics": [{k: v} for k, v in topic_data.items()]}
 
 json_data = '''
 {
@@ -69,9 +68,9 @@ if "add" in st.session_state  or add:
             st.session_state['topic_data'][selected_topic].append(new_subtopic)
             #col1.write(st.session_state['topic_data'][selected_topic])
             #update_json(st.session_state['topic_data'])
-            add= None;
+            add= None
             st.session_state['add'] = False
             st.experimental_rerun()
 
 col2.write("## Updated JSON:")
-col2.json({"Topics": [{k: v} for k, v in st.session_state['topic_data'].items()]})
+col2.json(st.session_state['table_of_contents'])
