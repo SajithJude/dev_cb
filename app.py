@@ -304,18 +304,19 @@ except (KeyError, AttributeError) as e:
 ######################       edit contents      ##########################################
 
 try:
-    sec1,sec2 = st.columns(2)
-    for topic, subtopics_dict in st.session_state.new_dict.items():
-        content = subtopics_dict['content']
-        subtopics_dict['content'] = edit_col.sec1.text_area(f"Topic {topic}:", value=content)
-        for subtopic_dict in subtopics_dict['Subtopics']:
-            subtopic_name = subtopic_dict['Subtopic']
-            content = subtopic_dict['content']
-            subtopic_dict['content'] = edit_col.sec2.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
-    pass 
+    with edit_col:
+        sec1,sec2 = st.columns(2)
+        for topic, subtopics_dict in st.session_state.new_dict.items():
+            content = subtopics_dict['content']
+            subtopics_dict['content'] = sec1.text_area(f"Topic {topic}:", value=content)
+            for subtopic_dict in subtopics_dict['Subtopics']:
+                subtopic_name = subtopic_dict['Subtopic']
+                content = subtopic_dict['content']
+                subtopic_dict['content'] = sec2.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
+        pass 
 
-    if edit_col.button("Save"):
-        edit_col.write(st.session_state.new_dict)
+        if sec1.button("Save"):
+            edit_col.write(st.session_state.new_dict)
 
 except (KeyError, AttributeError) as e:
     st.info("Error saving Edited content")
