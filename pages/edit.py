@@ -1,6 +1,10 @@
 import streamlit as st
 import json
 
+def update_json(topic_data):
+    with open("output.json", "w") as f:
+        json.dump({"Topics": [{k: v} for k, v in topic_data.items()]}, f)
+
 json_data = '''
 {
   "Topics": [
@@ -41,8 +45,8 @@ if col1.button("Add Topic"):
     topic_name = col1.text_input("Enter topic name:")
     if topic_name and topic_name not in topic_data:
         topic_data[topic_name] = []
+        update_json(topic_data)
 
-# Move the text input field outside the 'if' condition
 topic_name = col1.text_input("Enter topic name:")
 
 topic_options = list(topic_data.keys())
@@ -55,14 +59,13 @@ subtopics_input = col1.multiselect("", subtopics, default=subtopics)
 
 if col1.button("Save Subtopics"):
     topic_data[selected_topic] = subtopics_input
+    update_json(topic_data)
 
 if col1.button("Add Subtopic"):
     new_subtopic = col1.text_input("Enter subtopic name:")
     if new_subtopic:
         topic_data[selected_topic].append(new_subtopic)
-
-with open("output.json", "w") as f:
-    json.dump({"Topics": [{k: v} for k, v in topic_data.items()]}, f)
+        update_json(topic_data)
 
 col2.write("## Updated JSON:")
 col2.json({"Topics": [{k: v} for k, v in topic_data.items()]})
