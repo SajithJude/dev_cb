@@ -227,6 +227,11 @@ try:
             for subtopic in subtopics:
                 column2.write(f"- {subtopic}")
 
+        if st.button("save total edits"):
+            st.session_state.table_of_contents = st.session_state['topic_data']
+
+
+
 
 except (KeyError, AttributeError) as e:
     st.info("Error refining toc")
@@ -243,7 +248,6 @@ except (KeyError, AttributeError) as e:
 try:
 
 
-    st.session_state.table_of_contents = st.session_state['topic_data']
 
     if "new_dict" not in st.session_state:
             st.session_state.new_dict = {}
