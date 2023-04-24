@@ -291,13 +291,13 @@ try:
 
             updated_json = json.dumps(st.session_state.new_dict, indent=2)
         
-    extract_col.write(st.session_state.new_dict)
+    # extract_col.write(st.session_state.new_dict)
 
     for topic_key, topic_value in st.session_state.new_dict.items():
-        extract_col.markdown(f"**{topic_key}**")
-        extract_col.write(topic_value["content"])
+        # extract_col.markdown(f"**{topic_key}**")
+        # extract_col.write(topic_value["content"])
     
-        expander = st.expander(f"{topic_key}")
+        expander = extract_col.expander(f"{topic_key}")
         expander.write(topic_value["content"])
 
         for subtopic in topic_value["Subtopics"]:
