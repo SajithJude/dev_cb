@@ -229,7 +229,7 @@ try:
                 st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
 
 
-    # edit_col.write(new_dict)
+    edit_col.write(new_dict)
 
     if quer:
         progress_bar = extract_col.progress(0)
