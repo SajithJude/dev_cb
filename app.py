@@ -28,6 +28,12 @@ PDFReader = download_loader("PDFReader")
 
 loader = PDFReader()
 
+
+def update_json(topic_data):
+    with open("output.json", "w") as f:
+        json.dump({"Topics": [{k: v} for k, v in topic_data.items()]}, f)
+
+
 def load_db():
     if not os.path.exists("db.json"):
         with open("db.json", "w") as f:
@@ -109,9 +115,16 @@ def process_pdf(uploaded_file):
     return index
         
 
-index_filenames = [f for f in os.listdir(DATA_DIR) if f.endswith(".json")]
+######################       defining tabs      ##########################################
 
-upload_col,  extract_col, edit_col, xml_col, manage_col = st.tabs(["⚪ __Upload Chapter__", "⚪ __Extract_Contents__", "⚪ __Edit Contents__", "⚪ __Export Generated XML__", "⚪ __Manage XMLs__"])
+upload_col, refine_toc,  extract_col, edit_col, xml_col, manage_col = st.tabs(["⚪ __Upload Chapter__","⚪ __Refine_TOC__", "⚪ __Extract_Contents__", "⚪ __Edit Contents__", "⚪ __Export Generated XML__", "⚪ __Manage XMLs__"])
+
+
+
+
+
+
+######################       Upload chapter column      ##########################################
 
 uploaded_file = upload_col.file_uploader("Upload a Chapter as a PDF file", type="pdf")
 
@@ -162,8 +175,69 @@ except (KeyError, AttributeError) as e:
     print(f"Error: {type(e).__name__} - {e}")
 
 
-try:
 
+######################       refining toc start      ##########################################
+
+with refine_toc:
+
+    column1, column2 = st.columns(2)
+    data = st.session_state.table_of_contents
+    topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
+    if "topic_data" not in st.session_state:
+        st.session_state['topic_data'] = topic_data
+    column1.title("Topics and Subtopics Editor")
+
+    topic_name = column1.text_input("Enter topic name:")
+
+    if column1.button("Save Topic"):
+        if topic_name not in st.session_state['topic_data']:
+            st.session_state['topic_data'][topic_name] = []
+            update_json(topic_data)
+
+    topic_options = list(st.session_state['topic_data'].keys())
+    selected_topic = column1.selectbox("Select a topic:", topic_options)
+
+    subtopics = st.session_state['topic_data'][selected_topic]
+
+    column1.write("## Subtopics:")
+    subtopics_input = column1.multiselect("", subtopics, default=subtopics)
+
+    if column1.button("Save Subtopics"):
+        st.session_state['topic_data'][selected_topic] = subtopics_input
+        update_json(st.session_state['topic_data'])
+    add = column1.button("Add Subtopic")
+    if "add" in st.session_state  or add:
+        st.session_state['add'] = True
+        new_subtopic = column1.text_input("Enter subtopic name:")
+        if column1.button("Update"):
+            if new_subtopic not in st.session_state['topic_data'][selected_topic]:
+                st.session_state['topic_data'][selected_topic].append(new_subtopic)
+                #column1.write(st.session_state['topic_data'][selected_topic])
+                #update_json(st.session_state['topic_data'])
+                add= None
+                st.session_state['add'] = False
+                st.experimental_rerun()
+
+    column2.write("## Updated JSON:")
+    # column2.json(st.session_state['topic_data'])
+
+    for topic, subtopics in st.session_state['topic_data'].items():
+        column2.markdown(f"**{topic}**")
+        for subtopic in subtopics:
+            column2.write(f"- {subtopic}")
+
+
+
+
+
+
+
+
+
+
+######################       extract content      ##########################################
+
+try:
     if "new_dict" not in st.session_state:
             st.session_state.new_dict = {}
     for topic in st.session_state.table_of_contents["Topics"]:
@@ -184,8 +258,6 @@ except (KeyError, AttributeError) as e:
 
 try:
     quer = extract_col.button("Extract Selected")
-
-    # edit_col.write(new_dict)
 
     if quer:
         progress_bar = extract_col.progress(0)
@@ -215,6 +287,11 @@ except (KeyError, AttributeError) as e:
     print(f"Error: {type(e).__name__} - {e}")
 
 
+
+
+
+######################       edit contents      ##########################################
+
 try:
 
     if "new_dict" not in st.session_state:
@@ -237,6 +314,11 @@ except (KeyError, AttributeError) as e:
     print(f"Error: {type(e).__name__} - {e}")
 
 
+
+
+######################       export generated xml      ##########################################
+
+
 try:
     chapter_name = xml_col.text_input("enter chapter name")
     NoOfBullets = xml_col.text_input("No. of Bullets per Sub Topic")
@@ -246,9 +328,6 @@ try:
     save_xml = xml_col.button("Save XML")
     if save_xml:
         xml_output = json_to_xml(st.session_state.new_dict, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
-        # response = post_xml_string(xml_output)
-        # if response is not None:
-        #     st.info(response)
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
 
         db = load_db()
@@ -269,17 +348,18 @@ try:
 except (KeyError, AttributeError) as e:
     st.info("Error saving XML")
     print(f"Error: {type(e).__name__} - {e}")
+
+
+
+
+######################      Manage XML      ##########################################
+
 db = load_db()
 chapter_list = list(db.keys())
 
 if chapter_list:
     
-    
-    
-
     selected_chapter = manage_col.selectbox("Select a chapter first:", chapter_list)
-    # manage_col.write(type(db[selected_chapter]))
-    # manage_col.code(db[selected_chapter], language="xml")
     delete_button = manage_col.button("Delete Chapter")
     post_button= manage_col.button("Continue with CourseBOT 2")
 
@@ -299,7 +379,6 @@ if chapter_list:
         print(response)
         response_dict = json.loads(response.text)
 
-# Extract the URL
         url_to_launch = response_dict["result"]["urlToLaunch"]
         manage_col.subheader("Click on the url bellow to continue.")
         manage_col.write(url_to_launch)
