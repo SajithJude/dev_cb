@@ -209,7 +209,7 @@ try:
     for topic, subtopics in st.session_state['topic_data'].items():
         column2.markdown(f"**{topic}**")
         for subtopic in subtopics:
-            column2.write(f"- {subtopic}")
+            column2.write(f"   - {subtopic}")
 
     
 
