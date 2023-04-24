@@ -242,8 +242,6 @@ except (KeyError, AttributeError) as e:
 
 
 
-
-
 ######################       extract content      ##########################################
 
 try:
