@@ -215,14 +215,11 @@ try:
             if column1.button("Update"):
                 if new_subtopic not in st.session_state['topic_data'][selected_topic]:
                     st.session_state['topic_data'][selected_topic].append(new_subtopic)
-                    #column1.write(st.session_state['topic_data'][selected_topic])
-                    #update_json(st.session_state['topic_data'])
                     add= None
                     st.session_state['add'] = False
                     st.experimental_rerun()
 
-        column2.write("## Updated JSON:")
-        # column2.json(st.session_state['topic_data'])
+        column2.write("## Table of Contents")
 
         for topic, subtopics in st.session_state['topic_data'].items():
             column2.markdown(f"**{topic}**")
@@ -247,11 +244,7 @@ except (KeyError, AttributeError) as e:
 ######################       extract content      ##########################################
 
 try:
-    st.write("toc")
-    st.write(st.session_state.toc)
-    # st.write("TOC topics")
-
-    # st.write(st.session_state.table_of_contents["Topics"])
+   
 
     if "new_dict" not in st.session_state:
             st.session_state.new_dict = {}
