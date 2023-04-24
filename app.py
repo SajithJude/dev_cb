@@ -233,6 +233,7 @@ try:
 
 
 
+
 except (KeyError, AttributeError) as e:
     st.info("Error refining toc")
     print(f"Error: {type(e).__name__} - {e}")
@@ -246,9 +247,7 @@ except (KeyError, AttributeError) as e:
 ######################       extract content      ##########################################
 
 try:
-
-
-
+    
     if "new_dict" not in st.session_state:
             st.session_state.new_dict = {}
     for topic in st.session_state.table_of_contents["Topics"]:
@@ -262,7 +261,7 @@ try:
     extract_col.write(st.session_state.new_dict)
 
 except (KeyError, AttributeError) as e:
-    st.info("Error Formating TOC")
+    st.info("Error Formating TOC "+str(e))
     print(f"Error: {type(e).__name__} - {e}")
 
 
