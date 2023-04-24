@@ -50,22 +50,23 @@ if col1.button("Add & New Topic"):
         topic_data[topic_name] = []
         update_json(topic_data)
 
-topic_options = list(topic_data.keys())
-selected_topic = col1.selectbox("Select a topic:", topic_options)
+if "selected_topic" not in st.session_state:
+    st.session_state.selected_topic = list(topic_data.keys())[0]
 
-subtopics = topic_data[selected_topic]
+topic_options = list(topic_data.keys())
+st.session_state.selected_topic = col1.selectbox("Select a topic:", topic_options, index=topic_options.index(st.session_state.selected_topic))
+
+subtopics = topic_data[st.session_state.selected_topic]
 
 col1.write("## Subtopics:")
 subtopics_input = col1.multiselect("", subtopics, default=subtopics)
 
 if col1.button("Save Subtopics"):
-    topic_data[selected_topic] = subtopics_input
+    topic_data[st.session_state.selected_topic] = subtopics_input
     update_json(topic_data)
 
 if col1.button("Add Subtopic"):
     new_subtopic = col1.text_input("Enter subtopic name:")
     if new_subtopic:
-        topic_data[selected_topic].append(new_subtopic)
+        topic_data[st.session_state.selected_topic].append(new_subtopic)
         update_json(topic_data)
-
-
