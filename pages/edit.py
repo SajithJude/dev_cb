@@ -156,7 +156,7 @@ selected_images = []
 for image in image_files:
     colu1, colu2 = col1.columns([1, 5])
     checkbox = colu1.checkbox("", key=str(image))
-    colu2.image(image, use_column_width=True)
+    colu2.image(os.path.join("images", image), use_column_width=True)
     
     if checkbox:
         selected_images.append(image)
