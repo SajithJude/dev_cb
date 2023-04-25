@@ -341,8 +341,8 @@ try:
         topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
         # miss_col.write(sfword)
 
-        if "sfword" not in st.session_state:
-            st.session_state.sfword = sfword
+        
+        st.session_state.sfword = sfword
 
         for topic_key, topic_value in st.session_state.sfword.items():
             expander = miss_col.expander(f"{topic_key}")
