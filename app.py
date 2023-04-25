@@ -323,11 +323,17 @@ try:
     
 
     topic_names = [key for key, value in st.session_state.new_dict.items()]
-
+    with open("newdict.json", "r") as f:
+        sfword = json.load(f)
+        miss_col.write("load")
+        miss_col.write(sfword)
     new_query = miss_col.text_input("Name of the missing Subtopic")
     topic_belong = miss_col.selectbox("Select the belonging topic",topic_names)
     query_again = miss_col.button("extract missing")
-
+    with open("newdict.json", "r") as f:
+        sfword = json.load(f)
+        miss_col.write("load")
+        miss_col.write(sfword)
     # new_dict = st.session_state.new_dict.copy() # Create a copy of the current state dictionary
     # extract_col.write(new_dict)
 
