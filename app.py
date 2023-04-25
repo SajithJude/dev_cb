@@ -300,11 +300,12 @@ try:
             expander.write(subtopic["content"])
 
     topic_names = [key for key, value in st.session_state.new_dict.items()]
+
     new_query = secb.text_input("Name of the missing Subtopic")
     topic_belong = secb.selectbox("Select the belonging topic",topic_names)
-    query_again = secb.button("extract missing")
+    # query_again = secb.button("extract missing")
 
-    if query_again:
+    if topic_belong:
         missing_info =  index.query("extract the information about "+str(new_query))
         selected_topic = topic_belong
         new_subtopic = new_query
