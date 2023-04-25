@@ -294,7 +294,9 @@ try:
 
     copy = st.session_state.new_dict.copy()
 
-    if "copy" not is st.session_state:
+
+    if "copy" not in st.session_state:
+
         st.session_state.copy = copy
 
 
