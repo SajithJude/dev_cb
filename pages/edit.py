@@ -163,11 +163,11 @@ for image in image_files:
         colu2.image(os.path.join("images", image), use_column_width=True)
 
 
-filteredImages = [] # your images here
-caption = [] # your caption here
-cols = cycle(st.columns(4)) # st.columns here since it is out of beta at the time I'm writing this
-for idx, filteredImage in enumerate(filteredImages):
-    next(cols).image(filteredImage, width=150, caption=caption[idx])
+# filteredImages = [] # your images here
+# caption = [] # your caption here
+# cols = cycle(st.columns(4)) # st.columns here since it is out of beta at the time I'm writing this
+# for idx, filteredImage in enumerate(filteredImages):
+#     next(cols).image(filteredImage, width=150)
 
 
 
