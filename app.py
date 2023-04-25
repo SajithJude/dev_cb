@@ -356,7 +356,7 @@ try:
         # extracted_data = st.session_state.extracted_data.copy() # Create a copy of the current state list
 
         # Append the new data to the list
-        topic_dict = sfword[selected_topic]
+        miss_col = sfword[selected_topic]
 
     # Append the new subtopic and its content to the appropriate topic
         topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
