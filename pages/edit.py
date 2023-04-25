@@ -35,11 +35,11 @@ if uploaded_file is not None:
 
             #     # get the XREF of the image
 
-                xref = img[0]
+                xref = img[7]
                 st.write(xref)
             #     # extract the image bytes
-            #     base_image = pdf_file.extractImage(xref)
-            #     image_bytes = base_image["image"]
+                base_image = pdf_file.extractImage(xref)
+                image_bytes = base_image["image"]
             #     # get the image extension
             #     image_ext = base_image["ext"]
             #     # load it to PIL
