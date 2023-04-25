@@ -21,7 +21,7 @@ if uploaded_file is not None:
     with fitz.open(uploaded_file.name) as doc:
         for page_index in range(len(doc)):
             page = doc[page_index]
-            image_list = page.getImageList()
+            image_list = page.get_page_images(page_index,full=True)
             if image_list:
                 st.write(f"[+] Found a total of {len(image_list)} images in page {page_index}")
             else:
