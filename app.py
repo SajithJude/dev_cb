@@ -331,12 +331,14 @@ try:
 
     if query_again:
         
-        copy = st.session_state.new_dict.copy()
+        # copy = st.session_state.new_dict.copy()
        
         miss_col.write(copy)
         missing_info = index.query("extract the information about "+str(new_query))
         with open("newdict.json", "r") as f:
             st.session_state.new_dict = json.load(f)
+
+        miss_col.write(st.session_state.new_dict)
         selected_topic = topic_belong
         new_subtopic = new_query
         content_value = missing_info.response
