@@ -145,7 +145,7 @@ if "add" in st.session_state  or add:
             st.session_state['topic_data'][selected_topic].append(new_subtopic)
             #col1.write(st.session_state['topic_data'][selected_topic])
             #update_json(st.session_state['topic_data'])
-            add= None;
+            add= None
             st.session_state['add'] = False
             st.experimental_rerun()
 
