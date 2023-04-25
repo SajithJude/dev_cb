@@ -306,16 +306,18 @@ try:
     topic_belong = secb.selectbox("Select the belonging topic",topic_names)
 
     if query_again:
-        missing_info =  index.query("extract the information about "+str(new_query))
+        missing_info = index.query("extract the information about "+str(new_query))
         selected_topic = topic_belong
         new_subtopic = new_query
         content_value = missing_info.response
 
-        if new_subtopic not in st.session_state.new_dict[selected_topic]:
-            st.session_state.new_dict[selected_topic][new_subtopic] = []
+        topic_dict = st.session_state.new_dict[selected_topic]
 
-        st.session_state.new_dict[selected_topic][new_subtopic].append(content_value)
+        # Append the new subtopic and its content to the appropriate topic
+        topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
+
         extract_col.write(st.session_state.new_dict)
+
 
 
 
