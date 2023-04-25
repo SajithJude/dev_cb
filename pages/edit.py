@@ -2,11 +2,12 @@ import streamlit as st
 import io
 import fitz
 from PIL import Image
+import os
 
 
+if not os.path.exists("images"):
+    os.makedirs("images")
 
-
-import streamlit as st
 
 # upload file
 uploaded_file = st.file_uploader("Choose a PDF file", type=["pdf"])
@@ -44,4 +45,7 @@ if uploaded_file is not None:
                 image_ext = base_image["ext"]
             #     # load it to PIL
                 image = Image.open(io.BytesIO(image_bytes))
+                image_filename = f"images/image_page{page_index}_{image_index}.{image_ext}"
+                image.save(image_filename)
+
                 st.image(image)
