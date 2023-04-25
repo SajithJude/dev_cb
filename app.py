@@ -292,12 +292,7 @@ try:
             updated_json = json.dumps(st.session_state.new_dict, indent=2)
    
 
-    copy = st.session_state.new_dict.copy()
-
-
-    if "copy" not in st.session_state:
-        st.session_state.copy = copy
-
+    
 
     if 'extracted_data' not in st.session_state:
         st.session_state.extracted_data = []
@@ -321,6 +316,12 @@ except (KeyError, AttributeError) as e:
 
 
 try:
+    copy = st.session_state.new_dict.copy()
+
+
+    if "copy" not in st.session_state:
+        st.session_state.copy = copy
+
     topic_names = [key for key, value in st.session_state.copy.items()]
 
     new_query = miss_col.text_input("Name of the missing Subtopic")
