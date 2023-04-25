@@ -361,7 +361,7 @@ try:
     # Append the new subtopic and its content to the appropriate topic
         topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
 
-        extract_col.write(sfword)
+        miss_col.write(sfword)
 
 except (KeyError, AttributeError) as e:
     st.info("Error missing Data")
