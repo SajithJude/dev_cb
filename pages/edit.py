@@ -22,6 +22,7 @@ if uploaded_file is not None:
         for page_index in range(len(doc)):
             page = doc[page_index]
             image_list = page.get_images(full=True)
+            st.write(image_list)
             # if image_list:
             #     st.write(f"[+] Found a total of {len(image_list)} images in page {page_index}")
             # else:
