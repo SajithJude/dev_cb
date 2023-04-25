@@ -159,7 +159,7 @@ selected_images = []
 cols = cycle(st.columns(4))
 for idx, image in enumerate(image_files):
     next(cols).image(os.path.join("images", image), width=150)
-    # next(cols).checkbox(f"select{image}", key=str(image))
+    next(cols).checkbox(f"select{image}", key=str(image))
     # checkbox = colu1.checkbox(f"select{image}", key=str(image))
     # colu2.image(os.path.join("images", image), use_column_width=True)
 
