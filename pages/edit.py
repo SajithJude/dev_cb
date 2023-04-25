@@ -162,6 +162,7 @@ if "add" in st.session_state  or add:
 
 image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
+page_names = list_page_subfolders(images_folder)
 
 
 for page in page_names:
