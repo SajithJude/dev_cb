@@ -291,15 +291,19 @@ try:
 
             updated_json = json.dumps(st.session_state.new_dict, indent=2)
    
-    if 'new_dict' not in st.session_state:
-        st.session_state.new_dict = {}
+
+    copy = st.session_state.new_dict.copy()
+
+    if "copy" not is st.session_state:
+        st.session_state.copy = copy
+
 
     if 'extracted_data' not in st.session_state:
         st.session_state.extracted_data = []
 
 
         
-    for topic_key, topic_value in st.session_state.new_dict.items():
+    for topic_key, topic_value in st.session_state.copy.items():
         expander = extract_col.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
