@@ -77,7 +77,7 @@ def select_images(images):
     for image in images:
         col1, col2 = st.columns([1, 3])
         col1.image(image, use_column_width=True)
-        checkbox = col2.checkbox("", key=image)
+        checkbox = col2.checkbox(f"{image}", key=image)
         if checkbox:
             selected_images.append(image)
     return selected_images
@@ -172,7 +172,6 @@ for idx, image in enumerate(image_files):
 if selected_images:
     col1.write("Selected Images:")
     for image in selected_images:
-
         col1.image(os.path.join("images", image), width=100)
 
 col2.write("## Updated JSON:")
