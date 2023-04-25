@@ -72,15 +72,15 @@ def update_json(topic_data):
     with open("output.json", "w") as f:
         json.dump({"Topics": [{k: v} for k, v in topic_data.items()]}, f)
 
-def select_images(images):
-    selected_images = []
-    for image in images:
-        col1, col2 = st.columns([1, 3])
-        col1.image(image, use_column_width=True)
-        checkbox = col2.checkbox(f"{image}", key=image)
-        if checkbox:
-            selected_images.append(image)
-    return selected_images
+# def select_images(images):
+#     selected_images = []
+#     for image in images:
+#         col1, col2 = st.columns([1, 3])
+#         col1.image(image, use_column_width=True)
+#         checkbox = col2.checkbox(f"{image}", key=image)
+#         if checkbox:
+#             selected_images.append(image)
+#     return selected_images
 
 json_data = '''
 {
@@ -162,17 +162,10 @@ for idx, image in enumerate(image_files):
     next(cols).checkbox(f"select{image}", key=str(image))
     # checkbox = colu1.checkbox(f"select{image}", key=str(image))
     # colu2.image(os.path.join("images", image), use_column_width=True)
-
-
-
-
     if next(cols).checkbox:
         selected_images.append(image)
 
-if selected_images:
-    col1.write("Selected Images:")
-    for image in selected_images:
-        col1.image(os.path.join("images", image), width=100)
+
 
 col2.write("## Updated JSON:")
 col2.json({"Topics": [{k: v} for k, v in st.session_state['topic_data'].items()]})
