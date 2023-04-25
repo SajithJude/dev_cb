@@ -118,7 +118,7 @@ def process_pdf(uploaded_file):
 
 ######################       defining tabs      ##########################################
 
-upload_col, refine_toc,  extract_col, edit_col, xml_col, manage_col = st.tabs(["⚪ __Upload Chapter__","⚪ __Refine_TOC__", "⚪ __Extract_Contents__", "⚪ __Edit Contents__", "⚪ __Export Generated XML__", "⚪ __Manage XMLs__"])
+upload_col, refine_toc,  extract_col, miss_col, edit_col, xml_col, manage_col = st.tabs(["⚪ __Upload Chapter__","⚪ __Refine_TOC__", "⚪ __Extract_Contents__","⚪ __missing_Contents__", "⚪ __Edit Contents__", "⚪ __Export Generated XML__", "⚪ __Manage XMLs__"])
 
 if "toc" not in st.session_state:
     st.session_state.toc = {}
@@ -269,7 +269,7 @@ except (KeyError, AttributeError) as e:
 
 try:
     quer = extract_col.button("Extract Selected")
-    seca, secb = extract_col.columns(2)
+    # seca, secb = extract_col.columns(2)
     if quer:
         progress_bar = extract_col.progress(0)
         total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
@@ -298,22 +298,32 @@ try:
         st.session_state.extracted_data = []
 
 
-    query_again = secb.button("extract missing")
         
     for topic_key, topic_value in st.session_state.new_dict.items():
-        expander = seca.expander(f"{topic_key}")
+        expander = extract_col.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
             expander.markdown(f"**{subtopic['Subtopic']}**")
             expander.write(subtopic["content"])
 
+
+except (KeyError, AttributeError) as e:
+    st.info("Error Extracting Data")
+    print(f"Error: {type(e).__name__} - {e}")
+
+
+######################       missing contents      ##########################################
+
+
+try:
     topic_names = [key for key, value in st.session_state.new_dict.items()]
 
-    new_query = secb.text_input("Name of the missing Subtopic")
-    topic_belong = secb.selectbox("Select the belonging topic",topic_names)
+    new_query = miss_col.text_input("Name of the missing Subtopic")
+    topic_belong = miss_col.selectbox("Select the belonging topic",topic_names)
+    query_again = miss_col.button("extract missing")
 
-    new_dict = st.session_state.new_dict.copy() # Create a copy of the current state dictionary
-    extract_col.write(new_dict)
+    # new_dict = st.session_state.new_dict.copy() # Create a copy of the current state dictionary
+    # extract_col.write(new_dict)
 
     if query_again:
         missing_info = index.query("extract the information about "+str(new_query))
@@ -328,20 +338,6 @@ try:
 
         st.session_state.extracted_data = extracted_data # Assign the updated list back to the session state
         extract_col.write(st.session_state.extracted_data)
-
-
-
-
-
-
-
-    
-
-except (KeyError, AttributeError) as e:
-    st.info("Error Extracting Data")
-    print(f"Error: {type(e).__name__} - {e}")
-
-
 
 
 
