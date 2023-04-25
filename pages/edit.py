@@ -65,6 +65,8 @@
 import streamlit as st
 import json
 import os
+from itertools import cycle
+
 
 def update_json(topic_data):
     with open("output.json", "w") as f:
@@ -154,10 +156,21 @@ image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.
 
 selected_images = []
 for image in image_files:
-    colu1, colu2 = col1.columns([1, 5])
-    checkbox = colu1.checkbox("", key=str(image))
-    colu2.image(os.path.join("images", image), use_column_width=True)
-    
+    cols = cycle(st.columns(4))
+    for idx, image in enumerate(image_files):
+        next(cols).image(os.path.join("images", image), width=150, caption=caption[idx])
+        checkbox = colu1.checkbox("", key=str(image))
+        colu2.image(os.path.join("images", image), use_column_width=True)
+
+
+filteredImages = [] # your images here
+caption = [] # your caption here
+cols = cycle(st.columns(4)) # st.columns here since it is out of beta at the time I'm writing this
+for idx, filteredImage in enumerate(filteredImages):
+    next(cols).image(filteredImage, width=150, caption=caption[idx])
+
+
+
     if checkbox:
         selected_images.append(image)
 
