@@ -41,6 +41,7 @@ if uploaded_file is not None:
                 base_image = doc.extractImage(xref)
                 image_bytes = base_image["image"]
             #     # get the image extension
-            #     image_ext = base_image["ext"]
+                image_ext = base_image["ext"]
             #     # load it to PIL
-            #     image = Image.open(io.BytesIO(image_bytes))
+                image = Image.open(io.BytesIO(image_bytes))
+                st.image(image)
