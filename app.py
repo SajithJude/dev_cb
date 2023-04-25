@@ -289,11 +289,12 @@ try:
             progress_bar.progress(items_processed / total_items)
 
 
-            updated_json = json.dumps(st.session_state.new_dict, indent=2)
+            # updated_json = json.dumps(st.session_state.new_dict, indent=2)
    
 
     # def update_json(topic_data):
     with open("newdict.json", "w") as f:
+        st.write(st.session_state.new_dict)
         json.dump(st.session_state.new_dict, f,indent=2)
 
     if 'extracted_data' not in st.session_state:
