@@ -316,14 +316,9 @@ except (KeyError, AttributeError) as e:
 
 
 try:
-    copy = st.session_state.new_dict.copy()
-    miss_col.write(copy)
+    
 
-
-    if "copy" not in st.session_state:
-        st.session_state.copy = copy
-
-    topic_names = [key for key in st.session_state.copy.items()]
+    topic_names = [key for key, value in st.session_state.new_dict.items()]
 
     new_query = miss_col.text_input("Name of the missing Subtopic")
     topic_belong = miss_col.selectbox("Select the belonging topic",topic_names)
@@ -333,6 +328,10 @@ try:
     # extract_col.write(new_dict)
 
     if query_again:
+        copy = st.session_state.new_dict.copy()
+        if "copy" not in st.session_state:
+            st.session_state.copy = copy
+        miss_col.write(copy)
         missing_info = index.query("extract the information about "+str(new_query))
         selected_topic = topic_belong
         new_subtopic = new_query
