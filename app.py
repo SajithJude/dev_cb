@@ -338,8 +338,9 @@ try:
         missing_info = index.query("extract the information about "+str(new_query))
         with open("newdict.json", "r") as f:
             st.session_state.new_dict = json.load(f)
+            miss_col.write(st.session_state.new_dict)
 
-        miss_col.write(st.session_state.new_dict)
+       
         selected_topic = topic_belong
         new_subtopic = new_query
         content_value = missing_info.response
