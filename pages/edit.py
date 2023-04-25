@@ -19,7 +19,7 @@ if uploaded_file is not None:
 
     # display PDF file
     with fitz.open(uploaded_file.name) as doc:
-        for page_index in range(len(pdf_file)):
+        for page_index in range(len(doc)):
             page = pdf_file[page_index]
             image_list = page.getImageList()
             if image_list:
@@ -27,7 +27,7 @@ if uploaded_file is not None:
             else:
                 st.write("[!] No images found on page", page_index)
             for image_index, img in enumerate(page.getImageList(), start=1):
-                
+
                 # get the XREF of the image
                 xref = img[0]
                 # extract the image bytes
