@@ -323,7 +323,7 @@ try:
     if "copy" not in st.session_state:
         st.session_state.copy = copy
 
-    topic_names = [key for key, value in st.session_state.copy.items()]
+    topic_names = [key for key in st.session_state.copy.items()]
 
     new_query = miss_col.text_input("Name of the missing Subtopic")
     topic_belong = miss_col.selectbox("Select the belonging topic",topic_names)
