@@ -35,7 +35,8 @@ if uploaded_file is not None:
 
             #     # get the XREF of the image
 
-                xref = img[0]
+                xref = img.xref
+                st.write(img)
             #     # extract the image bytes
             #     base_image = pdf_file.extractImage(xref)
             #     image_bytes = base_image["image"]
