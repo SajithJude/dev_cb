@@ -30,7 +30,7 @@ if uploaded_file is not None:
             
             
             
-            for image_index, img in enumerate(page.get_image_info(), start=1):
+            for image_index, img in enumerate(page.get_images(), start=1):
                 st.write(img)
 
             #     # get the XREF of the image
