@@ -290,7 +290,10 @@ try:
 
 
             updated_json = json.dumps(st.session_state.new_dict, indent=2)
-        
+   
+    if 'new_dict' not in st.session_state:
+        st.session_state.new_dict = {}
+
     query_again = secb.button("extract missing")
         
     for topic_key, topic_value in st.session_state.new_dict.items():
@@ -314,13 +317,17 @@ try:
         new_subtopic = new_query
         content_value = missing_info.response
 
+        new_dict = st.session_state.new_dict.copy() # Create a copy of the current state dictionary
+        if selected_topic not in new_dict:
+            new_dict[selected_topic] = {'Subtopics': []}
         topic_dict = new_dict[selected_topic]
 
         # Append the new subtopic and its content to the appropriate topic
         topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
 
-        # st.session_state.new_dict = new_dict # Assign the updated dictionary back to the session state
-        extract_col.write(new_dict)
+        st.session_state.new_dict = new_dict # Assign the updated dictionary back to the session state
+        extract_col.write(st.session_state.new_dict)
+
 
 
 
