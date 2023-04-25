@@ -294,8 +294,8 @@ try:
 
     # def update_json(topic_data):
         with open("newdict.json", "w") as f:
-            extract_col.write("dump")
-            extract_col.write(st.session_state.new_dict)
+            # extract_col.write("dump")
+            # extract_col.write(st.session_state.new_dict)
             json.dump(st.session_state.new_dict, f,indent=2)
 
     if 'extracted_data' not in st.session_state:
@@ -344,12 +344,12 @@ try:
         if "sfword" not in st.session_state:
             st.session_state.sfword = sfword
 
-    for topic_key, topic_value in st.session_state.sfword.items():
-        expander = miss_col.expander(f"{topic_key}")
-        expander.write(topic_value["content"])
-        for subtopic in topic_value["Subtopics"]:
-            expander.markdown(f"**{subtopic['Subtopic']}**")
-            expander.write(subtopic["content"])
+        for topic_key, topic_value in st.session_state.sfword.items():
+            expander = miss_col.expander(f"{topic_key}")
+            expander.write(topic_value["content"])
+            for subtopic in topic_value["Subtopics"]:
+                expander.markdown(f"**{subtopic['Subtopic']}**")
+                expander.write(subtopic["content"])
 
 except (KeyError, AttributeError) as e:
     st.info("Error missing Data")
