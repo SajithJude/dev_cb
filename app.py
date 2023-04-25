@@ -291,7 +291,10 @@ try:
 
             updated_json = json.dumps(st.session_state.new_dict, indent=2)
         
- 
+    if "contents_list" not in st.session_state:
+        st.session_state.contents_list = st.session_state.new_dict
+
+              
     
 
 except (KeyError, AttributeError) as e:
@@ -304,16 +307,16 @@ except (KeyError, AttributeError) as e:
 
 try:
 
-    if "contents_list" not in st.session_state:
-        st.session_state.contents_list = st.session_state.new_dict
-
-                
+      
     for topic_key, topic_value in st.session_state.contents_list.items():
         expander = seca.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
             expander.markdown(f"**{subtopic['Subtopic']}**")
             expander.write(subtopic["content"])
+    if st.button("update"):
+        st.experimental_rerun()
+        st.stop()
 
     topic_names = [key for key, value in st.session_state.contents_list.items()]
     new_query = secb.text_input("Name of the missing Subtopic")
@@ -324,11 +327,6 @@ try:
         missing_info =  index.query("extract the information about "+str(new_query))
         content_value = missing_info.response
 
-        if new_query not in st.session_state.contents_list[topic_belong]:
-            st.session_state.contents_list[topic_belong][new_query] = []
-            st.session_state.contents_list[topic_belong][new_query].append(content_value)
-        # st.experimental_rerun()
-    extract_col.write(st.session_state.contents_list)
 
 except (KeyError, AttributeError) as e:
     st.info("Error addming missing Data")
