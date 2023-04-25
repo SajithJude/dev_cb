@@ -339,6 +339,9 @@ try:
         st.session_state.extracted_data = extracted_data # Assign the updated list back to the session state
         extract_col.write(st.session_state.extracted_data)
 
+except (KeyError, AttributeError) as e:
+    st.info("Error missing Data")
+    print(f"Error: {type(e).__name__} - {e}")
 
 
 ######################       edit contents      ##########################################
