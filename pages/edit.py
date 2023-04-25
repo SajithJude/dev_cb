@@ -22,18 +22,18 @@ if uploaded_file is not None:
         for page_index in range(len(doc)):
             page = doc[page_index]
             image_list = page.get_images(full=True)
-            if image_list:
-                st.write(f"[+] Found a total of {len(image_list)} images in page {page_index}")
-            else:
-                st.write("[!] No images found on page", page_index)
-            for image_index, img in enumerate(page.getImageList(), start=1):
+            # if image_list:
+            #     st.write(f"[+] Found a total of {len(image_list)} images in page {page_index}")
+            # else:
+            #     st.write("[!] No images found on page", page_index)
+            # for image_index, img in enumerate(page.getImageList(), start=1):
 
-                # get the XREF of the image
-                xref = img[0]
-                # extract the image bytes
-                base_image = pdf_file.extractImage(xref)
-                image_bytes = base_image["image"]
-                # get the image extension
-                image_ext = base_image["ext"]
-                # load it to PIL
-                image = Image.open(io.BytesIO(image_bytes))
+            #     # get the XREF of the image
+            #     xref = img[0]
+            #     # extract the image bytes
+            #     base_image = pdf_file.extractImage(xref)
+            #     image_bytes = base_image["image"]
+            #     # get the image extension
+            #     image_ext = base_image["ext"]
+            #     # load it to PIL
+            #     image = Image.open(io.BytesIO(image_bytes))
