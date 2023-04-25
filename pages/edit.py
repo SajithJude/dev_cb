@@ -161,9 +161,9 @@ selected_images = []
 expander = col1.expander("Select images")
 
 
-n_pages = 5
-image_ext = "jpg"
-page_index = st.slider("Select page number", 1, n_pages)
+n_pages = 20
+image_ext = "png"
+page_index = col1.slider("Select page number", 1, n_pages)
 
 # n_pages = 5
 # n_images_per_page = 3
