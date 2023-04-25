@@ -167,7 +167,7 @@ page_index = st.slider("Select page number", 1, n_pages)
 
 # n_pages = 5
 # n_images_per_page = 3
-image_ext = "png"  # Change this to the correct image format, e.g. "jpg", "jpeg", or "png"
+# image_ext = "png"  # Change this to the correct image format, e.g. "jpg", "jpeg", or "png"
 
 
 # cols = cycle(expander.columns(4))
@@ -184,7 +184,7 @@ image_ext = "png"  # Change this to the correct image format, e.g. "jpg", "jpeg"
   # Change this to the correct image format, e.g. "jpg", "jpeg", or "png"
 
 # Create a slider to select the page number
-page_index = st.slider("Select page number", 1, n_pages)
+# page_index = st.slider("Select page number", 1, n_pages)
 
 # Display the selected page's images inside an expander
 with col1.expander(f"Page {page_index}"):
