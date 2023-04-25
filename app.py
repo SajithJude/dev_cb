@@ -330,10 +330,10 @@ try:
     new_query = miss_col.text_input("Name of the missing Subtopic")
     topic_belong = miss_col.selectbox("Select the belonging topic",topic_names)
     query_again = miss_col.button("extract missing")
-    with open("newdict.json", "r") as f:
-        sfword = json.load(f)
-        miss_col.write("load")
-        miss_col.write(sfword)
+    # with open("newdict.json", "r") as f:
+    #     sfword = json.load(f)
+    #     miss_col.write("load")
+    #     miss_col.write(sfword)
     # new_dict = st.session_state.new_dict.copy() # Create a copy of the current state dictionary
     # extract_col.write(new_dict)
 
@@ -343,10 +343,10 @@ try:
        
         # miss_col.write(copy)
         missing_info = index.query("extract the information about "+str(new_query))
-        with open("newdict.json", "r") as f:
-            sfword = json.load(f)
-            miss_col.write("load")
-            miss_col.write(sfword)
+        # with open("newdict.json", "r") as f:
+        #     sfword = json.load(f)
+        #     miss_col.write("load")
+        #     miss_col.write(sfword)
 
        
         selected_topic = topic_belong
@@ -356,10 +356,12 @@ try:
         # extracted_data = st.session_state.extracted_data.copy() # Create a copy of the current state list
 
         # Append the new data to the list
-        extracted_data.append({'Topic': selected_topic, 'Subtopic': new_subtopic, 'Content': content_value})
+        topic_dict = sfword[selected_topic]
 
-        st.session_state.extracted_data = extracted_data # Assign the updated list back to the session state
-        miss_col.write(st.session_state.extracted_data)
+    # Append the new subtopic and its content to the appropriate topic
+        topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
+
+        extract_col.write(sfword)
 
 except (KeyError, AttributeError) as e:
     st.info("Error missing Data")
