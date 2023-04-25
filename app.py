@@ -311,12 +311,15 @@ try:
         new_subtopic = new_query
         content_value = missing_info.response
 
-        topic_dict = st.session_state.new_dict[selected_topic]
+        new_dict = st.session_state.new_dict.copy() # Create a copy of the current state dictionary
+        topic_dict = new_dict[selected_topic]
 
         # Append the new subtopic and its content to the appropriate topic
         topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
 
+        st.session_state.new_dict = new_dict # Assign the updated dictionary back to the session state
         extract_col.write(st.session_state.new_dict)
+
 
 
 
