@@ -23,10 +23,13 @@ if uploaded_file is not None:
             page = doc[page_index]
             image_list = page.get_images(full=True)
             st.write(image_list)
-            # if image_list:
-            #     st.write(f"[+] Found a total of {len(image_list)} images in page {page_index}")
-            # else:
-            #     st.write("[!] No images found on page", page_index)
+            if image_list:
+                st.write(f"[+] Found a total of {len(image_list)} images in page {page_index}")
+            else:
+                st.write("[!] No images found on page", page_index)
+            
+            
+            
             # for image_index, img in enumerate(page.getImageList(), start=1):
 
             #     # get the XREF of the image
