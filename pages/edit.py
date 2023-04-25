@@ -166,8 +166,8 @@ for idx, image in enumerate(image_files):
 
 
 
-    # if checkbox:
-    #     selected_images.append(image)
+    if next(cols).checkbox:
+        selected_images.append(image)
 
 if selected_images:
     col1.write("Selected Images:")
