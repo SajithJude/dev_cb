@@ -155,7 +155,7 @@ image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.
 selected_images = []
 for image in image_files:
     colu1, colu2 = col1.columns([1, 5])
-    checkbox = colu1.checkbox("", key=image)
+    checkbox = colu1.checkbox("", key=str(image))
     colu2.image(image, use_column_width=True)
     
     if checkbox:
@@ -164,6 +164,7 @@ for image in image_files:
 if selected_images:
     col1.write("Selected Images:")
     for image in selected_images:
+
         col1.image(image, width=100)
 
 col2.write("## Updated JSON:")
