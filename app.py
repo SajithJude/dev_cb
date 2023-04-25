@@ -337,7 +337,7 @@ try:
         extracted_data.append({'Topic': selected_topic, 'Subtopic': new_subtopic, 'Content': content_value})
 
         st.session_state.extracted_data = extracted_data # Assign the updated list back to the session state
-        extract_col.write(st.session_state.extracted_data)
+        miss_col.write(st.session_state.extracted_data)
 
 except (KeyError, AttributeError) as e:
     st.info("Error missing Data")
