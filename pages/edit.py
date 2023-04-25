@@ -162,14 +162,15 @@ image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.
 
 selected_images = []
 # for image in image_files:
-cols = cycle(col1.columns(4))
-for idx, image in enumerate(image_files):
-    next(cols).image(os.path.join("images", image), width=100)
-    next(cols).checkbox(f"select{image}", key=str(image))
-    # checkbox = colu1.checkbox(f"select{image}", key=str(image))
-    # colu2.image(os.path.join("images", image), use_column_width=True)
-    if next(cols).checkbox:
-        selected_images.append(image)
+with col1.expander("Select images"):
+    cols = cycle(col1.columns(4))
+    for idx, image in enumerate(image_files):
+        next(cols).image(os.path.join("images", image), width=100)
+        next(cols).checkbox(f"select{image}", key=str(image))
+        # checkbox = colu1.checkbox(f"select{image}", key=str(image))
+        # colu2.image(os.path.join("images", image), use_column_width=True)
+        if next(cols).checkbox:
+            selected_images.append(image)
 
 
 
