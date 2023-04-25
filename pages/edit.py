@@ -165,7 +165,7 @@ if selected_images:
     col1.write("Selected Images:")
     for image in selected_images:
 
-        col1.image(image, width=100)
+        col1.image(os.path.join("images", image), width=100)
 
 col2.write("## Updated JSON:")
 col2.json({"Topics": [{k: v} for k, v in st.session_state['topic_data'].items()]})
