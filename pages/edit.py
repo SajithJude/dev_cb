@@ -78,16 +78,6 @@ def update_json(topic_data):
     with open("output.json", "w") as f:
         json.dump({"Topics": [{k: v} for k, v in topic_data.items()]}, f)
 
-def list_page_subfolders(images_folder):
-    return [d for d in os.listdir(images_folder) if os.path.isdir(os.path.join(images_folder, d))]
-
-# Function to list images for a specific page
-def list_images(page_folder):
-    return [f for f in os.listdir(page_folder) if os.path.isfile(os.path.join(page_folder, f))]
-
-
-# Main app code
-images_folder = "images"
 
 
 json_data = '''
@@ -162,35 +152,21 @@ if "add" in st.session_state  or add:
 
 image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
-page_names = list_page_subfolders(images_folder)
-
-
-for page in page_names:
-    expander = st.expander(f"Page: {page}")
-
-    with expander:
-        page_folder = os.path.join(images_folder, page)
-        image_files = list_images(page_folder)
-
-        # Display images in the expander
-        for image_file in image_files:
-            image_path = os.path.join(page_folder, image_file)
-            expander.image(image_path, caption=image_file)
 
 
 
-# selected_images = []
-# # for image in image_files:
-# expander = col1.expander("Select images")
+selected_images = []
+# for image in image_files:
+expander = col1.expander("Select images")
 
-# cols = cycle(expander.columns(4))
-# for idx, image in enumerate(image_files):
-#     next(cols).image(os.path.join("images", image), width=80)
-#     next(cols).checkbox(f"select{image}", key=str(image))
-#     # checkbox = colu1.checkbox(f"select{image}", key=str(image))
-#     # colu2.image(os.path.join("images", image), use_column_width=True)
-#     if next(cols).checkbox:
-#         selected_images.append(image)
+cols = cycle(expander.columns(4))
+for idx, image in enumerate(image_files):
+    next(cols).image(os.path.join("images", image), width=80)
+    next(cols).checkbox(f"select{image}", key=str(image))
+    # checkbox = colu1.checkbox(f"select{image}", key=str(image))
+    # colu2.image(os.path.join("images", image), use_column_width=True)
+    if next(cols).checkbox:
+        selected_images.append(image)
 
 
 
