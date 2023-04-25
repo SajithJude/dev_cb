@@ -47,5 +47,15 @@ if uploaded_file is not None:
                 image = Image.open(io.BytesIO(image_bytes))
                 image_filename = f"images/image_page{page_index}_{image_index}.{image_ext}"
                 image.save(image_filename)
+                st.success(f"{image_filename} saved successfully")
 
-                st.image(image)
+                # st.image(image)
+
+image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+
+# Create a dropdown menu to select an image
+selected_image = st.selectbox("Choose an image to display:", image_files)
+
+# Display the selected image
+if selected_image:
+    st.image(os.path.join("images", selected_image))
