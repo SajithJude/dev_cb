@@ -333,7 +333,7 @@ try:
         
         # copy = st.session_state.new_dict.copy()
        
-        miss_col.write(copy)
+        # miss_col.write(copy)
         missing_info = index.query("extract the information about "+str(new_query))
         with open("newdict.json", "r") as f:
             st.session_state.new_dict = json.load(f)
