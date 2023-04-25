@@ -305,13 +305,14 @@ try:
     new_query = secb.text_input("Name of the missing Subtopic")
     topic_belong = secb.selectbox("Select the belonging topic",topic_names)
 
+    new_dict = st.session_state.new_dict.copy() # Create a copy of the current state dictionary
+
     if query_again:
         missing_info = index.query("extract the information about "+str(new_query))
         selected_topic = topic_belong
         new_subtopic = new_query
         content_value = missing_info.response
 
-        new_dict = st.session_state.new_dict.copy() # Create a copy of the current state dictionary
         topic_dict = new_dict[selected_topic]
 
         # Append the new subtopic and its content to the appropriate topic
