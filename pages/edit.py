@@ -67,6 +67,12 @@ import json
 import os
 from itertools import cycle
 
+st.set_page_config(
+    page_title="coursebot",
+    page_icon=":books:",
+    layout="wide",  # Set the layout to 'wide'
+    initial_sidebar_state="collapsed",
+)
 
 def update_json(topic_data):
     with open("output.json", "w") as f:
