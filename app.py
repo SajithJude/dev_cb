@@ -306,6 +306,7 @@ try:
     topic_belong = secb.selectbox("Select the belonging topic",topic_names)
 
     new_dict = st.session_state.new_dict.copy() # Create a copy of the current state dictionary
+    extract_col.write(new_dict)
 
     if query_again:
         missing_info = index.query("extract the information about "+str(new_query))
@@ -318,8 +319,8 @@ try:
         # Append the new subtopic and its content to the appropriate topic
         topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
 
-        st.session_state.new_dict = new_dict # Assign the updated dictionary back to the session state
-        extract_col.write(st.session_state.new_dict)
+        # st.session_state.new_dict = new_dict # Assign the updated dictionary back to the session state
+        extract_col.write(new_dict)
 
 
 
