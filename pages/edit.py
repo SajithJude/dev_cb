@@ -38,7 +38,7 @@ if uploaded_file is not None:
                 xref = img[7]
                 st.write(xref)
             #     # extract the image bytes
-                base_image = doc.extractImage(xref)
+                base_image = doc.extract_image(xref)
                 image_bytes = base_image["image"]
             #     # get the image extension
                 image_ext = base_image["ext"]
