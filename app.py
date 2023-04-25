@@ -292,7 +292,9 @@ try:
             updated_json = json.dumps(st.session_state.new_dict, indent=2)
    
 
-    
+    # def update_json(topic_data):
+    with open("newdict.json", "w") as f:
+        json.dump(st.session_state.new_dict, indent=2)
 
     if 'extracted_data' not in st.session_state:
         st.session_state.extracted_data = []
@@ -328,11 +330,13 @@ try:
     # extract_col.write(new_dict)
 
     if query_again:
+        
         copy = st.session_state.new_dict.copy()
-        if "copy" not in st.session_state:
-            st.session_state.copy = copy
+       
         miss_col.write(copy)
         missing_info = index.query("extract the information about "+str(new_query))
+        with open("newdict.json", "r") as f:
+            st.session_state.new_dict = json.load(f)
         selected_topic = topic_belong
         new_subtopic = new_query
         content_value = missing_info.response
