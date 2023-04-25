@@ -66,6 +66,7 @@ import streamlit as st
 import json
 import os
 from itertools import cycle
+import glob
 
 st.set_page_config(
     page_title="coursebot",
@@ -159,14 +160,41 @@ selected_images = []
 # for image in image_files:
 expander = col1.expander("Select images")
 
-cols = cycle(expander.columns(4))
-for idx, image in enumerate(image_files):
-    next(cols).image(os.path.join("images", image), width=80)
-    next(cols).checkbox(f"select{image}", key=str(image))
-    # checkbox = colu1.checkbox(f"select{image}", key=str(image))
-    # colu2.image(os.path.join("images", image), use_column_width=True)
-    if next(cols).checkbox:
-        selected_images.append(image)
+page_index = st.slider("Select page number", 1, n_pages)
+
+n_pages = 20
+n_images_per_page = 3
+image_ext = "png"  # Change this to the correct image format, e.g. "jpg", "jpeg", or "png"
+
+
+# cols = cycle(expander.columns(4))
+# for idx, image in enumerate(image_files):
+#     next(cols).image(os.path.join("images", image), width=80)
+#     next(cols).checkbox(f"select{image}", key=str(image))
+#     # checkbox = colu1.checkbox(f"select{image}", key=str(image))
+#     # colu2.image(os.path.join("images", image), use_column_width=True)
+#     if next(cols).checkbox:
+#         selected_images.append(image)
+
+
+
+n_pages = 5
+image_ext = "png"  # Change this to the correct image format, e.g. "jpg", "jpeg", or "png"
+
+# Create a slider to select the page number
+page_index = st.slider("Select page number", 1, n_pages)
+
+# Display the selected page's images inside an expander
+with col1.expander(f"Page {page_index}"):
+    image_files = glob.glob(f"images/image_page{page_index}_*.{image_ext}")
+    if image_files:
+        for image_filename in image_files:
+            if os.path.isfile(image_filename):
+                st.image(image_filename, caption=os.path.basename(image_filename))
+            else:
+                st.warning(f"Image not found: {os.path.basename(image_filename)}")
+    else:
+        st.warning("No images found for this page.")
 
 
 
