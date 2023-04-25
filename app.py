@@ -321,7 +321,7 @@ except (KeyError, AttributeError) as e:
 
 
 try:
-    topic_names = [key for key, value in st.session_state.new_dict.items()]
+    topic_names = [key for key, value in st.session_state.copy.items()]
 
     new_query = miss_col.text_input("Name of the missing Subtopic")
     topic_belong = miss_col.selectbox("Select the belonging topic",topic_names)
