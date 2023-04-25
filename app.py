@@ -305,7 +305,7 @@ try:
     topic_belong = secb.selectbox("Select the belonging topic",topic_names)
     # query_again = secb.button("extract missing")
 
-    if st.button("extract missing"):
+    if secb.button("extract missing"):
         missing_info =  index.query("extract the information about "+str(new_query))
         selected_topic = topic_belong
         new_subtopic = new_query
