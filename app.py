@@ -316,7 +316,7 @@ try:
             expander.write(subtopic["content"])
     if st.button("update"):
         st.experimental_rerun()
-        st.stop()
+        # st.stop()
 
     topic_names = [key for key, value in st.session_state.contents_list.items()]
     new_query = secb.text_input("Name of the missing Subtopic")
