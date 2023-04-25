@@ -294,7 +294,8 @@ try:
 
     # def update_json(topic_data):
     with open("newdict.json", "w") as f:
-        st.write(st.session_state.new_dict)
+        extract_col.write("dump")
+        extract_col.write(st.session_state.new_dict)
         json.dump(st.session_state.new_dict, f,indent=2)
 
     if 'extracted_data' not in st.session_state:
