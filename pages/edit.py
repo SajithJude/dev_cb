@@ -187,7 +187,7 @@ page_index = col1.slider("Select page number", 1, n_pages)
 # page_index = st.slider("Select page number", 1, n_pages)
 
 # Display the selected page's images inside an expander
-with col1.expander(f"Page {page_index}"):
+with col1.expander(f"Page {page_index}",expanded=True):
     image_files = glob.glob(f"images/image_page{page_index}_*.{image_ext}")
     if image_files:
         for image_filename in image_files:
