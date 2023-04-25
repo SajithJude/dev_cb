@@ -296,7 +296,6 @@ try:
 
 
     if "copy" not in st.session_state:
-
         st.session_state.copy = copy
 
 
@@ -305,7 +304,7 @@ try:
 
 
         
-    for topic_key, topic_value in st.session_state.copy.items():
+    for topic_key, topic_value in st.session_state.new_dict.items():
         expander = extract_col.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
