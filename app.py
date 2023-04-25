@@ -317,6 +317,7 @@ except (KeyError, AttributeError) as e:
 
 try:
     copy = st.session_state.new_dict.copy()
+    miss_col.write(copy)
 
 
     if "copy" not in st.session_state:
