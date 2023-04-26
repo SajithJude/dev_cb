@@ -324,7 +324,7 @@ except (KeyError, AttributeError) as e:
 
 
 try:
-    pagecol, ecol = extract_col.columns(2)
+    pagecol, ecol = extract_col.columns([2,5])
     quer = ecol.button("Extract Contents")
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
