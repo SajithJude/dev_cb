@@ -327,16 +327,7 @@ try:
     pagecol, ecol = extract_col.columns([2,5])
     quer = ecol.button("Extract Contents")
 
-    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
-
-    if pages_files:
-        selected_page = pagecol.number_input("Change page number to compare:",step=1)
-        selected_image = f"page-{selected_page}.png"
-        # Display the selected image
-        if selected_image:
-            pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
-    else:
-        pagecol.warning("No images found in the 'pages' folder.")
+    
     # seca, secb = extract_col.columns(2)
     if quer:
         progress_bar = ecol.progress(0)
@@ -355,7 +346,17 @@ try:
             subtopics_dict['content'] = topicres.response
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
+    
+    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
+    if pages_files:
+        selected_page = pagecol.number_input("Change page number to compare:",step=1)
+        selected_image = f"page-{selected_page}.png"
+        # Display the selected image
+        if selected_image:
+            pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
+    else:
+        pagecol.warning("No images found in the 'pages' folder.")
 
             # updated_json = json.dumps(st.session_state.new_dict, indent=2)
    
