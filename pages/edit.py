@@ -6,6 +6,12 @@ import os
 from itertools import cycle
 import glob
 
+st.set_page_config(
+    page_title="coursebot",
+    page_icon=":books:",
+    layout="wide",  # Set the layout to 'wide'
+    initial_sidebar_state="collapsed",
+)
 
 def update_json(topic_data):
     with open("output.json", "w") as f:
@@ -43,8 +49,7 @@ json_data = '''
 }
 '''
 
-col1, col2,col3 = st.columns(3)
-
+col1, col2 = st.columns(2)
 data = json.loads(json_data)
 images = ["https://media.istockphoto.com/id/1155021690/photo/sri-dalada-maligawa-or-the-temple-of-the-sacred-tooth-relic-kandy-sri-lanka.jpg?s=170667a&w=is&k=20&c=lsRo82JVGY1e3l6d7Dh2cu_mMIIdr-jDRun-bVaLhNM=","https://upload.wikimedia.org/wikipedia/commons/5/56/Sri_Lanka_-_029_-_Kandy_Temple_of_the_Tooth.jpg","https://static.wixstatic.com/media/65f045_e4c0db99c4294f6194d270687add03f6~mv2.jpg/v1/crop/x_0,y_51,w_1105,h_469/fill/w_560,h_260,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/kandy_polwaththa_srilanka_jpeg.jpg", "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg","https://media.istockphoto.com/id/629022568/photo/branching-moonlight.jpg?s=612x612&w=0&k=20&c=pECtItfnKuOC-RIzGXk1tQfzWSetMEmwiQCX5msooxg=" ]
 topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
@@ -84,21 +89,44 @@ if "add" in st.session_state  or add:
             st.experimental_rerun()
 
 
-
-
-
-col3.write("## Images")
 image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+
+
+
+
 selected_images = []
 # for image in image_files:
 expander = col1.expander("Select images")
+
+
 n_pages = 20
+image_ext = "png"
+page_index = col1.slider("Select page number", 1, n_pages)
 
-image_exts = ["png", "jpg", "jpeg", "tiff", "bmp", "gif"]
-page_index = col3.slider("Select page number", 1, n_pages)
+# n_pages = 5
+# n_images_per_page = 3
+# image_ext = "png"  # Change this to the correct image format, e.g. "jpg", "jpeg", or "png"
 
-with col3.expander(f"Page {page_index}", expanded=True):
-    image_files = [f for ext in image_exts for f in glob.glob(f"images/image_page{page_index}_*.{ext}")]
+
+# cols = cycle(expander.columns(4))
+# for idx, image in enumerate(image_files):
+#     next(cols).image(os.path.join("images", image), width=80)
+#     next(cols).checkbox(f"select{image}", key=str(image))
+#     # checkbox = colu1.checkbox(f"select{image}", key=str(image))
+#     # colu2.image(os.path.join("images", image), use_column_width=True)
+#     if next(cols).checkbox:
+#         selected_images.append(image)
+
+
+
+  # Change this to the correct image format, e.g. "jpg", "jpeg", or "png"
+
+# Create a slider to select the page number
+# page_index = st.slider("Select page number", 1, n_pages)
+
+# Display the selected page's images inside an expander
+with col1.expander(f"Page {page_index}",expanded=True):
+    image_files = glob.glob(f"images/image_page{page_index}_*.{image_ext}")
     if image_files:
         for image_filename in image_files:
             if os.path.isfile(image_filename):
@@ -107,6 +135,7 @@ with col3.expander(f"Page {page_index}", expanded=True):
                 st.warning(f"Image not found: {os.path.basename(image_filename)}")
     else:
         st.warning("No images found for this page.")
+
 
 
 col2.write("## Updated JSON:")
