@@ -480,6 +480,7 @@ try:
                 break
     save_xml = ondu.button("Save XML")
     if save_xml:
+        xml_col.write(st.session_state.sfword)
         xml_output = json_to_xml(st.session_state.sfword, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
 
