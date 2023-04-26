@@ -474,7 +474,7 @@ try:
         else:
             st.warning("No images found for this page.")
     
-    selected_image = file_path
+    selected_image = image_filename
 
     if add_to_topic:
         if "img" not in st.session_state.sfword[image_topic]:
