@@ -424,6 +424,8 @@ except (KeyError, AttributeError) as e:
 try:
     # with 
     ondu, rendu = xml_col.columns(2)
+    ondu.write("## Configure Chapter for video")
+
     chapter_name = ondu.text_input("enter chapter name")
     NoOfBullets = ondu.text_input("No. of Bullets per Sub Topic")
     NoOfWordsPerBullet = ondu.text_input("No. of words per Bullet")
@@ -433,7 +435,7 @@ try:
     image_topic = rendu.selectbox("Select a topic", list(st.session_state.sfword.keys()))
 
 # Dropdown menu for selecting a subtopic based on the selected topic
-    # image_subtopic = st.selectbox("Select a subtopic", topics[selected_topic])
+    image_subtopic = st.selectbox("Select a subtopic", list(st.session_state.sfword.keys())[selected_topic])
 
     image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
     selected_images = []
