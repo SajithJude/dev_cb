@@ -43,6 +43,10 @@ def clear_images_folder():
         if file.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
             os.remove(os.path.join("images", file))
 
+def clear_pages_folder():
+    for file in os.listdir("pages"):
+        if file.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
+            os.remove(os.path.join("images", file))
 
 
 def update_json(topic_data):
@@ -186,6 +190,7 @@ if uploaded_file is not None:
 
         upload_col.success("Index created successfully")
         clear_images_folder()
+        clear_pages_folder()
     # read PDF file
         with open(uploaded_file.name, "wb") as f:
             f.write(uploaded_file.getbuffer())
@@ -319,10 +324,22 @@ except (KeyError, AttributeError) as e:
 
 
 try:
-    quer = extract_col.button("Extract Selected")
+    pagecol, ecol = extract_col.columns(2)
+    quer = extract_col.button("Extract Contents")
+
+    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+
+    if pages_files:
+        selected_page = pagecol.number_input("Change page number to compare:",step=1)
+        selected_image = f"page-{selected_page}.png"
+        # Display the selected image
+        if selected_image:
+            pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
+    else:
+        pagecol.warning("No images found in the 'pages' folder.")
     # seca, secb = extract_col.columns(2)
     if quer:
-        progress_bar = extract_col.progress(0)
+        progress_bar = ecol.progress(0)
         total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
         items_processed = 0
         for topic, subtopics_dict in st.session_state.new_dict.items():
@@ -332,7 +349,7 @@ try:
                 subtopic_dict['content'] = subtopicres.response
                 items_processed += 1
                 progress_bar.progress(items_processed / total_items)
-                extract_col.info(f"Extracted {subtopic_name}")
+                ecol.info(f"Extracted {subtopic_name}")
             
             topicres = index.query("extract the information about "+str(topic))
             subtopics_dict['content'] = topicres.response
@@ -353,7 +370,7 @@ try:
 
         
     for topic_key, topic_value in st.session_state.new_dict.items():
-        expander = extract_col.expander(f"{topic_key}")
+        expander = ecol.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
             expander.markdown(f"**{subtopic['Subtopic']}**")
