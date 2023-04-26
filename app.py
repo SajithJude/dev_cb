@@ -437,7 +437,7 @@ try:
             for image_filename in image_files:
                 file_path = os.path.join("images", image_filename)
                 if os.path.isfile(file_path):
-                    rendu.image(file_path, caption=os.path.basename(file_path))
+                    rendu.image(file_path, caption=os.path.basename(file_path),width=150)
                 else:
                     st.warning(f"Image not found: {os.path.basename(file_path)}")
         else:
