@@ -481,7 +481,7 @@ except (KeyError, AttributeError) as e:
 
 try:
     # with 
-    ondu, naduvan, rendu  = xml_col.columns([1,3,5])
+    ondu, naduvan, rendu  = xml_col.columns([1,2,4])
     ondu.write("## Configure Slides")
 
     chapter_name = ondu.text_input("enter chapter name")
