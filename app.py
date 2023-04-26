@@ -502,14 +502,24 @@ try:
         with open("db.json", "w") as f:
             json.dump(db, f)
 
-        # Save pretty_xml as an XML file in the "images" directory
         xml_file_path = os.path.join("images", f"{chapter_name}.xml")
         with open(xml_file_path, "w") as xml_file:
             xml_file.write(pretty_xml)
-        rendu.success(f"XML file saved as {xml_file_path}")
+        # rendu.success(f"XML file saved as {xml_file_path}")
 
         with xml_col.expander("XML content"):
             xml_col.code(pretty_xml)
+
+        # Zip the entire "images" folder with its contents
+        def zipdir(path, ziph):
+            for root, dirs, files in os.walk(path):
+                for file in files:
+                    ziph.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), path))
+
+        zip_file_path = f"images_{chapter_name}.zip"
+        with zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+            zipdir("images", zipf)
+        rendu.success(f"Zipped folder saved as {zip_file_path}")
 
         # st.session_state.table_of_contents = {}
         # st.session_state.selected_items = []
