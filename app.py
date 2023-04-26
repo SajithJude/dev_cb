@@ -517,7 +517,7 @@ try:
                 for file in files:
                     ziph.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), path))
 
-        zip_file_path = f"images_{chapter_name}.zip"
+        zip_file_path = f"images/{chapter_name}.zip"
         with zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
             zipdir("images", zipf)
         rendu.success(f"Zipped folder saved as {zip_file_path}")
