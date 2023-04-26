@@ -5,6 +5,12 @@ from PIL import Image
 import os
 
 
+def clear_images_folder():
+    for file in os.listdir("images"):
+        if file.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
+            os.remove(os.path.join("images", file))
+
+
 if not os.path.exists("images"):
     os.makedirs("images")
 
@@ -14,6 +20,7 @@ uploaded_file = st.file_uploader("Choose a PDF file", type=["pdf"])
 
 # check if a file was uploaded
 if uploaded_file is not None:
+    clear_images_folder()
     # read PDF file
     with open(uploaded_file.name, "wb") as f:
         f.write(uploaded_file.getbuffer())
