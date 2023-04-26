@@ -424,7 +424,7 @@ try:
     image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
     selected_images = []
     # for image in image_files:
-    expander = col1.expander("Select images")
+    expander = rendu.expander("Select images")
     n_pages = 20
 
     image_exts = ["png", "jpg", "jpeg", "tiff", "bmp", "gif"]
