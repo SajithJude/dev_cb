@@ -490,7 +490,7 @@ try:
                 subtopic["img"].append(selected_image)
                 rendu.success(f"Image {selected_image} added to subtopic {image_subtopic}")
                 break
-                
+
     save_xml = ondu.button("Save XML")
     if save_xml:
         xml_output = json_to_xml(st.session_state.sfword, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
@@ -531,6 +531,9 @@ db = load_db()
 chapter_list = list(db.keys())
 
 if chapter_list:
+
+    filesinsidefolder = st.selectbox("Select an file", [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.xml', '.gif'))])
+
     
     selected_chapter = manage_col.selectbox("Select a chapter first:", chapter_list)
     delete_button = manage_col.button("Delete Chapter")
