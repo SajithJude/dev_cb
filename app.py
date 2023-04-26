@@ -543,7 +543,7 @@ chapter_list = list(db.keys())
 
 if chapter_list:
 
-    filesinsidefolder = st.selectbox("Select an file", [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.xml', '.gif'))])
+    filesinsidefolder = st.selectbox("Select an file", [f for f in os.listdir("images") if f.endswith(('.zip','.xml'))])
 
     
     selected_chapter = manage_col.selectbox("Select a chapter first:", chapter_list)
