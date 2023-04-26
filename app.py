@@ -424,7 +424,7 @@ except (KeyError, AttributeError) as e:
 try:
     # with 
     ondu, rendu = xml_col.columns(2)
-    ondu.write("## Configure Chapter for video")
+    ondu.write("## Configure Slides")
 
     chapter_name = ondu.text_input("enter chapter name")
     NoOfBullets = ondu.text_input("No. of Bullets per Sub Topic")
@@ -449,15 +449,35 @@ try:
     with rendu.expander(f"Page {page_index}", expanded=True):
         image_files = [f for f in os.listdir("images") if f.startswith(f'image_page{page_index}_') and f.endswith(tuple(image_exts))]
         if image_files:
+            
             for image_filename in image_files:
                 file_path = os.path.join("images", image_filename)
                 if os.path.isfile(file_path):
+
                     rendu.image(file_path, caption=os.path.basename(file_path),width=150)
                 else:
                     st.warning(f"Image not found: {os.path.basename(file_path)}")
         else:
             st.warning("No images found for this page.")
+    
+    selected_image = file_path
+    add_to_topic = rendu.button("Add to Topic")
+    add_to_subtopic = rendu.button("Add to Subtopic")
 
+    if add_to_topic:
+        if "img" not in st.session_state.sfword[image_topic]:
+            st.session_state.sfword[image_topic]["img"] = []
+        st.session_state.sfword[image_topic]["img"].append(selected_image)
+        rendu.success(f"Image {selected_image} added to topic {image_topic}")
+
+    if add_to_subtopic:
+        for subtopic in st.session_state.sfword[image_topic]["Subtopics"]:
+            if subtopic["Subtopic"] == image_subtopic:
+                if "img" not in subtopic:
+                    subtopic["img"] = []
+                subtopic["img"].append(selected_image)
+                rendu.success(f"Image {selected_image} added to subtopic {image_subtopic}")
+                break
     save_xml = ondu.button("Save XML")
     if save_xml:
         xml_output = json_to_xml(st.session_state.sfword, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
