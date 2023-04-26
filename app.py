@@ -423,7 +423,7 @@ try:
  
                 
 except (KeyError, AttributeError) as e:
-    st.info("Error saving XML")
+    print("Error saving XML")
     print(f"Error: {type(e).__name__} - {e}")
 
 

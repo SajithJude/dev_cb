@@ -49,7 +49,8 @@ json_data = '''
 }
 '''
 
-col1, col2 = st.columns(2)
+col1, col2,col3 = st.columns(3)
+
 data = json.loads(json_data)
 images = ["https://media.istockphoto.com/id/1155021690/photo/sri-dalada-maligawa-or-the-temple-of-the-sacred-tooth-relic-kandy-sri-lanka.jpg?s=170667a&w=is&k=20&c=lsRo82JVGY1e3l6d7Dh2cu_mMIIdr-jDRun-bVaLhNM=","https://upload.wikimedia.org/wikipedia/commons/5/56/Sri_Lanka_-_029_-_Kandy_Temple_of_the_Tooth.jpg","https://static.wixstatic.com/media/65f045_e4c0db99c4294f6194d270687add03f6~mv2.jpg/v1/crop/x_0,y_51,w_1105,h_469/fill/w_560,h_260,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/kandy_polwaththa_srilanka_jpeg.jpg", "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg","https://media.istockphoto.com/id/629022568/photo/branching-moonlight.jpg?s=612x612&w=0&k=20&c=pECtItfnKuOC-RIzGXk1tQfzWSetMEmwiQCX5msooxg=" ]
 topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
@@ -101,9 +102,9 @@ expander = col1.expander("Select images")
 
 n_pages = 20
 image_ext = "png"
-page_index = col1.slider("Select page number", 1, n_pages)
+page_index = col3.slider("Select page number", 1, n_pages)
 
-with col1.expander(f"Page {page_index}",expanded=True):
+with col3.expander(f"Page {page_index}",expanded=True):
     image_files = glob.glob(f"images/image_page{page_index}_*.{image_ext}")
     if image_files:
         for image_filename in image_files:
