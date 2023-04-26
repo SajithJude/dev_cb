@@ -46,7 +46,7 @@ def clear_images_folder():
 def clear_pages_folder():
     for file in os.listdir("pages"):
         if file.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
-            os.remove(os.path.join("images", file))
+            os.remove(os.path.join("pages", file))
 
 
 def update_json(topic_data):
