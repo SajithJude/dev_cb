@@ -507,11 +507,11 @@ try:
     rendu.write("### Select Images")
 
     left, right = rendu.columns([2,1])
-    image_topic = left.selectbox("Select a topic", list(st.session_state.sfword.keys()))
+    image_topic = left.selectbox("Select a topic", list(st.session_state.sfword.keys()),label_visibility="collapsed")
     add_to_topic = right.button("Add Image to Topic")
 
 # Dropdown menu for selecting a subtopic based on the selected topic
-    image_subtopic = left.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.sfword[image_topic]["Subtopics"]])
+    image_subtopic = left.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.sfword[image_topic]["Subtopics"]],label_visibility="collapsed")
     add_to_subtopic = right.button("Add image to Subtopic")
 
     image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
