@@ -348,7 +348,7 @@ try:
             progress_bar.progress(items_processed / total_items)
 
         with open("newdict.json", "w") as f:
-            
+
             json.dump(st.session_state.new_dict, f,indent=2)
 
     if 'extracted_data' not in st.session_state:
@@ -370,10 +370,11 @@ try:
 
     # def update_json(topic_data):
        
-
+    with open("newdict.json", "r") as f:
+        sfword = json.load(f)
 
         
-    for topic_key, topic_value in st.session_state.new_dict.items():
+    for topic_key, topic_value in sfword.items():
         expander = ecol.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
