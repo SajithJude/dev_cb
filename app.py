@@ -314,7 +314,7 @@ try:
             for item in value:
                 st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
     
-    extract_col.success("TOC formated correctly")
+    # extract_col.success("TOC formated correctly")
     
 
 except (KeyError, AttributeError) as e:
@@ -325,7 +325,7 @@ except (KeyError, AttributeError) as e:
 
 try:
     pagecol, ecol = extract_col.columns(2)
-    quer = extract_col.button("Extract Contents")
+    quer = ecol.button("Extract Contents")
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
