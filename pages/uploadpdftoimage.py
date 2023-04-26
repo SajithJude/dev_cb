@@ -66,6 +66,6 @@ if pages_files:
 
     # Display the selected image
     if selected_image:
-        st.image(os.path.join("pages", selected_image), width=150)
+        st.image(os.path.join("pages", selected_image), use_column_width=True)
 else:
     st.warning("No images found in the 'pages' folder.")
