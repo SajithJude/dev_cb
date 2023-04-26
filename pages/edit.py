@@ -6,12 +6,6 @@ import os
 from itertools import cycle
 import glob
 
-# st.set_page_config(
-#     page_title="coursebot",
-#     page_icon=":books:",
-#     layout="wide",  # Set the layout to 'wide'
-#     initial_sidebar_state="collapsed",
-# )
 
 def update_json(topic_data):
     with open("output.json", "w") as f:
@@ -90,19 +84,15 @@ if "add" in st.session_state  or add:
             st.experimental_rerun()
 
 
+
+
+
+col3.write("## Images")
 image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
-
-
-
-
 selected_images = []
 # for image in image_files:
 expander = col1.expander("Select images")
-
-
 n_pages = 20
-# image_exts = ["png", "jpg", "jpeg", "tiff", "bmp", "gif"]
-# page_index = col3.slider("Select page number", 1, n_pages)
 
 image_exts = ["png", "jpg", "jpeg", "tiff", "bmp", "gif"]
 page_index = col3.slider("Select page number", 1, n_pages)
@@ -117,7 +107,6 @@ with col3.expander(f"Page {page_index}", expanded=True):
                 st.warning(f"Image not found: {os.path.basename(image_filename)}")
     else:
         st.warning("No images found for this page.")
-
 
 
 col2.write("## Updated JSON:")

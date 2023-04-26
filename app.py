@@ -5,6 +5,11 @@ from langchain import OpenAI
 from llama_index import download_loader
 from tempfile import NamedTemporaryFile
 
+import io
+import fitz
+from PIL import Image
+import os
+
 PDFReader = download_loader("PDFReader")
 import os
 import openai 
@@ -21,13 +26,6 @@ from langchain import OpenAI
 st.set_page_config(page_title=None, page_icon=None, layout="wide", initial_sidebar_state="collapsed")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-
-# st.set_page_config(
-#     page_title="coursebot",
-#     page_icon=":books:",
-#     layout="wide",  # Set the layout to 'wide'
-#     initial_sidebar_state="collapsed",
-# )
 
 st.title("CourseBot")
 st.caption("AI-powered course creation made easy")
@@ -166,6 +164,26 @@ if uploaded_file is not None:
             st.session_state.index = index
 
         upload_col.success("Index created successfully")
+        clear_images_folder()
+    # read PDF file
+        with open(uploaded_file.name, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+
+        # display PDF file
+        with fitz.open(uploaded_file.name) as doc:
+            for page_index in range(len(doc)):
+                page = doc[page_index]
+                image_list = page.get_images(full=True)
+                for image_index, img in enumerate(page.get_images(), start=1):
+                
+
+                    xref = img[0]
+                    base_image = doc.extract_image(xref)
+                    image_bytes = base_image["image"]
+                    image_ext = base_image["ext"]
+                    image = Image.open(io.BytesIO(image_bytes))
+                    image_filename = f"images/image_page{page_index}_{image_index}.{image_ext}"
+                    image.save(image_filename)
 
 
 toc = upload_col.button("Genererate TOC")
@@ -396,12 +414,36 @@ except (KeyError, AttributeError) as e:
 
 
 try:
-    chapter_name = xml_col.text_input("enter chapter name")
-    NoOfBullets = xml_col.text_input("No. of Bullets per Sub Topic")
-    NoOfWordsPerBullet = xml_col.text_input("No. of words per Bullet")
-    NoOfWordsForVOPerBullet = xml_col.text_input("No. of words for Voice Over per Bullet")
+    # with 
+    ondu, rendu = xml_col.columns(2)
+    chapter_name = ondu.text_input("enter chapter name")
+    NoOfBullets = ondu.text_input("No. of Bullets per Sub Topic")
+    NoOfWordsPerBullet = ondu.text_input("No. of words per Bullet")
+    NoOfWordsForVOPerBullet = ondu.text_input("No. of words for Voice Over per Bullet")
 
-    save_xml = xml_col.button("Save XML")
+    image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+    selected_images = []
+    # for image in image_files:
+    expander = col1.expander("Select images")
+    n_pages = 20
+
+    image_exts = ["png", "jpg", "jpeg", "tiff", "bmp", "gif"]
+    page_index = rendu.slider("Select page number", 1, n_pages)
+
+    with rendu.expander(f"Page {page_index}", expanded=True):
+        image_files = [f for ext in image_exts for f in glob.glob(f"images/image_page{page_index}_*.{ext}")]
+        if image_files:
+            for image_filename in image_files:
+                if os.path.isfile(image_filename):
+                    st.image(image_filename, caption=os.path.basename(image_filename))
+                else:
+                    xml_col.warning(f"Image not found: {os.path.basename(image_filename)}")
+        else:
+            xml_col.warning("No images found for this page.")
+
+
+
+    save_xml = ondu.button("Save XML")
     if save_xml:
         xml_output = json_to_xml(st.session_state.sfword, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
