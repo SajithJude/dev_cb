@@ -36,6 +36,14 @@ PDFReader = download_loader("PDFReader")
 loader = PDFReader()
 
 
+
+def clear_images_folder():
+    for file in os.listdir("images"):
+        if file.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
+            os.remove(os.path.join("images", file))
+
+
+
 def update_json(topic_data):
     with open("output.json", "w") as f:
         st.session_state.toc = {"Topics": [{k: v} for k, v in topic_data.items()]}
