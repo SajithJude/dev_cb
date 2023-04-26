@@ -56,11 +56,11 @@ image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.
 pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
 # Create a dropdown menu to select an image
-selected_image = st.selectbox("Choose an page to display:", image_files)
+selected_image = st.selectbox("Choose an page to display:", pages_files)
 
 # Display the selected image
 if selected_image:
-    st.image(os.path.join("images", selected_image))
+    st.image(os.path.join("pages", selected_image))
 
 
 all_image_files = find_images()
