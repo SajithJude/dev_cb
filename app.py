@@ -543,9 +543,24 @@ chapter_list = list(db.keys())
 
 if chapter_list:
 
-    filesinsidefolder = st.selectbox("Select an file", [f for f in os.listdir("images") if f.endswith(('.zip','.xml'))])
+    filesinsidefolder = manage_col.selectbox("Select a zip file", [f for f in os.listdir("images") if f.endswith(('.zip'))])
 
-    
+    if filesinsidefolder and filesinsidefolder.endswith('.zip'):
+        file_path = os.path.join("images", filesinsidefolder)
+        with open(file_path, "rb") as f:
+            file_bytes = f.read()
+        manage_col.download_button(
+            label="Download Zip File",
+            data=file_bytes,
+            file_name=filesinsidefolder,
+            mime="application/zip",
+        )
+   
+    else:
+        manage_col.warning("No file selected.")
+
+
+
     selected_chapter = manage_col.selectbox("Select a chapter first:", chapter_list)
     delete_button = manage_col.button("Delete Chapter")
     post_button= manage_col.button("Continue with CourseBOT 2")
