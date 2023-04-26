@@ -541,7 +541,7 @@ try:
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
     if pages_files:
-        selected_page = page_index
+        selected_page = naduvan.number_input("Change page number to compare:",step=1)
         selected_image = f"page-{selected_page}.png"
         # Display the selected image
         if selected_image:
