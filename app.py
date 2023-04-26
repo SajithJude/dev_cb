@@ -391,14 +391,16 @@ except (KeyError, AttributeError) as e:
 
 
 try:
+
+    amiscol, bmiscol = miss_col.columns([2,5])
     
 
     topic_names = [key for key, value in st.session_state.new_dict.items()]
     with open("newdict.json", "r") as f:
         sfword = json.load(f)
-    new_query = miss_col.text_input("Name of the missing Subtopic")
-    topic_belong = miss_col.selectbox("Select the belonging topic",topic_names)
-    query_again = miss_col.button("extract missing")
+    new_query = bmiscol.text_input("Name of the missing Subtopic")
+    topic_belong = bmiscol.selectbox("Select the belonging topic",topic_names)
+    query_again = bmiscol.button("extract missing")
    
     if query_again:
    
@@ -410,7 +412,7 @@ try:
         topic_dict = sfword[selected_topic]
     # Append the new subtopic and its content to the appropriate topic
         topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
-        # miss_col.write(sfword)
+        # bmiscol.write(sfword)
 
         with open("newdict.json", "w") as f:
             json.dump(sfword, f,indent=2)
@@ -419,11 +421,23 @@ try:
             st.session_state.sfword = json.load(f)
 
         for topic_key, topic_value in st.session_state.sfword.items():
-            expander = miss_col.expander(f"{topic_key}")
+            expander = bmiscol.expander(f"{topic_key}")
             expander.write(topic_value["content"])
             for subtopic in topic_value["Subtopics"]:
                 expander.markdown(f"**{subtopic['Subtopic']}**")
                 expander.write(subtopic["content"])
+
+    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+
+    if pages_files:
+        selected_page = amiscol.number_input("Change page number to compare:",step=1)
+        selected_image = f"page-{selected_page}.png"
+        # Display the selected image
+        if selected_image:
+            amiscol.image(os.path.join("pages", selected_image), use_column_width=True)
+    else:
+        amiscol.warning("No images found in the 'pages' folder.")
+
 
 except (KeyError, AttributeError,FileNotFoundError) as e:
     print("Error missing Data")
