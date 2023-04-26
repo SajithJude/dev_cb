@@ -9,7 +9,7 @@ import io
 import fitz
 from PIL import Image
 import os
-
+import glob
 PDFReader = download_loader("PDFReader")
 import os
 import openai 
