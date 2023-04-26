@@ -482,7 +482,7 @@ except (KeyError, AttributeError) as e:
 try:
     # with 
     ondu, naduvan, rendu  = xml_col.columns([2,2,4])
-    ondu.write("## Configure Slides")
+    ondu.write("### Configure ")
 
     chapter_name = ondu.text_input("enter chapter name")
     NoOfBullets = ondu.text_input("No. of Bullets per Sub Topic")
@@ -490,7 +490,7 @@ try:
     NoOfWordsForVOPerBullet = ondu.text_input("No. of words for Voice Over per Bullet")
     save_xml = ondu.button("Save XML")
     
-    naduvan.write("## Compare Document")
+    naduvan.write("### Compare ")
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
@@ -504,7 +504,7 @@ try:
         naduvan.warning("No images found in the 'pages' folder.")
 
 
-    rendu.write("## Select Images")
+    rendu.write("### Select Images")
 
     left, right = rendu.columns([2,1])
     image_topic = left.selectbox("Select a topic", list(st.session_state.sfword.keys()))
