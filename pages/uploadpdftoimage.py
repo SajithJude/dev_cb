@@ -35,16 +35,16 @@ if uploaded_file is not None:
             page_image = page.get_pixmap()
             page_image.save(f"pages/page_{page_index}.png")
 
-            image_list = page.get_images(full=True)
-            for image_index, img in enumerate(page.get_images(), start=1):
+            # image_list = page.get_images(full=True)
+            # for image_index, img in enumerate(page.get_images(), start=1):
 
-                xref = img[0]
-                base_image = doc.extract_image(xref)
-                image_bytes = base_image["image"]
-                image_ext = base_image["ext"]
-                image = Image.open(io.BytesIO(image_bytes))
-                image_filename = f"images/image_page{page_index}_{image_index}.{image_ext}"
-                image.save(image_filename)
+            #     xref = img[0]
+            #     base_image = doc.extract_image(xref)
+            #     image_bytes = base_image["image"]
+            #     image_ext = base_image["ext"]
+            #     image = Image.open(io.BytesIO(image_bytes))
+            #     image_filename = f"images/image_page{page_index}_{image_index}.{image_ext}"
+            #     image.save(image_filename)
 
 image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
