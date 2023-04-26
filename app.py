@@ -345,7 +345,7 @@ try:
 
 
 except (KeyError, AttributeError) as e:
-    st.info("Error Extracting Data")
+    print("Error Extracting Data")
     print(f"Error: {type(e).__name__} - {e}")
 
 
@@ -412,7 +412,7 @@ try:
         edit_col.write(st.session_state.sfword)
 
 except (KeyError, AttributeError) as e:
-    st.info("Error saving Edited content")
+    print("Error saving Edited content")
     print(f"Error: {type(e).__name__} - {e}")
 
 
@@ -430,7 +430,7 @@ try:
     NoOfWordsForVOPerBullet = ondu.text_input("No. of words for Voice Over per Bullet")
 
     rendu.write("## Select Images")
-    image_topic = st.selectbox("Select a topic", list(st.session_state.sfword.keys()))
+    image_topic = rendu.selectbox("Select a topic", list(st.session_state.sfword.keys()))
 
 # Dropdown menu for selecting a subtopic based on the selected topic
     # image_subtopic = st.selectbox("Select a subtopic", topics[selected_topic])
@@ -470,11 +470,11 @@ try:
         with xml_col.expander("XML content"):
             xml_col.code(pretty_xml)
 
-        st.session_state.table_of_contents = {}
-        st.session_state.selected_items = []
-        st.session_state.new_dict = {}
-        st.session_state.index = ""
-        st.session_state.sfword = {}
+        # st.session_state.table_of_contents = {}
+        # st.session_state.selected_items = []
+        # st.session_state.new_dict = {}
+        # st.session_state.index = ""
+        # st.session_state.sfword = {}
  
                 
 except (KeyError, AttributeError) as e:
