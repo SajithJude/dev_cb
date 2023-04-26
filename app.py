@@ -422,6 +422,11 @@ try:
     NoOfWordsForVOPerBullet = ondu.text_input("No. of words for Voice Over per Bullet")
 
     rendu.write("## Select Images")
+    image_topic = st.selectbox("Select a topic", list(st.session_state.sfword.keys()))
+
+# Dropdown menu for selecting a subtopic based on the selected topic
+    # image_subtopic = st.selectbox("Select a subtopic", topics[selected_topic])
+
     image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
     selected_images = []
     # for image in image_files:
