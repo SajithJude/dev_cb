@@ -421,6 +421,7 @@ try:
     NoOfWordsPerBullet = ondu.text_input("No. of words per Bullet")
     NoOfWordsForVOPerBullet = ondu.text_input("No. of words for Voice Over per Bullet")
 
+    rendu.write("## Select Images")
     image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
     selected_images = []
     # for image in image_files:
@@ -428,7 +429,8 @@ try:
     n_pages = 20
 
     image_exts = ["png", "jpg", "jpeg", "tiff", "bmp", "gif"]
-    page_index = rendu.slider("Select page number", 1, n_pages)
+    page_index = rendu.number_input("Enter page number", min_value=1, max_value=n_pages, value=1)
+
 
     with rendu.expander(f"Page {page_index}", expanded=True):
         image_files = [f for ext in image_exts for f in glob.glob(f"images/image_page{page_index}_*.{ext}")]
