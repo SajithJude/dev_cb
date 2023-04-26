@@ -101,8 +101,8 @@ expander = col1.expander("Select images")
 
 
 n_pages = 20
-image_exts = ["png", "jpg", "jpeg", "tiff", "bmp", "gif"]
-page_index = col3.slider("Select page number", 1, n_pages)
+# image_exts = ["png", "jpg", "jpeg", "tiff", "bmp", "gif"]
+# page_index = col3.slider("Select page number", 1, n_pages)
 
 image_exts = ["png", "jpg", "jpeg", "tiff", "bmp", "gif"]
 page_index = col3.slider("Select page number", 1, n_pages)
