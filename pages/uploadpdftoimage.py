@@ -60,7 +60,7 @@ if pages_files:
     min_page = min(int(f.split("-")[1].split(".")[0]) for f in pages_files)
     max_page = max(int(f.split("-")[1].split(".")[0]) for f in pages_files)
 
-    selected_page = st.number_input("Enter a page number to display:", min_value=min_page, max_value=max_page, value=min_page)
+    selected_page = st.number_input("Enter a page number to display:",step=1)
 
     selected_image = f"page-{selected_page}.png"
 
