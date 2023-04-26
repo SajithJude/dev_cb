@@ -6,4 +6,4 @@ PyPDF2
 pyperclip
 PyMuPDF 
 Pillow
-streamlit-on-Hover-tabs
+st_on_hover_tabs
