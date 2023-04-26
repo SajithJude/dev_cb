@@ -192,6 +192,9 @@ if uploaded_file is not None:
 
         # display PDF file
         with fitz.open(uploaded_file.name) as doc:
+            for page in doc:  # iterate through the pages
+                pix = page.get_pixmap()  # render page to an image
+                pix.save("pages/page-%i.png" % page.number) 
             for page_index in range(len(doc)):
                 page = doc[page_index]
                 image_list = page.get_images(full=True)

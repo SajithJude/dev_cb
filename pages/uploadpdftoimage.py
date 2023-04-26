@@ -5,6 +5,8 @@ from PIL import Image
 import os
 import sys 
 
+
+
 def clear_images_folder():
     for file in os.listdir("images"):
         if file.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
@@ -31,7 +33,7 @@ if uploaded_file is not None:
     with fitz.open(uploaded_file.name) as doc:
         for page in doc:  # iterate through the pages
             pix = page.get_pixmap()  # render page to an image
-            pix.save("page-%i.png" % page.number) 
+            pix.save("pages/page-%i.png" % page.number) 
         for page_index in range(len(doc)):
             page = doc[page_index]
 
@@ -61,8 +63,10 @@ if selected_image:
     st.image(os.path.join("images", selected_image))
 
 
-sel_page = st.selectbox("Choose an image to display:", image_files)
+all_image_files = find_images()
 
-# Display the selected image
-if sel_page:
-    st.image(os.path.join("images", sel_page))
+# Create a dropdown menu to select an image
+selected_image = st.selectbox("Choose an image to display:", all_image_files)
+if selected_image:
+
+  st.image(selected_image)
