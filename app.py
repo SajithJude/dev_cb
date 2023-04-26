@@ -371,10 +371,10 @@ try:
     # def update_json(topic_data):
        
     with open("newdict.json", "r") as f:
-        sfword = json.load(f)
+        st.session_state.new_dict = json.load(f)
 
         
-    for topic_key, topic_value in sfword.items():
+    for topic_key, topic_value in st.session_state.new_dict.items():
         expander = ecol.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
