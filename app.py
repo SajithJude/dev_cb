@@ -435,7 +435,7 @@ try:
     image_topic = rendu.selectbox("Select a topic", list(st.session_state.sfword.keys()))
 
 # Dropdown menu for selecting a subtopic based on the selected topic
-    # image_subtopic = st.selectbox("Select a subtopic",list(st.session_state.sfword.keys()[image_topic]))
+    image_subtopic = st.selectbox("Select a subtopic",list(st.session_state.sfword[image_topic].keys()))
 
     image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
     selected_images = []
