@@ -481,7 +481,7 @@ except (KeyError, AttributeError) as e:
 
 try:
     # with 
-    ondu, naduvan, rendu  = xml_col.columns(3)
+    ondu, naduvan, rendu  = xml_col.columns([2,3,4])
     ondu.write("## Configure Slides")
 
     chapter_name = ondu.text_input("enter chapter name")
@@ -490,7 +490,7 @@ try:
     NoOfWordsForVOPerBullet = ondu.text_input("No. of words for Voice Over per Bullet")
     save_xml = ondu.button("Save XML")
     
-    naduvan.write("## Compare with Document")
+    naduvan.write("## Compare Document")
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
@@ -505,12 +505,14 @@ try:
 
 
     rendu.write("## Select Images")
-    image_topic = rendu.selectbox("Select a topic", list(st.session_state.sfword.keys()))
-    add_to_topic = rendu.button("Add to Topic")
+
+    left, right = rendu.columns([3,1])
+    image_topic = left.selectbox("Select a topic", list(st.session_state.sfword.keys()))
+    add_to_topic = right.button("Add Image to Topic")
 
 # Dropdown menu for selecting a subtopic based on the selected topic
-    image_subtopic = rendu.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.sfword[image_topic]["Subtopics"]])
-    add_to_subtopic = rendu.button("Add to Subtopic")
+    image_subtopic = left.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.sfword[image_topic]["Subtopics"]])
+    add_to_subtopic = right.button("Add image to Subtopic")
 
     image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
     selected_images = []
