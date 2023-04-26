@@ -53,20 +53,19 @@ if uploaded_file is not None:
             #     image.save(image_filename)
 
 image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+# pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
-# Create a dropdown menu to select an image
-selected_image = st.selectbox("Choose an page to display:", pages_files)
+if pages_files:
+    min_page = min(int(f.split("-")[1].split(".")[0]) for f in pages_files)
+    max_page = max(int(f.split("-")[1].split(".")[0]) for f in pages_files)
 
-# Display the selected image
-if selected_image:
-    st.image(os.path.join("pages", selected_image))
+    selected_page = st.number_input("Enter a page number to display:", min_value=min_page, max_value=max_page, value=min_page)
 
+    selected_image = f"page-{selected_page}.png"
 
-all_image_files = find_images()
-
-# Create a dropdown menu to select an image
-selected_image = st.selectbox("Choose an image to display:", all_image_files)
-if selected_image:
-
-  st.image(selected_image)
+    # Display the selected image
+    if selected_image:
+        st.image(os.path.join("pages", selected_image))
+else:
+    st.warning("No images found in the 'pages' folder.")
