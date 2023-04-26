@@ -101,11 +101,14 @@ expander = col1.expander("Select images")
 
 
 n_pages = 20
-image_ext = "png"
+image_exts = ["png", "jpg", "jpeg", "tiff", "bmp", "gif"]
 page_index = col3.slider("Select page number", 1, n_pages)
 
-with col3.expander(f"Page {page_index}",expanded=True):
-    image_files = glob.glob(f"images/image_page{page_index}_*.{image_ext}")
+image_exts = ["png", "jpg", "jpeg", "tiff", "bmp", "gif"]
+page_index = col3.slider("Select page number", 1, n_pages)
+
+with col3.expander(f"Page {page_index}", expanded=True):
+    image_files = [f for ext in image_exts for f in glob.glob(f"images/image_page{page_index}_*.{ext}")]
     if image_files:
         for image_filename in image_files:
             if os.path.isfile(image_filename):
