@@ -103,6 +103,12 @@ def json_to_xml(json_data, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBu
         topic_name_element = SubElement(topic, 'TopicName')
         topic_name_element.text = topic_name
 
+        # Add img tag for the topic if it exists
+        if "img" in topic_info:
+            for img_path in topic_info["img"]:
+                img_element = SubElement(topic, 'img')
+                img_element.text = img_path
+
         subtopics = SubElement(topic, 'SubTopics')
         for subtopic_info in topic_info['Subtopics']:
             subtopic = SubElement(subtopics, 'SubTopic')
@@ -112,6 +118,12 @@ def json_to_xml(json_data, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBu
 
             subtopic_content = SubElement(subtopic, 'SubTopicContent')
             subtopic_content.text = subtopic_info['content']
+
+            # Add img tag for the subtopic if it exists
+            if "img" in subtopic_info:
+                for img_path in subtopic_info["img"]:
+                    img_element = SubElement(subtopic, 'img')
+                    img_element.text = img_path
 
     return tostring(chapter).decode()
 
@@ -433,9 +445,11 @@ try:
 
     rendu.write("## Select Images")
     image_topic = rendu.selectbox("Select a topic", list(st.session_state.sfword.keys()))
+    add_to_topic = rendu.button("Add to Topic")
 
 # Dropdown menu for selecting a subtopic based on the selected topic
     image_subtopic = rendu.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.sfword[image_topic]["Subtopics"]])
+    add_to_subtopic = rendu.button("Add to Subtopic")
 
     image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
     selected_images = []
@@ -461,8 +475,6 @@ try:
             st.warning("No images found for this page.")
     
     selected_image = file_path
-    add_to_topic = rendu.button("Add to Topic")
-    add_to_subtopic = rendu.button("Add to Subtopic")
 
     if add_to_topic:
         if "img" not in st.session_state.sfword[image_topic]:
@@ -480,7 +492,7 @@ try:
                 break
     save_xml = ondu.button("Save XML")
     if save_xml:
-        xml_col.write(st.session_state.sfword)
+        # xml_col.write(st.session_state.sfword)
         xml_output = json_to_xml(st.session_state.sfword, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
 
