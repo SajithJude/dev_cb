@@ -346,8 +346,9 @@ try:
             subtopics_dict['content'] = topicres.response
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
+
+        with open("newdict.json", "w") as f:
             
-         with open("newdict.json", "w") as f:
             json.dump(st.session_state.new_dict, f,indent=2)
 
     if 'extracted_data' not in st.session_state:
