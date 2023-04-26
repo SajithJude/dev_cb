@@ -490,9 +490,9 @@ try:
                 subtopic["img"].append(selected_image)
                 rendu.success(f"Image {selected_image} added to subtopic {image_subtopic}")
                 break
+                
     save_xml = ondu.button("Save XML")
     if save_xml:
-        # xml_col.write(st.session_state.sfword)
         xml_output = json_to_xml(st.session_state.sfword, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
 
@@ -501,6 +501,12 @@ try:
 
         with open("db.json", "w") as f:
             json.dump(db, f)
+
+        # Save pretty_xml as an XML file in the "images" directory
+        xml_file_path = os.path.join("images", f"{chapter_name}.xml")
+        with open(xml_file_path, "w") as xml_file:
+            xml_file.write(pretty_xml)
+        rendu.success(f"XML file saved as {xml_file_path}")
 
         with xml_col.expander("XML content"):
             xml_col.code(pretty_xml)
