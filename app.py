@@ -429,7 +429,7 @@ try:
     n_pages = 20
 
     image_exts = ['.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif']
-    page_index = col3.number_input("Enter page number", min_value=1, max_value=n_pages, value=1)
+    page_index = rendu.number_input("Enter page number", min_value=1, max_value=n_pages, value=1)
 
     with rendu.expander(f"Page {page_index}", expanded=True):
         image_files = [f for f in os.listdir("images") if f.startswith(f'image_page{page_index}_') and f.endswith(tuple(image_exts))]
