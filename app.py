@@ -506,6 +506,8 @@ try:
 
     rendu.write("### Select Images")
     rendu.write("")
+    rendu.write("")
+
     left, right = rendu.columns([2,1])
     image_topic = left.selectbox("Select a topic", list(st.session_state.sfword.keys()),label_visibility="collapsed")
     add_to_topic = right.button("Add Image to Topic")
