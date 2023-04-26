@@ -22,12 +22,12 @@ st.set_page_config(page_title=None, page_icon=None, layout="wide", initial_sideb
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
-st.set_page_config(
-    page_title="coursebot",
-    page_icon=":books:",
-    layout="wide",  # Set the layout to 'wide'
-    initial_sidebar_state="collapsed",
-)
+# st.set_page_config(
+#     page_title="coursebot",
+#     page_icon=":books:",
+#     layout="wide",  # Set the layout to 'wide'
+#     initial_sidebar_state="collapsed",
+# )
 
 st.title("CourseBot")
 st.caption("AI-powered course creation made easy")
