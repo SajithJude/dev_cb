@@ -3,6 +3,7 @@ import io
 import fitz
 from PIL import Image
 import os
+import sys 
 
 def clear_images_folder():
     for file in os.listdir("images"):
@@ -28,6 +29,9 @@ if uploaded_file is not None:
 
     # Display PDF file
     with fitz.open(uploaded_file.name) as doc:
+        for page in doc:  # iterate through the pages
+            pix = page.get_pixmap()  # render page to an image
+            pix.save("page-%i.png" % page.number) 
         for page_index in range(len(doc)):
             page = doc[page_index]
 
