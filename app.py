@@ -20,6 +20,7 @@ from pathlib import Path
 from llama_index import download_loader
 from xml.etree.ElementTree import Element, SubElement, tostring
 import requests
+import zipfile
 
 
 from langchain import OpenAI
