@@ -57,8 +57,8 @@ image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.
 pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
 if pages_files:
-    min_page = min(int(f.split("-")[1].split(".")[0]) for f in pages_files)
-    max_page = max(int(f.split("-")[1].split(".")[0]) for f in pages_files)
+    # min_page = min(int(f.split("-")[1].split(".")[0]) for f in pages_files)
+    # max_page = max(int(f.split("-")[1].split(".")[0]) for f in pages_files)
 
     selected_page = st.number_input("Enter a page number to display:",step=1)
 
