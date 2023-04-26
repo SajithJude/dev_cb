@@ -361,7 +361,7 @@ try:
                 expander.markdown(f"**{subtopic['Subtopic']}**")
                 expander.write(subtopic["content"])
 
-except (KeyError, AttributeError) as e:
+except (KeyError, AttributeError,FileNotFoundError) as e:
     st.info("Error missing Data")
     print(f"Error: {type(e).__name__} - {e}")
 
