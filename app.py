@@ -490,7 +490,7 @@ try:
     NoOfWordsForVOPerBullet = ondu.text_input("No. of words for Voice Over per Bullet")
     save_xml = ondu.button("Save XML")
     
-    rendu.write("## Compare with Document")
+    naduvan.write("## Compare with Document")
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
