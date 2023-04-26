@@ -362,7 +362,7 @@ try:
                 expander.write(subtopic["content"])
 
 except (KeyError, AttributeError,FileNotFoundError) as e:
-    st.info("Error missing Data")
+    print("Error missing Data")
     print(f"Error: {type(e).__name__} - {e}")
 
 
