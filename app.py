@@ -450,6 +450,9 @@ try:
 
     # if "new_dict" not in st.session_state:
     #     st.session_state.new_dict = new_dict
+
+    with open("newdict.json", "r") as f:
+        st.session_state.sfword = json.load(f)
         
     for topic, subtopics_dict in st.session_state.sfword.items():
         content = subtopics_dict['content']
