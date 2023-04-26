@@ -549,7 +549,7 @@ try:
         # st.session_state.sfword = {}
  
                 
-except (KeyError, AttributeError) as e:
+except (KeyError,NameError, AttributeError) as e:
     print("Error saving XML")
     print(f"Error: {type(e).__name__} - {e}")
 
