@@ -427,23 +427,21 @@ try:
     # for image in image_files:
     expander = rendu.expander("Select images")
     n_pages = 20
+    
+    image_exts = ['.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif']
+    page_index = col3.number_input("Enter page number", min_value=1, max_value=n_pages, value=1)
 
-    image_exts = ["png", "jpg", "jpeg", "tiff", "bmp", "gif"]
-    page_index = rendu.number_input("Enter page number", min_value=1, max_value=n_pages, value=1)
-
-
-    with rendu.expander(f"Page {page_index}", expanded=True):
-        image_files = [f for ext in image_exts for f in glob.glob(f"images/image_page{page_index}_*.{ext}")]
+    with col3.expander(f"Page {page_index}", expanded=True):
+        image_files = [f for f in os.listdir("images") if f.startswith(f'image_page{page_index}_') and f.endswith(tuple(image_exts))]
         if image_files:
             for image_filename in image_files:
-                if os.path.isfile(image_filename):
-                    st.image(image_filename, caption=os.path.basename(image_filename))
+                file_path = os.path.join("images", image_filename)
+                if os.path.isfile(file_path):
+                    st.image(file_path, caption=os.path.basename(file_path))
                 else:
-                    xml_col.warning(f"Image not found: {os.path.basename(image_filename)}")
+                    st.warning(f"Image not found: {os.path.basename(file_path)}")
         else:
-            xml_col.warning("No images found for this page.")
-
-
+            st.warning("No images found for this page.")
 
     save_xml = ondu.button("Save XML")
     if save_xml:
