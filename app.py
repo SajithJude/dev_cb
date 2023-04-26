@@ -429,7 +429,7 @@ try:
         
         with open("newdict.json", "w") as f:
             json.dump(st.session_state.sfword, f,indent=2)
-            
+
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
     if pages_files:
@@ -481,13 +481,14 @@ except (KeyError, AttributeError) as e:
 
 try:
     # with 
-    ondu, rendu = xml_col.columns(2)
+    ondu, naduvan, rendu  = xml_col.columns(3)
     ondu.write("## Configure Slides")
 
     chapter_name = ondu.text_input("enter chapter name")
     NoOfBullets = ondu.text_input("No. of Bullets per Sub Topic")
     NoOfWordsPerBullet = ondu.text_input("No. of words per Bullet")
     NoOfWordsForVOPerBullet = ondu.text_input("No. of words for Voice Over per Bullet")
+
 
     rendu.write("## Select Images")
     image_topic = rendu.selectbox("Select a topic", list(st.session_state.sfword.keys()))
@@ -536,6 +537,18 @@ try:
                 subtopic["img"].append(selected_image)
                 rendu.success(f"Image {selected_image} added to subtopic {image_subtopic}")
                 break
+
+    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+
+    if pages_files:
+        selected_page = page_index
+        selected_image = f"page-{selected_page}.png"
+        # Display the selected image
+        if selected_image:
+            naduvan.image(os.path.join("pages", selected_image), use_column_width=True)
+    else:
+        naduvan.warning("No images found in the 'pages' folder.")
+
 
     save_xml = ondu.button("Save XML")
     if save_xml:
