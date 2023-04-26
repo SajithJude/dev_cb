@@ -129,5 +129,5 @@ all_image_files = find_images()
 # Create a dropdown menu to select an image
 selected_image = st.selectbox("Choose an image to display:", all_image_files)
 if selected_image:
-  
-  st.image(os.path.join("images", sel_page))
+
+  st.image(selected_image)
