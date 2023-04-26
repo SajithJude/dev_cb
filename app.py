@@ -481,7 +481,7 @@ except (KeyError, AttributeError) as e:
 
 try:
     # with 
-    ondu, naduvan, rendu  = xml_col.columns([2,3,4])
+    ondu, naduvan, rendu  = xml_col.columns([1,3,5])
     ondu.write("## Configure Slides")
 
     chapter_name = ondu.text_input("enter chapter name")
@@ -506,7 +506,7 @@ try:
 
     rendu.write("## Select Images")
 
-    left, right = rendu.columns([3,1])
+    left, right = rendu.columns([2,1])
     image_topic = left.selectbox("Select a topic", list(st.session_state.sfword.keys()))
     add_to_topic = right.button("Add Image to Topic")
 
