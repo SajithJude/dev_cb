@@ -426,7 +426,10 @@ try:
             for subtopic in topic_value["Subtopics"]:
                 expander.markdown(f"**{subtopic['Subtopic']}**")
                 expander.write(subtopic["content"])
-
+        
+        with open("newdict.json", "w") as f:
+            json.dump(st.session_state.sfword, f,indent=2)
+            
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
     if pages_files:
