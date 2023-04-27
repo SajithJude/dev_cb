@@ -510,7 +510,7 @@ try:
     ondu.write("")
     ondu.write("")
 
-    left, right = ondu.columns([2,1])
+    left, right = ondu.columns(2)
     image_topic = left.selectbox("Select a topic", list(st.session_state.sfword.keys()),label_visibility="collapsed")
     add_to_topic = right.button("Add Image to Topic")
 
