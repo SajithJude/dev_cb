@@ -423,8 +423,8 @@ try:
     with open("newdict5.json", "w") as f:
         json.dump(st.session_state.new_dict, f,indent=2)
     with open("newdict5.json", "r") as f:
-            extracted = json.load(f)
-            st.session_state.new_dict = extracted
+        extracted = json.load(f)
+        st.session_state.new_dict = extracted
     amiscol, bmiscol = miss_col.columns([2,5],gap="large")
 
     topic_names = [key for key, value in st.session_state.new_dict.items()]
