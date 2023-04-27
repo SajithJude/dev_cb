@@ -476,7 +476,6 @@ except (KeyError,FileNotFoundError, AttributeError) as e:
 
 
 try:
-
     # with 
     ondu, naduvan, rendu   = xml_col.columns([4,3,4],gap="large")
 
@@ -485,14 +484,12 @@ try:
     ondu.write("")
 
     left, right = ondu.columns(2)
-    with left:
-        image_topic = xml_col.selectbox("Select a topic", list(st.session_state.new_dict.keys()),label_visibility="collapsed")
-        image_subtopic = xml_col.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.new_dict[image_topic]["Subtopics"]],label_visibility="collapsed")
-    
-    with right:
-        add_to_topic = right.button("Add Image to Topic")
+    image_topic = left.selectbox("Select a topic", list(st.session_state.new_dict.keys()),label_visibility="collapsed")
+    add_to_topic = right.button("Add Image to Topic")
+
 # Dropdown menu for selecting a subtopic based on the selected topic
-        add_to_subtopic = right.button("Add image to Subtopic")
+    image_subtopic = left.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.new_dict[image_topic]["Subtopics"]],label_visibility="collapsed")
+    add_to_subtopic = right.button("Add image to Subtopic")
 
     image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
     selected_images = []
@@ -587,7 +584,7 @@ try:
         # st.session_state.selected_items = []
         # st.session_state.new_dict = {}
         # st.session_state.index = ""
-        # st.session_state.sfword = {}
+        # st.session_state.new_dict = {}
  
                 
 except (KeyError,NameError, AttributeError) as e:
