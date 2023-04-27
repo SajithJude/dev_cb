@@ -460,12 +460,12 @@ try:
                 expander.markdown(f"**{subtopic['Subtopic']}**")
                 expander.write(subtopic["content"])
         
-        with open("extracted.json", "w") as f:
-            json.dump(extracted, f,indent=2)
+    #     with open("extracted.json", "w") as f:
+    #         json.dump(extracted, f,indent=2)
 
-    with open("extracted.json", "r") as f:
-        extracted = json.load(f)
-        st.session_state.new_dict = extracted
+    # with open("extracted.json", "r") as f:
+    #     extracted = json.load(f)
+    #     st.session_state.new_dict = extracted
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
