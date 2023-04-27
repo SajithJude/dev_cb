@@ -386,12 +386,12 @@ try:
         extracted = json.load(f)
         st.write(extracted)
         #st.session_state.new_dict = extracted
-        for topic_key, topic_value in st.session_state.new_dict.items():
-            expander = ecol.expander(f"{topic_key}")
-            expander.write(topic_value["content"])
-            for subtopic in topic_value["Subtopics"]:
-                expander.markdown(f"**{subtopic['Subtopic']}**")
-                expander.write(subtopic["content"])
+    for topic_key, topic_value in st.session_state.new_dict.items():
+        expander = ecol.expander(f"{topic_key}")
+        expander.write(topic_value["content"])
+        for subtopic in topic_value["Subtopics"]:
+            expander.markdown(f"**{subtopic['Subtopic']}**")
+            expander.write(subtopic["content"])
                     
         
     
