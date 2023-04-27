@@ -377,10 +377,12 @@ try:
     quer = ecol.button("Extract Contents")
 
     if quer:
-        progress_bar = ecol.progress(0)
         with open("newdict.json", "r") as f:
             extracted = json.load(f)
             st.session_state.new_dict = extracted
+        progress_bar = ecol.progress(0)
+        
+        
         total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in extracted.items()) + len(extracted)
         items_processed = 0
         for topic, subtopics_dict in extracted.items():
