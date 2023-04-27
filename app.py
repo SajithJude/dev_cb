@@ -346,6 +346,21 @@ except (KeyError, AttributeError) as e:
 
 try:
     pagecol, ecol = extract_col.columns([2,5],gap="large")
+
+    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+
+    selected_page = pagecol.number_input("Change page number to compare:",step=1)
+    selected_image = f"page-{selected_page}.png"
+    # Display the selected image
+    if selected_image:
+            pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
+    else:
+        pagecol.warning("No images found in the 'pages' folder.")
+
+    
+
+
+
     quer = ecol.button("Extract Contents")
 
     
@@ -371,21 +386,10 @@ try:
 
         # st.write(extracted)
 
-    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
-
-    if pages_files:
-        selected_page = pagecol.number_input("Change page number to compare:",step=1)
-        selected_image = f"page-{selected_page}.png"
-        # Display the selected image
-        if selected_image:
-            pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
-    else:
-        pagecol.warning("No images found in the 'pages' folder.")
-
     
 
         
-    for topic_key, topic_value in pagecol.session_state.items():
+    for topic_key, topic_value in st.session_state.new_dict.items():
         expander = ecol.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
@@ -394,9 +398,6 @@ try:
     # if st.button("save and next"):
     #     with open("new.json", "w") as f:
     #         # json.dump(extracted, f,indent=2) 
-    with  open("new.json", "r") as f:
-        new = json.load(f)
-        ecol.session_state.new_dict = new
 
 except (KeyError, FileNotFoundError,AttributeError) as e:
     print("Error Extracting Data")
@@ -407,12 +408,6 @@ except (KeyError, FileNotFoundError,AttributeError) as e:
 
 
 try:
-
-    with open("newdict5.json", "w") as f:
-        json.dump(st.session_state.new_dict, f,indent=2)
-    with open("newdict5.json", "r") as f:
-        extracted = json.load(f)
-        st.session_state.new_dict = extracted
     amiscol, bmiscol = miss_col.columns([2,5],gap="large")
 
     topic_names = [key for key, value in st.session_state.new_dict.items()]
