@@ -382,8 +382,10 @@ try:
             json.dump(st.session_state.new_dict, f,indent=2)
 
         with open("newdict.json", "r") as f:
-            st.session_state.new_dict = json.load(f)
-            st.write(st.session_state.new_dict)
+            with open("newdict.json", "r") as f:
+            extracted = json.load(f)
+            st.session_state.new_dict = extracted
+            st.write(extracted)
 
 
     # if 'extracted_data' not in st.session_state:
