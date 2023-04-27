@@ -389,7 +389,7 @@ try:
             for subtopic in topic_value["Subtopics"]:
                 expander.markdown(f"**{subtopic['Subtopic']}**")
                 expander.write(subtopic["content"])
-    
+                
     if "extracted" not in st.session_state:
         st.session_state.extracted = st.session_state.new_dict
         query = False
@@ -407,7 +407,7 @@ except (KeyError, FileNotFoundError,AttributeError) as e:
 try:
     amiscol, bmiscol = miss_col.columns([2,5],gap="large")
 
-    topic_names = [key for key, value in st.session_state.new_dict.items()]
+    topic_names = [key for key, value in st.session_state.extracted.items()]
     
     new_query = bmiscol.text_input("Name of the missing Subtopic")
     topic_belong = bmiscol.selectbox("Select the belonging topic",topic_names)
@@ -435,6 +435,7 @@ try:
     
     if "missing" not in st.session_state:
         st.session_state.missing = st.session_state.new_dict
+        query_again = False
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
