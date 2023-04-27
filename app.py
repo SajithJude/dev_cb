@@ -389,6 +389,8 @@ try:
             for subtopic in topic_value["Subtopics"]:
                 expander.markdown(f"**{subtopic['Subtopic']}**")
                 expander.write(subtopic["content"])
+    st.stop()
+    
         
 
 except (KeyError, FileNotFoundError,AttributeError) as e:
@@ -427,7 +429,7 @@ try:
 
                 expander.markdown(f"**{subtopic['Subtopic']}**")
                 expander.write(subtopic["content"])
-        
+    st.stop()
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
@@ -562,6 +564,7 @@ try:
 
 
     if save_xml:
+
         xml_output = json_to_xml(st.session_state.new_dict, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
 
