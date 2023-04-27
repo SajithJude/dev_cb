@@ -198,6 +198,8 @@ forma = """"{
 
 """
 if uploaded_file is not None:
+        clear_all_json_files()
+
         index = process_pdf(uploaded_file)
         if "index" not in st.session_state:
             st.session_state.index = index
@@ -205,7 +207,6 @@ if uploaded_file is not None:
         upload_col.success("Index created successfully")
         clear_images_folder()
         clear_pages_folder()
-        clear_all_json_files()
     # read PDF file
         with open(uploaded_file.name, "wb") as f:
             f.write(uploaded_file.getbuffer())
