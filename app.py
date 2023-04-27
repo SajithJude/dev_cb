@@ -503,18 +503,17 @@ try:
     ondu.write("")
 
     with open("newdict.json", "r") as f:
-        savedit = json.load(f)
-        if "sfowrd" not in st.session_state:
-            st.session_state.sfowrd = savedit
-        edit_col.write(st.session_state.sfowrd)
+    
+    
+        edit_col.write(st.session_state.new_dict)
 
 
     left, right = ondu.columns(2)
-    image_topic = left.selectbox("Select a topic", list(st.session_state.sfowrd.keys()),label_visibility="collapsed")
+    image_topic = left.selectbox("Select a topic", list(st.session_state.new_dict.keys()),label_visibility="collapsed")
     add_to_topic = right.button("Add Image to Topic")
 
 # Dropdown menu for selecting a subtopic based on the selected topic
-    image_subtopic = left.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.sfowrd[image_topic]["Subtopics"]],label_visibility="collapsed")
+    image_subtopic = left.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.new_dict[image_topic]["Subtopics"]],label_visibility="collapsed")
     add_to_subtopic = right.button("Add image to Subtopic")
 
     image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
