@@ -431,7 +431,10 @@ try:
     query_again = bmiscol.button("extract missing")
    
     if query_again:
-   
+    with open("newdict.json", "r") as f:
+        
+        extracted = json.load(f)
+        st.session_state.new_dict = extracted
         missing_info = index.query("extract the information about "+str(new_query))
       
         selected_topic = topic_belong
