@@ -482,12 +482,12 @@ try:
     # with 
     ondu, naduvan, rendu  = xml_col.columns([4,2,2],gap="large")
     rendu.write("### Configure ")
-
+    r1,r2 = rendu.columns([2,6])
     chapter_name = rendu.text_input("enter chapter name")
-    NoOfBullets = rendu.text_input("No. of Bullets per Sub Topic")
-    NoOfWordsPerBullet = rendu.text_input("No. of words per Bullet")
-    NoOfWordsForVOPerBullet = rendu.text_input("No. of words for Voice Over per Bullet")
-    save_xml = rendu.button("Save XML")
+    NoOfBullets = r1.text_input("No. of Bullets per Sub Topic")
+    NoOfWordsPerBullet = r1.text_input("No. of words per Bullet")
+    NoOfWordsForVOPerBullet = r1.text_input("No. of words for Voice Over per Bullet")
+    save_xml = r2.button("Save XML")
     
     naduvan.write("### Compare ")
 
