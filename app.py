@@ -321,6 +321,7 @@ except (KeyError, AttributeError) as e:
 ######################       extract content      ##########################################
 
 try:
+
    
 
     if "new_dict" not in st.session_state:
@@ -351,9 +352,9 @@ try:
     # seca, secb = extract_col.columns(2)
     if quer:
         progress_bar = ecol.progress(0)
-        total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in ecol.session_state.new_dict.items()) + len(st.session_state.new_dict)
+        total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
         items_processed = 0
-        for topic, subtopics_dict in ecol.session_state.new_dict.items():
+        for topic, subtopics_dict in st.session_state.new_dict.items():
             for subtopic_dict in subtopics_dict['Subtopics']:
                 subtopic_name = subtopic_dict['Subtopic']
                 subtopicres = index.query("extract the information about "+str(subtopic_name))
@@ -367,14 +368,7 @@ try:
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
 
-        with open("newdict.json", "w") as f:
-            json.dump(pagecol.session_state.new_dict, f,indent=2)
 
-    # if 'extracted_data' not in st.session_state:
-    #     st.session_state.extracted_data = []
-    with open("newdict.json", "r") as f:
-        extracted = json.load(f)
-        pagecol.session_state.new_dict = extracted
         # st.write(extracted)
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
