@@ -482,12 +482,14 @@ try:
 
     save = edit_col.button("Save")
     if save:
-        edit_col.write(st.session_state.new_dict)
-        with open("saveedit.json", "w") as f:
-            json.dump(st.session_state.new_dict, f,indent=2)
-        with open("saveedit.json", "r") as f:
+        # with open("saveedit.json", "w") as f:
+        #     json.dump(st.session_state.new_dict, f,indent=2)
+        with open("newdict.json", "r") as f:
             savedit = json.load(f)
-            st.session_state.new_dict = savedit    
+            st.session_state.new_dict = savedit
+            edit_col.write(st.session_state.new_dict)
+
+
 
 except (KeyError,FileNotFoundError, AttributeError) as e:
     print("Error saving Edited content")
