@@ -338,11 +338,7 @@ try:
             for item in value:
                 st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
      
-    with open("newdict.json", "w") as f:
-        json.dump(st.session_state.new_dict, f,indent=2)
-
-    with open("newdict.json", "r") as f:
-        st.session_state.new_dict = json.load(f)
+    
     # extract_col.success("TOC formated correctly")
     
 
@@ -359,8 +355,6 @@ try:
     
     # seca, secb = extract_col.columns(2)
     if quer:
-        with open("newdict.json", "r") as f:
-            st.session_state.new_dict = json.load(f)
         progress_bar = ecol.progress(0)
         total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
         items_processed = 0
@@ -381,56 +375,21 @@ try:
         with open("newdict.json", "w") as f:
             json.dump(st.session_state.new_dict, f,indent=2)
 
-        with open("newdict.json", "r") as f:
-
-            # with open("newdict.json", "r") as f:
-            extracted = json.load(f)
-            st.session_state.new_dict = extracted
-            st.write(extracted)
-
-
     # if 'extracted_data' not in st.session_state:
     #     st.session_state.extracted_data = []
-    
-    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
     with open("newdict.json", "r") as f:
-
         extracted = json.load(f)
         st.session_state.new_dict = extracted
         st.write(extracted)
 
+    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+
     if pages_files:
-        with open("newdict.json", "r") as f:
-
-            extracted = json.load(f)
-            st.session_state.new_dict = extracted
-            st.write(extracted)
         selected_page = pagecol.number_input("Change page number to compare:",step=1)
-        with open("newdict.json", "r") as f:
-            
-            extracted = json.load(f)
-            st.session_state.new_dict = extracted
-            st.write(extracted)
-
         selected_image = f"page-{selected_page}.png"
-        with open("newdict.json", "r") as f:
-            extracted = json.load(f)
-            st.session_state.new_dict = extracted
-            st.write(extracted)
-
-        
         # Display the selected image
         if selected_image:
             pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
-            with open("newdict.json", "r") as f:
-
-                extracted = json.load(f)
-                st.session_state.new_dict = extracted
-                st.write(extracted)
-        with open("newdict.json", "r") as f:
-            extracted = json.load(f)
-            st.session_state.new_dict = extracted
-            st.write(extracted)
     else:
         pagecol.warning("No images found in the 'pages' folder.")
 
@@ -443,7 +402,7 @@ try:
         st.session_state.new_dict = json.load(f)
 
         
-    for topic_key, topic_value in extracted.items():
+    for topic_key, topic_value in st.session_state.new_dict.items():
         expander = ecol.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
@@ -658,11 +617,11 @@ try:
             zipdir("images", zipf)
         rendu.success(f"Zipped folder saved as {zip_file_path}")
 
-        st.session_state.table_of_contents = {}
-        st.session_state.selected_items = []
-        st.session_state.new_dict = {}
-        st.session_state.index = ""
-        st.session_state.sfword = {}
+        # st.session_state.table_of_contents = {}
+        # st.session_state.selected_items = []
+        # st.session_state.new_dict = {}
+        # st.session_state.index = ""
+        # st.session_state.sfword = {}
  
                 
 except (KeyError,NameError, AttributeError) as e:
