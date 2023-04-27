@@ -493,12 +493,12 @@ try:
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
-    if pages_files:
-        selected_page = naduvan.number_input("Compare Images",step=1)
-        selected_image = f"page-{selected_page}.png"
-        # Display the selected image
-        if selected_image:
-            naduvan.image(os.path.join("pages", selected_image), use_column_width=True)
+    # if pages_files:
+    selected_page = naduvan.number_input("Compare Images",step=1)
+    selected_image = f"page-{selected_page}.png"
+    # Display the selected image
+    if selected_image:
+        naduvan.image(os.path.join("pages", selected_image), use_column_width=True)
     else:
         naduvan.warning("No images found in the 'pages' folder.")
 
