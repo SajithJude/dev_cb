@@ -413,7 +413,7 @@ try:
     
     new_query = bmiscol.text_input("Name of the missing Subtopic")
     topic_belong = bmiscol.selectbox("Select the belonging topic",topic_names)
-    query_again = bmiscol.checkbox("extract missing")
+    query_again = bmiscol.button("extract missing")
     
     if query_again:
         
