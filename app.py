@@ -338,9 +338,6 @@ try:
             for item in value:
                 st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
      
-    with open("newdict.json", "r") as f:
-        extracted = json.load(f)
-        st.session_state.new_dict = extracted
     
     # extract_col.success("TOC formated correctly")
     
@@ -353,43 +350,15 @@ except (KeyError, AttributeError) as e:
 
 try:
     pagecol, ecol = extract_col.columns([2,5],gap="large")
-    
-    
-        # st.write(extracted)
+    quer = ecol.button("Extract Contents")
 
-    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
-
-    if pages_files:
-        selected_page = pagecol.number_input("Change page number to compare:",step=1)
-        selected_image = f"page-{selected_page}.png"
-        # Display the selected image
-        if selected_image:
-            pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
-    else:
-        pagecol.warning("No images found in the 'pages' folder.")
-
-
-    # with open("newdict.json", "r") as f:
-    #     extracted = json.load(f)
-    #     st.session_state.new_dict = extracted
     
     # seca, secb = extract_col.columns(2)
-
-    # with open("newdict.json", "r") as f:
-
-    #     extracted = json.load(f)
-    #     st.session_state.new_dict = extracted
-
-    quer = ecol.button("Extract Contents")
-    
-
     if quer:
-        
         progress_bar = ecol.progress(0)
-        
-        total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in extracted.items()) + len(extracted.new_dict)
+        total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
         items_processed = 0
-        for topic, subtopics_dict in extracted.items():
+        for topic, subtopics_dict in st.session_state.new_dict.items():
             for subtopic_dict in subtopics_dict['Subtopics']:
                 subtopic_name = subtopic_dict['Subtopic']
                 subtopicres = index.query("extract the information about "+str(subtopic_name))
@@ -403,21 +372,34 @@ try:
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
 
-        with open("newdict3.json", "w") as f:
-            json.dump(extracted, f,indent=2)
+        with open("newdict.json", "w") as f:
+            json.dump(st.session_state.new_dict, f,indent=2)
 
     # if 'extracted_data' not in st.session_state:
     #     st.session_state.extracted_data = []
+    with open("newdict.json", "r") as f:
+        extracted = json.load(f)
+        st.session_state.new_dict = extracted
+        # st.write(extracted)
 
+    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+
+    if pages_files:
+        selected_page = pagecol.number_input("Change page number to compare:",step=1)
+        selected_image = f"page-{selected_page}.png"
+        # Display the selected image
+        if selected_image:
+            pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
+    else:
+        pagecol.warning("No images found in the 'pages' folder.")
 
             # updated_json = json.dumps(st.session_state.new_dict, indent=2)
    
 
     # def update_json(topic_data):
        
-    with open("newdict3.json", "r") as f:
-        extracted = json.load(f)
-        st.session_state.new_dict = extracted
+    with open("newdict.json", "r") as f:
+        st.session_state.new_dict = json.load(f)
 
         
     for topic_key, topic_value in st.session_state.new_dict.items():
