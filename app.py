@@ -455,10 +455,10 @@ try:
                 expander.markdown(f"**{subtopic['Subtopic']}**")
                 expander.write(subtopic["content"])
         
-        with open("newdict.json", "w") as f:
+        with open("extracted.json", "w") as f:
             json.dump(extracted, f,indent=2)
 
-    with open("newdict.json", "r") as f:
+    with open("extracted.json", "r") as f:
         extracted = json.load(f)
         st.session_state.new_dict = extracted
 
