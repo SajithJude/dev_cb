@@ -408,7 +408,12 @@ try:
         for subtopic in topic_value["Subtopics"]:
             expander.markdown(f"**{subtopic['Subtopic']}**")
             expander.write(subtopic["content"])
-
+    if st.button("save and next"):
+        with open("new.json", "w") as f:
+            json.dump(st.session_state.new_dict, f,indent=2) 
+        with with open("new.json", "r") as f:
+            new = json.load(f)
+            st.session_state.new_dict = new
 
 except (KeyError, FileNotFoundError,AttributeError) as e:
     print("Error Extracting Data")
