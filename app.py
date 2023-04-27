@@ -385,7 +385,7 @@ try:
         
            
         with open("newdict.json", "w") as f:
-            st.write(st.session_state.new_dict)
+            # st.write(st.session_state.new_dict)
             json.dump(st.session_state.new_dict, f,indent=2)
 
     # if ecol.button("Load"):
