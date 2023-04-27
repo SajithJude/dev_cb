@@ -411,9 +411,6 @@ try:
     if query_again:
         
         missing_info = index.query("extract the information about "+str(new_query))
-        with open("newdict5.json", "r") as f:
-            e5xtracted = json.load(f)
-            st.session_state.new_dict = e5xtracted
         selected_topic = topic_belong
         new_subtopic = new_query
         content_value = missing_info.response
