@@ -503,9 +503,9 @@ try:
         naduvan.warning("No images found in the 'pages' folder.")
 
 
-    rendu.write("### Select Images")
-    rendu.write("")
-    rendu.write("")
+    ondu.write("### Select Images")
+    ondu.write("")
+    ondu.write("")
 
     left, right = ondu.columns([2,1])
     image_topic = left.selectbox("Select a topic", list(st.session_state.sfword.keys()),label_visibility="collapsed")
