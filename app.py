@@ -375,10 +375,10 @@ try:
     
     # seca, secb = extract_col.columns(2)
 
-    with open("newdict.json", "r") as f:
+    # with open("newdict.json", "r") as f:
 
-        extracted = json.load(f)
-        st.session_state.new_dict = extracted
+    #     extracted = json.load(f)
+    #     st.session_state.new_dict = extracted
 
     quer = ecol.button("Extract Contents")
     
