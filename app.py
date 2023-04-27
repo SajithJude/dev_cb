@@ -356,9 +356,9 @@ try:
     # seca, secb = extract_col.columns(2)
     if quer:
         progress_bar = ecol.progress(0)
-        total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
+        total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in ecol.session_state.new_dict.items()) + len(st.session_state.new_dict)
         items_processed = 0
-        for topic, subtopics_dict in st.session_state.new_dict.items():
+        for topic, subtopics_dict in ecol.session_state.new_dict.items():
             for subtopic_dict in subtopics_dict['Subtopics']:
                 subtopic_name = subtopic_dict['Subtopic']
                 subtopicres = index.query("extract the information about "+str(subtopic_name))
@@ -373,13 +373,13 @@ try:
             progress_bar.progress(items_processed / total_items)
 
         with open("newdict.json", "w") as f:
-            json.dump(st.session_state.new_dict, f,indent=2)
+            json.dump(ecol.session_state.new_dict, f,indent=2)
 
     # if 'extracted_data' not in st.session_state:
     #     st.session_state.extracted_data = []
     with open("newdict.json", "r") as f:
         extracted = json.load(f)
-        st.session_state.new_dict = extracted
+        ecol.session_state.new_dict = extracted
         # st.write(extracted)
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
@@ -408,13 +408,12 @@ try:
         for subtopic in topic_value["Subtopics"]:
             expander.markdown(f"**{subtopic['Subtopic']}**")
             expander.write(subtopic["content"])
-    if st.button("save and next"):
-        with open("new.json", "w") as f:
-            json.dump(extracted, f,indent=2) 
-        with  open("new.json", "r") as f:
-            
-            new = json.load(f)
-            st.session_state.new_dict = new
+    # if st.button("save and next"):
+    #     with open("new.json", "w") as f:
+    #         # json.dump(extracted, f,indent=2) 
+    with  open("new.json", "r") as f:
+        new = json.load(f)
+        ecol.session_state.new_dict = new
 
 except (KeyError, FileNotFoundError,AttributeError) as e:
     print("Error Extracting Data")
