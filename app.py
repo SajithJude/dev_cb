@@ -525,10 +525,8 @@ try:
     page_index = ondu.number_input("Enter page number", min_value=1, max_value=n_pages, value=1)
 
     with ondu.expander(f"Page {page_index}", expanded=True):
-
         image_files = [f for f in os.listdir("images") if f.startswith(f'image_page{page_index}_') and f.endswith(tuple(image_exts))]
         # if image_files:
-            
         for image_filename in image_files:
             file_path = os.path.join("images", image_filename)
             if os.path.isfile(file_path):
@@ -541,13 +539,13 @@ try:
     selected_image = image_filename
 
     if add_to_topic:
-        if "img" not in st.session_state.sfword[image_topic]:
-            st.session_state.sfword[image_topic]["img"] = []
-        st.session_state.sfword[image_topic]["img"].append(selected_image)
+        if "img" not in st.session_state.new_dict[image_topic]:
+            st.session_state.new_dict[image_topic]["img"] = []
+        st.session_state.new_dict[image_topic]["img"].append(selected_image)
         ondu.success(f"Image {selected_image} added to topic {image_topic}")
 
     if add_to_subtopic:
-        for subtopic in st.session_state.sfword[image_topic]["Subtopics"]:
+        for subtopic in st.session_state.new_dict[image_topic]["Subtopics"]:
             if subtopic["Subtopic"] == image_subtopic:
                 if "img" not in subtopic:
                     subtopic["img"] = []
@@ -558,7 +556,7 @@ try:
 
 
     if save_xml:
-        xml_output = json_to_xml(st.session_state.sfword, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
+        xml_output = json_to_xml(st.session_state.new_dict, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
 
         xml_file_path = os.path.join("images", f"{chapter_name}.xml")
