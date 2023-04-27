@@ -391,19 +391,28 @@ try:
     
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
     with open("newdict.json", "r") as f:
-        st.session_state.new_dict = json.load(f)
-        st.write(st.session_state.new_dict)
+        extracted = json.load(f)
+        st.session_state.new_dict = extracted
+        st.write(extracted)
 
     if pages_files:
         with open("newdict.json", "r") as f:
-            st.session_state.new_dict = json.load(f)
-            st.write(st.session_state.new_dict)
+            extracted = json.load(f)
+            st.session_state.new_dict = extracted
+            st.write(extracted)
         selected_page = pagecol.number_input("Change page number to compare:",step=1)
         with open("newdict.json", "r") as f:
-            st.session_state.new_dict = json.load(f)
-            st.write(st.session_state.new_dict)
+            extracted = json.load(f)
+            st.session_state.new_dict = extracted
+            st.write(extracted)
 
         selected_image = f"page-{selected_page}.png"
+        with open("newdict.json", "r") as f:
+            extracted = json.load(f)
+            st.session_state.new_dict = extracted
+            st.write(extracted)
+
+        
         # Display the selected image
         if selected_image:
             pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
