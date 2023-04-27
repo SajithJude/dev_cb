@@ -382,9 +382,9 @@ try:
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
 
-        if "extracted" not in st.session_state:
-            st.session_state.extracted = st.session_state.new_dict
-            pass
+    if "extracted" not in st.session_state:
+        st.session_state.extracted = st.session_state.new_dict
+        pass
         #
         
     for topic_key, topic_value in st.session_state.extracted.items():
