@@ -389,7 +389,9 @@ try:
             for subtopic in topic_value["Subtopics"]:
                 expander.markdown(f"**{subtopic['Subtopic']}**")
                 expander.write(subtopic["content"])
-    st.stop()
+    
+    if "extracted" not in st.session_state:
+        st.session_state.extracted = st.session_state.new_dict
     
         
 
@@ -429,7 +431,9 @@ try:
 
                 expander.markdown(f"**{subtopic['Subtopic']}**")
                 expander.write(subtopic["content"])
-    st.stop()
+    
+    if "missing" not in st.session_state:
+        st.session_state.missing = st.session_state.new_dict
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
@@ -564,8 +568,11 @@ try:
 
 
     if save_xml:
+        if "edited" not in st.session_state:
+            st.session_state.edited = st.session_state.new_dict
+            xml_col.write(st.session_state.edited)
 
-        xml_output = json_to_xml(st.session_state.new_dict, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
+        xml_output = json_to_xml(st.session_state.edited, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
 
         xml_file_path = os.path.join("images", f"{chapter_name}.xml")
