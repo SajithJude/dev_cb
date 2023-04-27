@@ -399,7 +399,8 @@ try:
     # def update_json(topic_data):
        
     with open("newdict.json", "r") as f:
-        st.session_state.new_dict = json.load(f)
+        extracted = json.load(f)
+        st.session_state.new_dict = extracted
 
         
     for topic_key, topic_value in st.session_state.new_dict.items():
