@@ -375,7 +375,7 @@ try:
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
 
-    st.write(st.session_state['new_dict'])
+   
     for topic_key, topic_value in st.session_state.new_dict.items():
         expander = ecol.expander(f"{topic_key}")
         expander.write(topic_value["content"])
@@ -649,7 +649,7 @@ if chapter_list:
 
 
         response = requests.request("POST", url, headers=headers, data=payload)
-        st.write(response)
+        
         print(response)
         response_dict = json.loads(response.text)
 
