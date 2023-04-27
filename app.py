@@ -410,8 +410,9 @@ try:
             expander.write(subtopic["content"])
     if st.button("save and next"):
         with open("new.json", "w") as f:
-            json.dump(st.session_state.new_dict, f,indent=2) 
-        with with open("new.json", "r") as f:
+            json.dump(extracted, f,indent=2) 
+        with  open("new.json", "r") as f:
+            
             new = json.load(f)
             st.session_state.new_dict = new
 
