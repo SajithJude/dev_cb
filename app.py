@@ -383,13 +383,13 @@ try:
             progress_bar.progress(items_processed / total_items)
 
         
-    for topic_key, topic_value in st.session_state.new_dict.items():
-        expander = ecol.expander(f"{topic_key}")
-        expander.write(topic_value["content"])
-        for subtopic in topic_value["Subtopics"]:
-            expander.markdown(f"**{subtopic['Subtopic']}**")
-            expander.write(subtopic["content"])
-    
+        for topic_key, topic_value in st.session_state.new_dict.items():
+            expander = ecol.expander(f"{topic_key}")
+            expander.write(topic_value["content"])
+            for subtopic in topic_value["Subtopics"]:
+                expander.markdown(f"**{subtopic['Subtopic']}**")
+                expander.write(subtopic["content"])
+        
 
 except (KeyError, FileNotFoundError,AttributeError) as e:
     print("Error Extracting Data")
