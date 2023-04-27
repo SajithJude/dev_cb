@@ -450,7 +450,7 @@ try:
         topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
        
 
-        for topic_key, topic_value in extracted.items():
+        for topic_key, topic_value in e5xtracted.items():
             expander = bmiscol.expander(f"{topic_key}")
             expander.write(topic_value["content"])
             for subtopic in topic_value["Subtopics"]:
