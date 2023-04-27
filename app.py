@@ -382,18 +382,19 @@ try:
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
 
-        
-        for topic_key, topic_value in st.session_state.new_dict.items():
-            expander = ecol.expander(f"{topic_key}")
-            expander.write(topic_value["content"])
-            for subtopic in topic_value["Subtopics"]:
-                expander.markdown(f"**{subtopic['Subtopic']}**")
-                expander.write(subtopic["content"])
-                
-    if "extracted" not in st.session_state:
-        st.session_state.extracted = st.session_state.new_dict
-        pass
+        if "extracted" not in st.session_state:
+            st.session_state.extracted = st.session_state.new_dict
+            pass
         #
+        
+    for topic_key, topic_value in st.session_state.extracted.items():
+        expander = ecol.expander(f"{topic_key}")
+        expander.write(topic_value["content"])
+        for subtopic in topic_value["Subtopics"]:
+            expander.markdown(f"**{subtopic['Subtopic']}**")
+            expander.write(subtopic["content"])
+            
+    
     
         
 
@@ -438,6 +439,7 @@ try:
     if "missing" not in st.session_state:
         st.session_state.missing = st.session_state.new_dict
         query_again = False
+        pass
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
@@ -463,7 +465,7 @@ try:
     # if "new_dict" not in st.session_state:
  
         
-    for topic, subtopics_dict in st.session_state.new_dict.items():
+    for topic, subtopics_dict in st.session_state.missing.items():
         content = subtopics_dict['content']
         subtopics_dict['content'] = edit_col.text_area(f"Topic {topic}:", value=content)
         for subtopic_dict in subtopics_dict['Subtopics']:
@@ -473,7 +475,7 @@ try:
     pass 
 
     if edit_col.button("Save"):
-        edit_col.write(st.session_state.new_dict)
+        edit_col.write(st.session_state.missing)
 
 except (KeyError,FileNotFoundError, AttributeError) as e:
     print("Error saving Edited content")
@@ -525,13 +527,13 @@ try:
     selected_image = image_filename
 
     if add_to_topic:
-        if "img" not in st.session_state.new_dict[image_topic]:
-            st.session_state.new_dict[image_topic]["img"] = []
-        st.session_state.new_dict[image_topic]["img"].append(selected_image)
+        if "img" not in st.session_state.missing[image_topic]:
+            st.session_state.missing[image_topic]["img"] = []
+        st.session_state.missing[image_topic]["img"].append(selected_image)
         ondu.success(f"Image {selected_image} added to topic {image_topic}")
 
     if add_to_subtopic:
-        for subtopic in st.session_state.new_dict[image_topic]["Subtopics"]:
+        for subtopic in st.session_state.missing[image_topic]["Subtopics"]:
             if subtopic["Subtopic"] == image_subtopic:
                 if "img" not in subtopic:
                     subtopic["img"] = []
@@ -571,9 +573,9 @@ try:
 
 
 
-    if save_xml:
+    if chapter_name and NoOfBullets and NoOfWordsPerBullet and NoOfWordsForVOPerBullet andsave_xml:
         if "edited" not in st.session_state:
-            st.session_state.edited = st.session_state.new_dict
+            st.session_state.edited = st.session_state.missing
             xml_col.write(st.session_state.edited)
 
         xml_output = json_to_xml(st.session_state.edited, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
