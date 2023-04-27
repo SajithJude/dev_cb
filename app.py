@@ -511,7 +511,7 @@ try:
 
     with open("newdict.json", "r") as f:
         savedit = json.load(f)
-        if "sfowrd" not.in st.session_state:
+        if "sfowrd" not in st.session_state:
             st.session_state.sfowrd = savedit
         edit_col.write(st.session_state.sfowrd)
 
