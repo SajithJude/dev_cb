@@ -420,24 +420,25 @@ except (KeyError, FileNotFoundError,AttributeError) as e:
 
 try:
 
+    with open("newdict5.json", "w") as f:
+        json.dump(st.session_state.new_dict, f,indent=2)
+
     amiscol, bmiscol = miss_col.columns([2,5],gap="large")
 
     topic_names = [key for key, value in st.session_state.new_dict.items()]
-    with open("newdict.json", "r") as f:
-        extracted = json.load(f)
-        st.session_state.new_dict = extracted
+    
     new_query = bmiscol.text_input("Name of the missing Subtopic")
     topic_belong = bmiscol.selectbox("Select the belonging topic",topic_names)
     query_again = bmiscol.button("extract missing")
-   
+    with open("newdict5.json", "r") as f:
+        extracted = json.load(f)
+        st.session_state.new_dict = extracted
     if query_again:
-        with open("newdict.json", "r") as f:
-            extracted = json.load(f)
-            st.session_state.new_dict = extracted
+        
         missing_info = index.query("extract the information about "+str(new_query))
-        with open("newdict.json", "r") as f:
-            extracted = json.load(f)
-            st.session_state.new_dict = extracted
+        # with open("newdict.json", "r") as f:
+        #     extracted = json.load(f)
+        #     st.session_state.new_dict = extracted
         selected_topic = topic_belong
         new_subtopic = new_query
         content_value = missing_info.response
