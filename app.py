@@ -380,7 +380,7 @@ try:
     with open("newdict.json", "r") as f:
         extracted = json.load(f)
         st.session_state.new_dict = extracted
-        st.write(extracted)
+        # st.write(extracted)
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
