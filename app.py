@@ -382,7 +382,7 @@ try:
             json.dump(st.session_state.new_dict, f,indent=2)
 
         with open("newdict.json", "r") as f:
-            with open("newdict.json", "r") as f:
+            # with open("newdict.json", "r") as f:
             extracted = json.load(f)
             st.session_state.new_dict = extracted
             st.write(extracted)
