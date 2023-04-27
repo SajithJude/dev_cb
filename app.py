@@ -375,17 +375,7 @@ try:
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
 
-        
-           
-        with open("newdict.json", "w") as f:
-            # st.write(st.session_state.new_dict)
-            json.dump(st.session_state.new_dict, f,indent=2)
     st.write(st.session_state['new_dict'])
-    # if ecol.button("Load"):
-    with open("newdict.json", "r") as f:
-        extracted = json.load(f)
-        st.write(extracted)
-        #st.session_state.new_dict = extracted
     for topic_key, topic_value in st.session_state.new_dict.items():
         expander = ecol.expander(f"{topic_key}")
         expander.write(topic_value["content"])
@@ -477,10 +467,6 @@ try:
     # if save:
         # with open("saveedit.json", "w") as f:
         #     json.dump(st.session_state.new_dict, f,indent=2)
-    with open("newdict.json", "r") as f:
-        savedit = json.load(f)
-        st.session_state.new_dict = savedit
-        edit_col.write(st.session_state.new_dict)
 
 
 
