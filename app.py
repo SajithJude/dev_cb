@@ -477,9 +477,9 @@ except (KeyError,FileNotFoundError, AttributeError) as e:
 
 try:
     # with 
-    rendu, naduvan, ondu   = xml_col.columns([4,3,4],gap="large")
+    ondu, naduvan, rendu   = xml_col.columns([4,3,4],gap="large")
 
-        ondu.write("### Select Images")
+    ondu.write("### Select Images")
     ondu.write("")
     ondu.write("")
 
