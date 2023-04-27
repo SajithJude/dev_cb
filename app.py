@@ -307,11 +307,6 @@ try:
             for subtopic in subtopics:
                 column2.write(f"- {subtopic}")
 
-        # if st.button("save total edits"):
-        #     # st.session_state.table_of_contents = st.session_state['topic_data']
-        #     st.success("TOC Edits Saved Successfully ")
-
-
 
 
 
@@ -393,13 +388,7 @@ try:
     else:
         pagecol.warning("No images found in the 'pages' folder.")
 
-            # updated_json = json.dumps(st.session_state.new_dict, indent=2)
-   
-
-    # def update_json(topic_data):
-       
-    # with open("newdict.json", "r") as f:
-    #     st.session_state.new_dict = json.load(f)
+    
 
         
     for topic_key, topic_value in pagecol.session_state.items():
@@ -441,9 +430,6 @@ try:
     if query_again:
         
         missing_info = index.query("extract the information about "+str(new_query))
-        # with open("newdict.json", "r") as f:
-        #     extracted = json.load(f)
-        #     st.session_state.new_dict = extracted
         with open("newdict5.json", "r") as f:
             e5xtracted = json.load(f)
             st.session_state.new_dict = e5xtracted
@@ -464,12 +450,6 @@ try:
             expander.markdown(f"**{subtopic['Subtopic']}**")
             expander.write(subtopic["content"])
         
-    #     with open("extracted.json", "w") as f:
-    #         json.dump(extracted, f,indent=2)
-
-    # with open("extracted.json", "r") as f:
-    #     extracted = json.load(f)
-    #     st.session_state.new_dict = extracted
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
@@ -584,34 +564,28 @@ try:
         else:
             st.warning("No images found for this page.")
     
-    selected_image = image_filename
+selected_image = image_filename
 
-    if add_to_topic:
-        if "img" not in st.session_state.sfword[image_topic]:
-            st.session_state.sfword[image_topic]["img"] = []
-        st.session_state.sfword[image_topic]["img"].append(selected_image)
-        ondu.success(f"Image {selected_image} added to topic {image_topic}")
+if add_to_topic:
+    if "img" not in st.session_state.sfword[image_topic]:
+        st.session_state.sfword[image_topic]["img"] = []
+    st.session_state.sfword[image_topic]["img"].append(selected_image)
+    ondu.success(f"Image {selected_image} added to topic {image_topic}")
 
-    if add_to_subtopic:
-        for subtopic in st.session_state.sfword[image_topic]["Subtopics"]:
-            if subtopic["Subtopic"] == image_subtopic:
-                if "img" not in subtopic:
-                    subtopic["img"] = []
-                subtopic["img"].append(selected_image)
-                ondu.success(f"Image {selected_image} added to subtopic {image_subtopic}")
-                break
+if add_to_subtopic:
+    for subtopic in st.session_state.sfword[image_topic]["Subtopics"]:
+        if subtopic["Subtopic"] == image_subtopic:
+            if "img" not in subtopic:
+                subtopic["img"] = []
+            subtopic["img"].append(selected_image)
+            ondu.success(f"Image {selected_image} added to subtopic {image_subtopic}")
+            break
 
 
 
     if save_xml:
         xml_output = json_to_xml(st.session_state.sfword, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
-
-        # db = load_db()
-        # db[chapter_name] = pretty_xml
-
-        # with open("db.json", "w") as f:
-        #     json.dump(db, f)
 
         xml_file_path = os.path.join("images", f"{chapter_name}.xml")
         with open(xml_file_path, "w") as xml_file:
