@@ -400,7 +400,7 @@ try:
             expander.write(subtopic["content"])
 
 
-except (KeyError, AttributeError) as e:
+except (KeyError, FileNotFoundError,AttributeError) as e:
     print("Error Extracting Data")
     print(f"Error: {type(e).__name__} - {e}")
 
