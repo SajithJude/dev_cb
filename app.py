@@ -528,17 +528,6 @@ try:
                 subtopic["img"].append(selected_image)
                 ondu.success(f"Image {selected_image} added to subtopic {image_subtopic}")
                 break
-    rendu.write("### Configure ")
-    chapter_name = rendu.text_input("enter chapter name")
-    r1,r2 = rendu.columns(2)
-
-    NoOfBullets = r1.text_input("No. of Bullets per Sub Topic")
-    NoOfWordsPerBullet = r1.text_input("No. of words per Bullet")
-    NoOfWordsForVOPerBullet = r1.text_input("No. of words for Voice Over per Bullet")
-    save_xml = rendu.button("Save XML")
-    
-
-
 
     naduvan.write("### Compare ")
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
@@ -553,6 +542,21 @@ try:
         naduvan.warning("No images found in the 'pages' folder.")
 
 
+
+
+    rendu.write("### Configure ")
+    chapter_name = rendu.text_input("enter chapter name")
+    r1,r2 = rendu.columns(2)
+
+    NoOfBullets = r1.text_input("No. of Bullets per Sub Topic")
+    NoOfWordsPerBullet = r1.text_input("No. of words per Bullet")
+    NoOfWordsForVOPerBullet = r1.text_input("No. of words for Voice Over per Bullet")
+    save_xml = rendu.button("Save XML")
+    
+
+
+
+    
 
 
 
