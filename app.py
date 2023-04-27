@@ -379,7 +379,8 @@ try:
         with open("newdict.json", "w") as f:
             json.dump(st.session_state.new_dict, f,indent=2)
 
-        
+    with open("newdict.json", "r") as f:
+        st.session_state.new_dict = json.load(f)    
 
     if 'extracted_data' not in st.session_state:
         st.session_state.extracted_data = []
