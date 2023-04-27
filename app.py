@@ -36,6 +36,14 @@ PDFReader = download_loader("PDFReader")
 
 loader = PDFReader()
 
+
+if not os.path.exists("images"):
+    os.makedirs("images")
+
+# Create the "pages" folder if it doesn't exist
+if not os.path.exists("pages"):
+    os.makedirs("pages")
+
 def clear_all_json_files():
     """Clear all JSON files in all directories under the current working directory"""
     
