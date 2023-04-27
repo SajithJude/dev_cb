@@ -564,22 +564,22 @@ try:
         else:
             st.warning("No images found for this page.")
     
-selected_image = image_filename
+    selected_image = image_filename
 
-if add_to_topic:
-    if "img" not in st.session_state.sfword[image_topic]:
-        st.session_state.sfword[image_topic]["img"] = []
-    st.session_state.sfword[image_topic]["img"].append(selected_image)
-    ondu.success(f"Image {selected_image} added to topic {image_topic}")
+    if add_to_topic:
+        if "img" not in st.session_state.sfword[image_topic]:
+            st.session_state.sfword[image_topic]["img"] = []
+        st.session_state.sfword[image_topic]["img"].append(selected_image)
+        ondu.success(f"Image {selected_image} added to topic {image_topic}")
 
-if add_to_subtopic:
-    for subtopic in st.session_state.sfword[image_topic]["Subtopics"]:
-        if subtopic["Subtopic"] == image_subtopic:
-            if "img" not in subtopic:
-                subtopic["img"] = []
-            subtopic["img"].append(selected_image)
-            ondu.success(f"Image {selected_image} added to subtopic {image_subtopic}")
-            break
+    if add_to_subtopic:
+        for subtopic in st.session_state.sfword[image_topic]["Subtopics"]:
+            if subtopic["Subtopic"] == image_subtopic:
+                if "img" not in subtopic:
+                    subtopic["img"] = []
+                subtopic["img"].append(selected_image)
+                ondu.success(f"Image {selected_image} added to subtopic {image_subtopic}")
+                break
 
 
 
