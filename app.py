@@ -480,10 +480,10 @@ except (KeyError, AttributeError) as e:
 
 try:
     # with 
-    ondu, naduvan, rendu  = xml_col.columns([4,2,2],gap="large")
+    ondu, naduvan, rendu  = xml_col.columns([3,2,3],gap="large")
     rendu.write("### Configure ")
     chapter_name = rendu.text_input("enter chapter name")
-    r1,r2 = rendu.columns([1,3])
+    r1,r2 = rendu.columns(2)
 
     NoOfBullets = r1.text_input("No. of Bullets per Sub Topic")
     NoOfWordsPerBullet = r1.text_input("No. of words per Bullet")
