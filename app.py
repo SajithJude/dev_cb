@@ -392,6 +392,7 @@ try:
     
     if "extracted" not in st.session_state:
         st.session_state.extracted = st.session_state.new_dict
+        query = False
     
         
 
