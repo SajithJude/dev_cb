@@ -324,7 +324,7 @@ except (KeyError, AttributeError) as e:
 
 
 try:
-    pagecol, ecol = extract_col.columns([2,5])
+    pagecol, ecol = extract_col.columns([2,5],gap="large")
     quer = ecol.button("Extract Contents")
 
     
@@ -392,7 +392,7 @@ except (KeyError, AttributeError) as e:
 
 try:
 
-    amiscol, bmiscol = miss_col.columns([2,5])
+    amiscol, bmiscol = miss_col.columns([2,5],gap="large")
     
 
     topic_names = [key for key, value in st.session_state.new_dict.items()]
@@ -481,7 +481,7 @@ except (KeyError, AttributeError) as e:
 
 try:
     # with 
-    ondu, naduvan, rendu  = xml_col.columns([2,2,4],gap="medium")
+    ondu, naduvan, rendu  = xml_col.columns([2,2,4],gap="large")
     ondu.write("### Configure ")
 
     chapter_name = ondu.text_input("enter chapter name")
