@@ -486,8 +486,8 @@ try:
 
     left, right = ondu.columns(2)
     with left:
-        image_topic = xml_col.selectbox("Select a topic", list(st.session_state.sfword.keys()),label_visibility="collapsed")
-        image_subtopic = xml_col.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.sfword[image_topic]["Subtopics"]],label_visibility="collapsed")
+        image_topic = xml_col.selectbox("Select a topic", list(st.session_state.new_dict.keys()),label_visibility="collapsed")
+        image_subtopic = xml_col.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.new_dict[image_topic]["Subtopics"]],label_visibility="collapsed")
     
     with right:
         add_to_topic = right.button("Add Image to Topic")
