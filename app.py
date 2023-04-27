@@ -424,7 +424,8 @@ try:
 
     topic_names = [key for key, value in st.session_state.new_dict.items()]
     with open("newdict.json", "r") as f:
-        sfword = json.load(f)
+        extracted = json.load(f)
+        st.session_state.new_dict = extracted
     new_query = bmiscol.text_input("Name of the missing Subtopic")
     topic_belong = bmiscol.selectbox("Select the belonging topic",topic_names)
     query_again = bmiscol.button("extract missing")
@@ -436,18 +437,18 @@ try:
         selected_topic = topic_belong
         new_subtopic = new_query
         content_value = missing_info.response
-        topic_dict = sfword[selected_topic]
+        topic_dict = extracted[selected_topic]
     # Append the new subtopic and its content to the appropriate topic
         topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
         # bmiscol.write(sfword)
 
         with open("newdict.json", "w") as f:
-            json.dump(sfword, f,indent=2)
+            json.dump(extracted, f,indent=2)
 
         with open("newdict.json", "r") as f:
-            st.session_state.sfword = json.load(f)
+            extracted = json.load(f)
 
-        for topic_key, topic_value in st.session_state.sfword.items():
+        for topic_key, topic_value in extracted.items():
             expander = bmiscol.expander(f"{topic_key}")
             expander.write(topic_value["content"])
             for subtopic in topic_value["Subtopics"]:
@@ -455,7 +456,11 @@ try:
                 expander.write(subtopic["content"])
         
         with open("newdict.json", "w") as f:
-            json.dump(st.session_state.sfword, f,indent=2)
+            json.dump(extracted, f,indent=2)
+
+    with open("newdict.json", "r") as f:
+        extracted = json.load(f)
+        st.session_state.new_dict = extracted
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
@@ -482,7 +487,8 @@ try:
     #     st.session_state.new_dict = new_dict
 
     with open("newdict.json", "r") as f:
-        st.session_state.sfword = json.load(f)
+        extracted = json.load(f)
+        st.session_state.new_dict = extracted
         
     for topic, subtopics_dict in st.session_state.sfword.items():
         content = subtopics_dict['content']
