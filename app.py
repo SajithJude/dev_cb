@@ -412,6 +412,7 @@ try:
        
     with open("newdict.json", "r") as f:
         st.session_state.new_dict = json.load(f)
+        st.write(st.session_state.new_dict)
 
         
     for topic_key, topic_value in st.session_state.new_dict.items():
