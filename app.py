@@ -442,11 +442,11 @@ try:
         topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
         # bmiscol.write(sfword)
 
-        with open("newdict.json", "w") as f:
-            json.dump(extracted, f,indent=2)
+        # with open("newdict.json", "w") as f:
+        #     json.dump(extracted, f,indent=2)
 
-        with open("newdict.json", "r") as f:
-            extracted = json.load(f)
+        # with open("newdict.json", "r") as f:
+        #     extracted = json.load(f)
 
         for topic_key, topic_value in extracted.items():
             expander = bmiscol.expander(f"{topic_key}")
