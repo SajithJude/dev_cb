@@ -361,7 +361,7 @@ try:
 
 
 
-    quer = ecol.checkbox("Extract Contents")
+    quer = ecol.button("Extract Contents")
 
     # seca, secb = extract_col.columns(2)
     if quer:
