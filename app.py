@@ -384,8 +384,8 @@ try:
 
         
            
-        with open("newdict.json", "w") as f:
-            json.dump(st.session_state.new_dict, f,indent=2)
+    with open("newdict.json", "w") as f:
+        json.dump(st.session_state.new_dict, f,indent=2)
 
     if ecol.button("Load"):
         with open("newdict.json", "r") as f:
