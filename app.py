@@ -486,7 +486,7 @@ try:
     if edit_col.button("Save"):
         edit_col.write(st.session_state.sfword)
 
-except (KeyError, AttributeError) as e:
+except (KeyError,FileNotFoundError, AttributeError) as e:
     print("Error saving Edited content")
     print(f"Error: {type(e).__name__} - {e}")
 
