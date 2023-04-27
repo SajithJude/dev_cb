@@ -477,7 +477,7 @@ except (KeyError,FileNotFoundError, AttributeError) as e:
 
 try:
     # with 
-    ondu, naduvan, rendu  = xml_col.columns([4,3,4],gap="large")
+    rendu, naduvan, ondu   = xml_col.columns([4,3,4],gap="large")
     rendu.write("### Configure ")
     chapter_name = rendu.text_input("enter chapter name")
     r1,r2 = rendu.columns(2)
