@@ -382,6 +382,7 @@ try:
             json.dump(st.session_state.new_dict, f,indent=2)
 
         with open("newdict.json", "r") as f:
+
             # with open("newdict.json", "r") as f:
             extracted = json.load(f)
             st.session_state.new_dict = extracted
@@ -393,17 +394,20 @@ try:
     
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
     with open("newdict.json", "r") as f:
+
         extracted = json.load(f)
         st.session_state.new_dict = extracted
         st.write(extracted)
 
     if pages_files:
         with open("newdict.json", "r") as f:
+
             extracted = json.load(f)
             st.session_state.new_dict = extracted
             st.write(extracted)
         selected_page = pagecol.number_input("Change page number to compare:",step=1)
         with open("newdict.json", "r") as f:
+            
             extracted = json.load(f)
             st.session_state.new_dict = extracted
             st.write(extracted)
@@ -419,9 +423,14 @@ try:
         if selected_image:
             pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
             with open("newdict.json", "r") as f:
-                st.session_state.new_dict = json.load(f)
+
+                extracted = json.load(f)
+                st.session_state.new_dict = extracted
+                st.write(extracted)
         with open("newdict.json", "r") as f:
-            st.session_state.new_dict = json.load(f)
+            extracted = json.load(f)
+            st.session_state.new_dict = extracted
+            st.write(extracted)
     else:
         pagecol.warning("No images found in the 'pages' folder.")
 
@@ -434,7 +443,7 @@ try:
         st.session_state.new_dict = json.load(f)
 
         
-    for topic_key, topic_value in st.session_state.new_dict.items():
+    for topic_key, topic_value in extracted.items():
         expander = ecol.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
