@@ -351,7 +351,22 @@ except (KeyError, AttributeError) as e:
 try:
     pagecol, ecol = extract_col.columns([2,5],gap="large")
     quer = ecol.button("Extract Contents")
+    
+    with open("newdict.json", "r") as f:
+        extracted = json.load(f)
+        st.session_state.new_dict = extracted
+        # st.write(extracted)
 
+    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+
+    if pages_files:
+        selected_page = pagecol.number_input("Change page number to compare:",step=1)
+        selected_image = f"page-{selected_page}.png"
+        # Display the selected image
+        if selected_image:
+            pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
+    else:
+        pagecol.warning("No images found in the 'pages' folder.")
     
     # seca, secb = extract_col.columns(2)
     if quer:
@@ -377,21 +392,7 @@ try:
 
     # if 'extracted_data' not in st.session_state:
     #     st.session_state.extracted_data = []
-    with open("newdict.json", "r") as f:
-        extracted = json.load(f)
-        st.session_state.new_dict = extracted
-        # st.write(extracted)
 
-    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
-
-    if pages_files:
-        selected_page = pagecol.number_input("Change page number to compare:",step=1)
-        selected_image = f"page-{selected_page}.png"
-        # Display the selected image
-        if selected_image:
-            pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
-    else:
-        pagecol.warning("No images found in the 'pages' folder.")
 
             # updated_json = json.dumps(st.session_state.new_dict, indent=2)
    
