@@ -395,6 +395,9 @@ try:
         st.write(st.session_state.new_dict)
 
     if pages_files:
+        with open("newdict.json", "r") as f:
+            st.session_state.new_dict = json.load(f)
+            st.write(st.session_state.new_dict)
         selected_page = pagecol.number_input("Change page number to compare:",step=1)
         with open("newdict.json", "r") as f:
             st.session_state.new_dict = json.load(f)
