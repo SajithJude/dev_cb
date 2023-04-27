@@ -36,7 +36,21 @@ PDFReader = download_loader("PDFReader")
 
 loader = PDFReader()
 
-
+def clear_all_json_files():
+    """Clear all JSON files in all directories under the current working directory"""
+    
+    root_directory = os.path.abspath(os.getcwd())
+    
+    # Iterate over all files and directories under the root directory
+    for dirpath, dirnames, filenames in os.walk(root_directory):
+        # Iterate over all files in the current directory
+        for filename in filenames:
+            # Check if the file has a .json extension
+            if filename.endswith('.json'):
+                # Open the JSON file, clear its contents, and save the empty file
+                file_path = os.path.join(dirpath, filename)
+                with open(file_path, 'w') as json_file:
+                    json.dump({}, json_file)
 
 def clear_images_folder():
     for file in os.listdir("images"):
@@ -191,6 +205,7 @@ if uploaded_file is not None:
         upload_col.success("Index created successfully")
         clear_images_folder()
         clear_pages_folder()
+        clear_all_json_files()
     # read PDF file
         with open(uploaded_file.name, "wb") as f:
             f.write(uploaded_file.getbuffer())
