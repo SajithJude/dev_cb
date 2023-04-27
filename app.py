@@ -480,13 +480,14 @@ try:
             subtopic_dict['content'] = edit_col.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
     pass 
 
-    if edit_col.button("Save"):
+    save = edit_col.button("Save")
+    if save:
         with open("saveedit.json", "w") as f:
             json.dump(st.session_state.new_dict, f,indent=2)
-    with open("saveedit.json", "r") as f:
-        savedit = json.load(f)
-        st.session_state.new_dict = savedit    
-        edit_col.write(st.session_state.new_dict)
+        with open("saveedit.json", "r") as f:
+            savedit = json.load(f)
+            st.session_state.new_dict = savedit    
+            edit_col.write(st.session_state.new_dict)
 
 except (KeyError,FileNotFoundError, AttributeError) as e:
     print("Error saving Edited content")
