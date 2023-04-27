@@ -392,7 +392,7 @@ try:
                 
     if "extracted" not in st.session_state:
         st.session_state.extracted = st.session_state.new_dict
-        query = False
+        #
     
         
 
@@ -407,7 +407,8 @@ except (KeyError, FileNotFoundError,AttributeError) as e:
 try:
     amiscol, bmiscol = miss_col.columns([2,5],gap="large")
 
-    topic_names = [key for key, value in st.session_state.extracted.items()]
+    extractedcontent = st.session_state.extracted
+    topic_names = [key for key, value in extractedcontent]
     
     new_query = bmiscol.text_input("Name of the missing Subtopic")
     topic_belong = bmiscol.selectbox("Select the belonging topic",topic_names)
