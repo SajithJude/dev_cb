@@ -430,15 +430,16 @@ try:
     new_query = bmiscol.text_input("Name of the missing Subtopic")
     topic_belong = bmiscol.selectbox("Select the belonging topic",topic_names)
     query_again = bmiscol.button("extract missing")
-    with open("newdict5.json", "r") as f:
-        extracted = json.load(f)
-        st.session_state.new_dict = extracted
+    
     if query_again:
         
         missing_info = index.query("extract the information about "+str(new_query))
         # with open("newdict.json", "r") as f:
         #     extracted = json.load(f)
         #     st.session_state.new_dict = extracted
+        with open("newdict5.json", "r") as f:
+            extracted = json.load(f)
+            st.session_state.new_dict = extracted
         selected_topic = topic_belong
         new_subtopic = new_query
         content_value = missing_info.response
