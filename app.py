@@ -376,10 +376,13 @@ try:
     # seca, secb = extract_col.columns(2)
     quer = ecol.button("Extract Contents")
 
+    with open("newdict.json", "r") as f:
+
+        extracted = json.load(f)
+        st.session_state.new_dict = extracted
+
     if quer:
-        with open("newdict.json", "r") as f:
-            extracted = json.load(f)
-            st.session_state.new_dict = extracted
+        
         progress_bar = ecol.progress(0)
         
         
