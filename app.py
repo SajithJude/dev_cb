@@ -374,17 +374,18 @@ try:
     #     st.session_state.new_dict = extracted
     
     # seca, secb = extract_col.columns(2)
-    quer = ecol.button("Extract Contents")
 
     with open("newdict.json", "r") as f:
 
         extracted = json.load(f)
         st.session_state.new_dict = extracted
 
+    quer = ecol.button("Extract Contents")
+    
+
     if quer:
         
         progress_bar = ecol.progress(0)
-        
         
         total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in extracted.items()) + len(extracted.new_dict)
         items_processed = 0
