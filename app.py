@@ -299,6 +299,21 @@ try:
                     add= None
                     st.session_state['add'] = False
                     st.experimental_rerun()
+        
+        if column1.button("Save"):
+            try:
+                if "new_dict" not in st.session_state:
+                        st.session_state.new_dict = {}
+                for topic in st.session_state.toc["Topics"]:
+                    for key, value in topic.items():
+                        # Add a description for the topic
+                        st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
+                        # Add descriptions for the values
+                        for item in value:
+                            st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
+            except (KeyError, AttributeError) as e:
+                print("Error Formating TOC "+str(e))
+                print(f"Error: {type(e).__name__} - {e}")
 
         column2.write("# Table of Contents")
 
@@ -319,28 +334,6 @@ except (KeyError, AttributeError) as e:
 
 
 ######################       extract content      ##########################################
-
-try:
-
-   
-
-    if "new_dict" not in st.session_state:
-            st.session_state.new_dict = {}
-    for topic in st.session_state.toc["Topics"]:
-        for key, value in topic.items():
-            # Add a description for the topic
-            st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
-            # Add descriptions for the values
-            for item in value:
-                st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
-     
-    
-    # extract_col.success("TOC formated correctly")
-    
-
-except (KeyError, AttributeError) as e:
-    print("Error Formating TOC "+str(e))
-    print(f"Error: {type(e).__name__} - {e}")
 
 
 
@@ -387,7 +380,7 @@ try:
         with open("newdict.json", "w") as f:
             # st.write(st.session_state.new_dict)
             json.dump(st.session_state.new_dict, f,indent=2)
-
+    st.write(st.session_state['new_dict'])
     # if ecol.button("Load"):
     with open("newdict.json", "r") as f:
         extracted = json.load(f)
