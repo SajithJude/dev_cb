@@ -382,12 +382,13 @@ try:
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
 
-        if "extracted" not in st.session_state:
-            st.session_state.extracted = st.session_state.new_dict
-            # pass
+        # update_json()
+        # if "extracted" not in st.session_state:
+        #     st.session_state.extracted = st.session_state.new_dict
+        #     # pass
             #
         
-    for topic_key, topic_value in st.session_state.extracted.items():
+    for topic_key, topic_value in st.session_state.new_dict.items():
         expander = ecol.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
@@ -409,7 +410,7 @@ except (KeyError, FileNotFoundError,AttributeError) as e:
 try:
     amiscol, bmiscol = miss_col.columns([2,5],gap="large")
 
-    extractedcontent = st.session_state.extracted
+    extractedcontent = st.session_state.new_dict
     topic_names = [key for key, value in extractedcontent.items()]
     
     new_query = bmiscol.text_input("Name of the missing Subtopic")
@@ -465,7 +466,7 @@ try:
     # if "new_dict" not in st.session_state:
  
         
-    for topic, subtopics_dict in st.session_state.missing.items():
+    for topic, subtopics_dict in st.session_state.new_dict.items():
         content = subtopics_dict['content']
         subtopics_dict['content'] = edit_col.text_area(f"Topic {topic}:", value=content)
         for subtopic_dict in subtopics_dict['Subtopics']:
@@ -475,7 +476,7 @@ try:
     pass 
 
     if edit_col.button("Save"):
-        edit_col.write(st.session_state.missing)
+        edit_col.write(st.session_state.new_dict)
 
 except (KeyError,FileNotFoundError, AttributeError) as e:
     print("Error saving Edited content")
