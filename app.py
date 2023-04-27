@@ -338,6 +338,9 @@ try:
             for item in value:
                 st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
      
+     with open("newdict.json", "r") as f:
+        extracted = json.load(f)
+        st.session_state.new_dict = extracted
     
     # extract_col.success("TOC formated correctly")
     
@@ -350,7 +353,6 @@ except (KeyError, AttributeError) as e:
 
 try:
     pagecol, ecol = extract_col.columns([2,5],gap="large")
-    quer = ecol.button("Extract Contents")
     
     
         # st.write(extracted)
@@ -367,13 +369,18 @@ try:
         pagecol.warning("No images found in the 'pages' folder.")
 
 
-    with open("newdict.json", "r") as f:
-        extracted = json.load(f)
-        st.session_state.new_dict = extracted
+    # with open("newdict.json", "r") as f:
+    #     extracted = json.load(f)
+    #     st.session_state.new_dict = extracted
     
     # seca, secb = extract_col.columns(2)
+    quer = ecol.button("Extract Contents")
+
     if quer:
         progress_bar = ecol.progress(0)
+        with open("newdict.json", "r") as f:
+            extracted = json.load(f)
+            st.session_state.new_dict = extracted
         total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in extracted.items()) + len(extracted)
         items_processed = 0
         for topic, subtopics_dict in extracted.items():
