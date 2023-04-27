@@ -525,18 +525,18 @@ try:
     page_index = ondu.number_input("Enter page number", min_value=1, max_value=n_pages, value=1)
 
     with ondu.expander(f"Page {page_index}", expanded=True):
-        image_files = [f for f in os.listdir("images") if f.startswith(f'image_page{page_index}_') and f.endswith(tuple(image_exts))]
-        if image_files:
-            
-            for image_filename in image_files:
-                file_path = os.path.join("images", image_filename)
-                if os.path.isfile(file_path):
 
-                    ondu.image(file_path, caption=os.path.basename(file_path),width=150)
-                else:
-                    st.warning(f"Image not found: {os.path.basename(file_path)}")
-        else:
-            st.warning("No images found for this page.")
+        image_files = [f for f in os.listdir("images") if f.startswith(f'image_page{page_index}_') and f.endswith(tuple(image_exts))]
+        # if image_files:
+            
+        for image_filename in image_files:
+            file_path = os.path.join("images", image_filename)
+            if os.path.isfile(file_path):
+                ondu.image(file_path, caption=os.path.basename(file_path),width=150)
+            else:
+                st.warning(f"Image not found: {os.path.basename(file_path)}")
+        # else:
+        #     st.warning("No images found for this page.")
     
     selected_image = image_filename
 
