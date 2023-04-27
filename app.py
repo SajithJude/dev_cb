@@ -478,7 +478,7 @@ try:
             subtopic_name = subtopic_dict['Subtopic']
             content = subtopic_dict['content']
             subtopic_dict['content'] = edit_col.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
-    pass 
+    # pass 
 
     save = edit_col.button("Save")
     if save:
