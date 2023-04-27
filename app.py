@@ -479,8 +479,8 @@ try:
         #     json.dump(st.session_state.new_dict, f,indent=2)
     with open("newdict.json", "r") as f:
         savedit = json.load(f)
-        st.session_state.sfowrd = savedit
-        edit_col.write(st.session_state.sfowrd)
+        st.session_state.new_dict = savedit
+        edit_col.write(st.session_state.new_dict)
 
 
 
@@ -540,13 +540,13 @@ try:
     selected_image = image_filename
 
     if add_to_topic:
-        if "img" not in st.session_state.sfowrd[image_topic]:
-            st.session_state.sfowrd[image_topic]["img"] = []
-        st.session_state.sfowrd[image_topic]["img"].append(selected_image)
+        if "img" not in st.session_state.new_dict[image_topic]:
+            st.session_state.new_dict[image_topic]["img"] = []
+        st.session_state.new_dict[image_topic]["img"].append(selected_image)
         ondu.success(f"Image {selected_image} added to topic {image_topic}")
 
     if add_to_subtopic:
-        for subtopic in st.session_state.sfowrd[image_topic]["Subtopics"]:
+        for subtopic in st.session_state.new_dict[image_topic]["Subtopics"]:
             if subtopic["Subtopic"] == image_subtopic:
                 if "img" not in subtopic:
                     subtopic["img"] = []
