@@ -338,7 +338,7 @@ try:
             for item in value:
                 st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
      
-     with open("newdict.json", "r") as f:
+    with open("newdict.json", "r") as f:
         extracted = json.load(f)
         st.session_state.new_dict = extracted
     
