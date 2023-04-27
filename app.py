@@ -385,17 +385,19 @@ try:
         st.session_state.extracted_data = []
     
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
-
+    with open("newdict.json", "r") as f:
+        st.session_state.new_dict = json.load(f)
     if pages_files:
         selected_page = pagecol.number_input("Change page number to compare:",step=1)
-        with open("newdict.json", "r") as f:
-            st.session_state.new_dict = json.load(f)
+        
         selected_image = f"page-{selected_page}.png"
         # Display the selected image
         if selected_image:
             pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
             with open("newdict.json", "r") as f:
                 st.session_state.new_dict = json.load(f)
+        with open("newdict.json", "r") as f:
+            st.session_state.new_dict = json.load(f)
     else:
         pagecol.warning("No images found in the 'pages' folder.")
 
