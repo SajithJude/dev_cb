@@ -353,7 +353,7 @@ try:
     selected_image = f"page-{selected_page}.png"
     # Display the selected image
     if selected_image:
-            pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
+        pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
     else:
         pagecol.warning("No images found in the 'pages' folder.")
 
@@ -361,9 +361,8 @@ try:
 
 
 
-    quer = ecol.button("Extract Contents")
+    quer = ecol.checkbox("Extract Contents")
 
-    
     # seca, secb = extract_col.columns(2)
     if quer:
         progress_bar = ecol.progress(0)
@@ -383,11 +382,6 @@ try:
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
 
-
-        # st.write(extracted)
-
-    
-
         
     for topic_key, topic_value in st.session_state.new_dict.items():
         expander = ecol.expander(f"{topic_key}")
@@ -395,9 +389,7 @@ try:
         for subtopic in topic_value["Subtopics"]:
             expander.markdown(f"**{subtopic['Subtopic']}**")
             expander.write(subtopic["content"])
-    # if st.button("save and next"):
-    #     with open("new.json", "w") as f:
-    #         # json.dump(extracted, f,indent=2) 
+    
 
 except (KeyError, FileNotFoundError,AttributeError) as e:
     print("Error Extracting Data")
