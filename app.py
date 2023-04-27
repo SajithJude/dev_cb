@@ -590,11 +590,11 @@ try:
         xml_output = json_to_xml(st.session_state.sfword, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
 
-        db = load_db()
-        db[chapter_name] = pretty_xml
+        # db = load_db()
+        # db[chapter_name] = pretty_xml
 
-        with open("db.json", "w") as f:
-            json.dump(db, f)
+        # with open("db.json", "w") as f:
+        #     json.dump(db, f)
 
         xml_file_path = os.path.join("images", f"{chapter_name}.xml")
         with open(xml_file_path, "w") as xml_file:
@@ -615,11 +615,11 @@ try:
             zipdir("images", zipf)
         rendu.success(f"Zipped folder saved as {zip_file_path}")
 
-        # st.session_state.table_of_contents = {}
-        # st.session_state.selected_items = []
-        # st.session_state.new_dict = {}
-        # st.session_state.index = ""
-        # st.session_state.sfword = {}
+        st.session_state.table_of_contents = {}
+        st.session_state.selected_items = []
+        st.session_state.new_dict = {}
+        st.session_state.index = ""
+        st.session_state.sfword = {}
  
                 
 except (KeyError,NameError, AttributeError) as e:

@@ -1,24 +1,22 @@
-# from st_on_hover_tabs import on_hover_tabs
-# import streamlit as st
-# st.set_page_config(layout="wide")
+import requests
+import streamlit as st
+import os 
 
-# st.header("Custom tab component for on-hover navigation bar")
-# st.markdown('<style>' + open('./style.css').read() + '</style>', unsafe_allow_html=True)
+url = "https://coursebot2.flipick.com/couresbuilderapi/api/Course/ImportCourseZip"
 
 
-# with st.sidebar:
-#     tabs = on_hover_tabs(tabName=['Dashboard', 'Money', 'Economy'], 
-#                          iconName=['dashboard', 'money', 'economy'], default_choice=0)
 
-# if tabs =='Dashboard':
-#     st.title("Navigation Bar")
-#     st.write('Name of option is {}'.format(tabs))
 
-# elif tabs == 'Money':
-#     st.title("Paper")
-#     st.write('Name of option is {}'.format(tabs))
+filesinsidefolder = st.selectbox("Select a zip file", [f for f in os.listdir("images") if f.endswith(('.zip'))])
 
-# elif tabs == 'Economy':
-#     st.title("Tom")
-#     st.write('Name of option is {}'.format(tabs))
-    
+
+if st.button("send")
+payload = {}
+files=[
+  ('ImportZip',('Chapter5.zip',open(os.path.join("images", filesinsidefolder), 'rb'),'application/zip'))
+]
+headers = {}
+
+response = requests.request("POST", url, headers=headers, data=payload, files=files)
+
+st.write(response.text)
