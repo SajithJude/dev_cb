@@ -393,7 +393,6 @@ except (KeyError, AttributeError) as e:
 try:
 
     amiscol, bmiscol = miss_col.columns([2,5],gap="large")
-    
 
     topic_names = [key for key, value in st.session_state.new_dict.items()]
     with open("newdict.json", "r") as f:
@@ -484,11 +483,11 @@ try:
     ondu, naduvan, rendu  = xml_col.columns([2,2,4],gap="large")
     ondu.write("### Configure ")
 
-    chapter_name = ondu.text_input("enter chapter name")
-    NoOfBullets = ondu.text_input("No. of Bullets per Sub Topic")
-    NoOfWordsPerBullet = ondu.text_input("No. of words per Bullet")
-    NoOfWordsForVOPerBullet = ondu.text_input("No. of words for Voice Over per Bullet")
-    save_xml = ondu.button("Save XML")
+    chapter_name = rendu.text_input("enter chapter name")
+    NoOfBullets = rendu.text_input("No. of Bullets per Sub Topic")
+    NoOfWordsPerBullet = rendu.text_input("No. of words per Bullet")
+    NoOfWordsForVOPerBullet = rendu.text_input("No. of words for Voice Over per Bullet")
+    save_xml = rendu.button("Save XML")
     
     naduvan.write("### Compare ")
 
@@ -519,13 +518,13 @@ try:
     image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
     selected_images = []
     # for image in image_files:
-    expander = rendu.expander("Select images")
+    expander = ondu.expander("Select images")
     n_pages = 20
 
     image_exts = ['.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif']
-    page_index = rendu.number_input("Enter page number", min_value=1, max_value=n_pages, value=1)
+    page_index = ondu.number_input("Enter page number", min_value=1, max_value=n_pages, value=1)
 
-    with rendu.expander(f"Page {page_index}", expanded=True):
+    with ondu.expander(f"Page {page_index}", expanded=True):
         image_files = [f for f in os.listdir("images") if f.startswith(f'image_page{page_index}_') and f.endswith(tuple(image_exts))]
         if image_files:
             
@@ -533,7 +532,7 @@ try:
                 file_path = os.path.join("images", image_filename)
                 if os.path.isfile(file_path):
 
-                    rendu.image(file_path, caption=os.path.basename(file_path),width=150)
+                    ondu.image(file_path, caption=os.path.basename(file_path),width=150)
                 else:
                     st.warning(f"Image not found: {os.path.basename(file_path)}")
         else:
@@ -545,7 +544,7 @@ try:
         if "img" not in st.session_state.sfword[image_topic]:
             st.session_state.sfword[image_topic]["img"] = []
         st.session_state.sfword[image_topic]["img"].append(selected_image)
-        rendu.success(f"Image {selected_image} added to topic {image_topic}")
+        ondu.success(f"Image {selected_image} added to topic {image_topic}")
 
     if add_to_subtopic:
         for subtopic in st.session_state.sfword[image_topic]["Subtopics"]:
@@ -553,7 +552,7 @@ try:
                 if "img" not in subtopic:
                     subtopic["img"] = []
                 subtopic["img"].append(selected_image)
-                rendu.success(f"Image {selected_image} added to subtopic {image_subtopic}")
+                ondu.success(f"Image {selected_image} added to subtopic {image_subtopic}")
                 break
 
 
