@@ -573,7 +573,7 @@ try:
 
 
 
-    if chapter_name and NoOfBullets and NoOfWordsPerBullet and NoOfWordsForVOPerBullet andsave_xml:
+    if chapter_name and NoOfBullets and NoOfWordsPerBullet and NoOfWordsForVOPerBullet and save_xml:
         if "edited" not in st.session_state:
             st.session_state.edited = st.session_state.missing
             xml_col.write(st.session_state.edited)
