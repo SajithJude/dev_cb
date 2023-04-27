@@ -569,9 +569,10 @@ try:
 
 
     if chapter_name and NoOfBullets and NoOfWordsPerBullet and NoOfWordsForVOPerBullet and save_xml:
+        
         # if "edited" not in st.session_state:
         #     st.session_state.edited = st.session_state.missing
-            xml_col.write(st.session_state.new_dict)
+        xml_col.write(st.session_state.new_dict)
 
         xml_output = json_to_xml(st.session_state.new_dict, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
