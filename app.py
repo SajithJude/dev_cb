@@ -488,7 +488,9 @@ try:
     NoOfBullets = r1.text_input("No. of Bullets per Sub Topic")
     NoOfWordsPerBullet = r1.text_input("No. of words per Bullet")
     NoOfWordsForVOPerBullet = r1.text_input("No. of words for Voice Over per Bullet")
-    save_xml = r2.button("Save XML")
+
+
+    save_xml = rendu.button("Save XML")
     
     naduvan.write("### Compare ")
 
