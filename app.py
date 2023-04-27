@@ -359,6 +359,8 @@ try:
     
     # seca, secb = extract_col.columns(2)
     if quer:
+        with open("newdict.json", "r") as f:
+            st.session_state.new_dict = json.load(f)
         progress_bar = ecol.progress(0)
         total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
         items_processed = 0
