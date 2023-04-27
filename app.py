@@ -478,32 +478,8 @@ except (KeyError,FileNotFoundError, AttributeError) as e:
 try:
     # with 
     rendu, naduvan, ondu   = xml_col.columns([4,3,4],gap="large")
-    rendu.write("### Configure ")
-    chapter_name = rendu.text_input("enter chapter name")
-    r1,r2 = rendu.columns(2)
 
-    NoOfBullets = r1.text_input("No. of Bullets per Sub Topic")
-    NoOfWordsPerBullet = r1.text_input("No. of words per Bullet")
-    NoOfWordsForVOPerBullet = r1.text_input("No. of words for Voice Over per Bullet")
-
-
-    save_xml = rendu.button("Save XML")
-    
-    naduvan.write("### Compare ")
-
-    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
-
-    # if pages_files:
-    selected_page = naduvan.number_input("Compare Images",step=1)
-    selected_image = f"page-{selected_page}.png"
-    # Display the selected image
-    if selected_image:
-        naduvan.image(os.path.join("pages", selected_image), use_column_width=True)
-    else:
-        naduvan.warning("No images found in the 'pages' folder.")
-
-
-    ondu.write("### Select Images")
+        ondu.write("### Select Images")
     ondu.write("")
     ondu.write("")
 
@@ -552,6 +528,32 @@ try:
                 subtopic["img"].append(selected_image)
                 ondu.success(f"Image {selected_image} added to subtopic {image_subtopic}")
                 break
+    rendu.write("### Configure ")
+    chapter_name = rendu.text_input("enter chapter name")
+    r1,r2 = rendu.columns(2)
+
+    NoOfBullets = r1.text_input("No. of Bullets per Sub Topic")
+    NoOfWordsPerBullet = r1.text_input("No. of words per Bullet")
+    NoOfWordsForVOPerBullet = r1.text_input("No. of words for Voice Over per Bullet")
+    save_xml = rendu.button("Save XML")
+    
+
+
+
+    naduvan.write("### Compare ")
+    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+
+    # if pages_files:
+    selected_page = naduvan.number_input("Compare Images",step=1)
+    selected_image = f"page-{selected_page}.png"
+    # Display the selected image
+    if selected_image:
+        naduvan.image(os.path.join("pages", selected_image), use_column_width=True)
+    else:
+        naduvan.warning("No images found in the 'pages' folder.")
+
+
+
 
 
 
