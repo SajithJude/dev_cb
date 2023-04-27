@@ -385,7 +385,7 @@ try:
         
         total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
         items_processed = 0
-        for topic, subtopics_dict in extracted.items():
+        for topic, subtopics_dict in st.session_state.new_dict.items():
             for subtopic_dict in subtopics_dict['Subtopics']:
                 subtopic_name = subtopic_dict['Subtopic']
                 subtopicres = index.query("extract the information about "+str(subtopic_name))
