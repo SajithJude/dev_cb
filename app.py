@@ -373,13 +373,13 @@ try:
             progress_bar.progress(items_processed / total_items)
 
         with open("newdict.json", "w") as f:
-            json.dump(ecol.session_state.new_dict, f,indent=2)
+            json.dump(pagecol.session_state.new_dict, f,indent=2)
 
     # if 'extracted_data' not in st.session_state:
     #     st.session_state.extracted_data = []
     with open("newdict.json", "r") as f:
         extracted = json.load(f)
-        ecol.session_state.new_dict = extracted
+        pagecol.session_state.new_dict = extracted
         # st.write(extracted)
 
     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
@@ -402,7 +402,7 @@ try:
     #     st.session_state.new_dict = json.load(f)
 
         
-    for topic_key, topic_value in extracted.items():
+    for topic_key, topic_value in pagecol.session_state.items():
         expander = ecol.expander(f"{topic_key}")
         expander.write(topic_value["content"])
         for subtopic in topic_value["Subtopics"]:
