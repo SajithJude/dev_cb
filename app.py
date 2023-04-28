@@ -378,7 +378,7 @@ try:
                 progress_bar.progress(items_processed / total_items)
                 ecol.info(f"Extracted {subtopic_name}")
             
-            topicres = index.query("extract all the information under paragraph of the topic "+str(topic))
+            topicres = index.query("extract all the information under paragraph of the topic as it is"+str(topic))
             subtopics_dict['content'] = topicres.response
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
