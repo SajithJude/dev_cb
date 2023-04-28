@@ -281,6 +281,14 @@ try:
         topic_options = list(st.session_state['topic_data'].keys())
         selected_topic = column1.selectbox("Select a Topic to edit Subtopics", topic_options)
 
+        # Code to delete topics
+        delete_topic = column1.button("Delete Selected Topic")
+        if delete_topic:
+            if selected_topic in st.session_state['topic_data']:
+                del st.session_state['topic_data'][selected_topic]
+                update_json(st.session_state['topic_data'])
+                st.experimental_rerun()
+
         subtopics = st.session_state['topic_data'][selected_topic]
 
         column1.write("### Subtopics:")
