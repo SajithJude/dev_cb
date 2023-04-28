@@ -273,22 +273,22 @@ try:
         column1.write("### Topics:")
         topic_name = column1.text_input("Enter New topic name:")
 
-        if column1.button("Add Topic to TOC"):
+        if column1.button("Save New Topic"):
             if topic_name not in st.session_state['topic_data']:
                 st.session_state['topic_data'][topic_name] = []
                 update_json(topic_data)
 
         topic_options = list(st.session_state['topic_data'].keys())
-        selected_topic = column1.selectbox("Select a Topic", topic_options)
-
-        # Code to delete topics
+        selected_topic = column1.selectbox("Select a Topic to edit Subtopics", topic_options)
+        
         delete_topic = column1.button("Remove Selected Topic")
         if delete_topic:
             if selected_topic in st.session_state['topic_data']:
                 del st.session_state['topic_data'][selected_topic]
                 update_json(st.session_state['topic_data'])
                 st.experimental_rerun()
-
+                
+                
         subtopics = st.session_state['topic_data'][selected_topic]
 
         column1.write("### Subtopics:")
@@ -307,6 +307,21 @@ try:
                     add= None
                     st.session_state['add'] = False
                     st.experimental_rerun()
+        
+        if column1.button("Save"):
+            try:
+                if "new_dict" not in st.session_state:
+                        st.session_state.new_dict = {}
+                for topic in st.session_state.toc["Topics"]:
+                    for key, value in topic.items():
+                        # Add a description for the topic
+                        st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
+                        # Add descriptions for the values
+                        for item in value:
+                            st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
+            except (KeyError, AttributeError) as e:
+                print("Error Formating TOC "+str(e))
+                print(f"Error: {type(e).__name__} - {e}")
 
         column2.write("# Table of Contents")
 
@@ -328,28 +343,6 @@ except (KeyError, AttributeError) as e:
 
 ######################       extract content      ##########################################
 
-try:
-
-   
-
-    if "new_dict" not in st.session_state:
-            st.session_state.new_dict = {}
-    for topic in st.session_state.toc["Topics"]:
-        for key, value in topic.items():
-            # Add a description for the topic
-            st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
-            # Add descriptions for the values
-            for item in value:
-                st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
-     
-    
-    # extract_col.success("TOC formated correctly")
-    
-
-except (KeyError, AttributeError) as e:
-    print("Error Formating TOC "+str(e))
-    print(f"Error: {type(e).__name__} - {e}")
-
 
 
 try:
@@ -367,7 +360,7 @@ try:
 
     
 
-
+    
 
     quer = ecol.button("Extract Contents")
 
@@ -390,23 +383,13 @@ try:
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
 
-        
-           
-        with open("newdict.json", "w") as f:
-            # st.write(st.session_state.new_dict)
-            json.dump(st.session_state.new_dict, f,indent=2)
-
-    # if ecol.button("Load"):
-    with open("newdict.json", "r") as f:
-        extracted = json.load(f)
-        st.write(extracted)
-        st.session_state.new_dict = extracted
-        for topic_key, topic_value in st.session_state.new_dict.items():
-            expander = ecol.expander(f"{topic_key}")
-            expander.write(topic_value["content"])
-            for subtopic in topic_value["Subtopics"]:
-                expander.markdown(f"**{subtopic['Subtopic']}**")
-                expander.write(subtopic["content"])
+   
+    for topic_key, topic_value in st.session_state.new_dict.items():
+        expander = ecol.expander(f"{topic_key}")
+        expander.write(topic_value["content"])
+        for subtopic in topic_value["Subtopics"]:
+            expander.markdown(f"**{subtopic['Subtopic']}**")
+            expander.write(subtopic["content"])
                     
         
     
@@ -428,7 +411,7 @@ try:
     
     new_query = bmiscol.text_input("Name of the missing Subtopic")
     topic_belong = bmiscol.selectbox("Select the belonging topic",topic_names)
-    query_again = bmiscol.checkbox("extract missing")
+    query_again = bmiscol.button("extract missing")
     
     if query_again:
         
@@ -441,14 +424,14 @@ try:
         topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
        
 
-        for topic_key, topic_value in st.session_state.new_dict.items():
+    for topic_key, topic_value in st.session_state.new_dict.items():
 
-            expander = bmiscol.expander(f"{topic_key}")
-            expander.write(topic_value["content"])
-            for subtopic in topic_value["Subtopics"]:
+        expander = bmiscol.expander(f"{topic_key}")
+        expander.write(topic_value["content"])
+        for subtopic in topic_value["Subtopics"]:
 
-                expander.markdown(f"**{subtopic['Subtopic']}**")
-                expander.write(subtopic["content"])
+            expander.markdown(f"**{subtopic['Subtopic']}**")
+            expander.write(subtopic["content"])
     
     if "missing" not in st.session_state:
         st.session_state.missing = st.session_state.new_dict
@@ -492,10 +475,6 @@ try:
     # if save:
         # with open("saveedit.json", "w") as f:
         #     json.dump(st.session_state.new_dict, f,indent=2)
-    with open("newdict.json", "r") as f:
-        savedit = json.load(f)
-        st.session_state.sfowrd = savedit
-        edit_col.write(st.session_state.sfowrd)
 
 
 
@@ -517,19 +496,12 @@ try:
     ondu.write("")
     ondu.write("")
 
-    with open("newdict.json", "r") as f:
-        savedit = json.load(f)
-        if "sfowrd" not in st.session_state:
-            st.session_state.sfowrd = savedit
-        edit_col.write(st.session_state.sfowrd)
-
-
     left, right = ondu.columns(2)
-    image_topic = left.selectbox("Select a topic", list(st.session_state.sfowrd.keys()),label_visibility="collapsed")
+    image_topic = left.selectbox("Select a topic", list(st.session_state.new_dict.keys()),label_visibility="collapsed")
     add_to_topic = right.button("Add Image to Topic")
 
 # Dropdown menu for selecting a subtopic based on the selected topic
-    image_subtopic = left.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.sfowrd[image_topic]["Subtopics"]],label_visibility="collapsed")
+    image_subtopic = left.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.new_dict[image_topic]["Subtopics"]],label_visibility="collapsed")
     add_to_subtopic = right.button("Add image to Subtopic")
 
     image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
@@ -556,13 +528,13 @@ try:
     selected_image = image_filename
 
     if add_to_topic:
-        if "img" not in st.session_state.sfowrd[image_topic]:
-            st.session_state.sfowrd[image_topic]["img"] = []
-        st.session_state.sfowrd[image_topic]["img"].append(selected_image)
+        if "img" not in st.session_state.new_dict[image_topic]:
+            st.session_state.new_dict[image_topic]["img"] = []
+        st.session_state.new_dict[image_topic]["img"].append(selected_image)
         ondu.success(f"Image {selected_image} added to topic {image_topic}")
 
     if add_to_subtopic:
-        for subtopic in st.session_state.sfowrd[image_topic]["Subtopics"]:
+        for subtopic in st.session_state.new_dict[image_topic]["Subtopics"]:
             if subtopic["Subtopic"] == image_subtopic:
                 if "img" not in subtopic:
                     subtopic["img"] = []
@@ -600,7 +572,7 @@ try:
 
         # if "edited" not in st.session_state:
         #     st.session_state.edited = st.session_state.missing
-        xml_col.write(st.session_state.new_dict)
+        #xml_col.write(st.session_state.new_dict)
 
         xml_output = json_to_xml(st.session_state.new_dict, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
@@ -679,7 +651,7 @@ if chapter_list:
 
 
         response = requests.request("POST", url, headers=headers, data=payload)
-        st.write(response)
+        
         print(response)
         response_dict = json.loads(response.text)
 
@@ -705,4 +677,3 @@ if chapter_list:
 
 else:
     manage_col.warning("No chapters found. Upload a chapter and save its XML first.")
-
