@@ -372,13 +372,13 @@ try:
         for topic, subtopics_dict in st.session_state.new_dict.items():
             for subtopic_dict in subtopics_dict['Subtopics']:
                 subtopic_name = subtopic_dict['Subtopic']
-                subtopicres = index.query("extract the information about "+str(subtopic_name))
+                subtopicres = index.query("extract all the information about the subtopic as it is"+str(subtopic_name))
                 subtopic_dict['content'] = subtopicres.response
                 items_processed += 1
                 progress_bar.progress(items_processed / total_items)
                 ecol.info(f"Extracted {subtopic_name}")
             
-            topicres = index.query("extract the information about "+str(topic))
+            topicres = index.query("extract all the information under paragraph of the topic "+str(topic))
             subtopics_dict['content'] = topicres.response
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
