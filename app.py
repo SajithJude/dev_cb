@@ -488,12 +488,6 @@ try:
     ondu.write("")
     ondu.write("")
 
-    with open("newdict.json", "r") as f:
-    
-    
-        edit_col.write(st.session_state.new_dict)
-
-
     left, right = ondu.columns(2)
     image_topic = left.selectbox("Select a topic", list(st.session_state.new_dict.keys()),label_visibility="collapsed")
     add_to_topic = right.button("Add Image to Topic")
