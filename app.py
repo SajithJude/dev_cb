@@ -273,13 +273,21 @@ try:
         column1.write("### Topics:")
         topic_name = column1.text_input("Enter New topic name:")
 
-        if column1.button("Save New Topic"):
+        if column1.button("Add Topic to TOC"):
             if topic_name not in st.session_state['topic_data']:
                 st.session_state['topic_data'][topic_name] = []
                 update_json(topic_data)
 
         topic_options = list(st.session_state['topic_data'].keys())
-        selected_topic = column1.selectbox("Select a Topic to edit Subtopics", topic_options)
+        selected_topic = column1.selectbox("Select a Topic", topic_options)
+
+        # Code to delete topics
+        delete_topic = column1.button("Remove Selected Topic")
+        if delete_topic:
+            if selected_topic in st.session_state['topic_data']:
+                del st.session_state['topic_data'][selected_topic]
+                update_json(st.session_state['topic_data'])
+                st.experimental_rerun()
 
         subtopics = st.session_state['topic_data'][selected_topic]
 
@@ -299,21 +307,6 @@ try:
                     add= None
                     st.session_state['add'] = False
                     st.experimental_rerun()
-        
-        if column1.button("Save"):
-            try:
-                if "new_dict" not in st.session_state:
-                        st.session_state.new_dict = {}
-                for topic in st.session_state.toc["Topics"]:
-                    for key, value in topic.items():
-                        # Add a description for the topic
-                        st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
-                        # Add descriptions for the values
-                        for item in value:
-                            st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
-            except (KeyError, AttributeError) as e:
-                print("Error Formating TOC "+str(e))
-                print(f"Error: {type(e).__name__} - {e}")
 
         column2.write("# Table of Contents")
 
