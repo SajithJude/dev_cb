@@ -260,14 +260,14 @@ if toc_option == "Generate TOC":
 elif toc_option == "Copy Paste TOC":
     toc_input = upload_col.text_area("Paste your Table of contents:")
 
-    if st.button("Save TOC"):
+    if upload_col.button("Save TOC"):
         try:
             # table_of_contents = json.loads(toc_input)
             toc_res = st.session_state.index.query(f"convert the following table of contents into the specified JSON format\n"+ "Table of contents:\n"+ str(toc_input) + "\n JSON format:\n"+ str(forma))
             str_toc = str(toc_res)
             table_of_contents = json.loads(str_toc)
 
-            st.write(table_of_contents)
+            upload_col.write(table_of_contents)
 
             if "table_of_contents" not in st.session_state:
                 st.session_state.table_of_contents = table_of_contents
