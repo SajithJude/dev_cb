@@ -372,7 +372,7 @@ try:
         for topic, subtopics_dict in st.session_state.new_dict.items():
             for subtopic_dict in subtopics_dict['Subtopics']:
                 subtopic_name = subtopic_dict['Subtopic']
-                subtopicres = index.query("extract all the content as it is under the paragraph of the subtopic  "+str(subtopic_name)+ " .do not paraphrase or rewrite the content.")
+                subtopicres = index.query("extract all the content as it is unde the subtopic  "+str(subtopic_name)+ " preserve the list items and subsections as well.")
                 subtopic_dict['content'] = subtopicres.response
                 items_processed += 1
                 progress_bar.progress(items_processed / total_items)
