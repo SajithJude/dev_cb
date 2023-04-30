@@ -1,0 +1,283 @@
+import streamlit as st
+from llama_index import GPTSimpleVectorIndex, Document, SimpleDirectoryReader, QuestionAnswerPrompt, LLMPredictor, ServiceContext
+import json
+from langchain import OpenAI
+from llama_index import download_loader
+from tempfile import NamedTemporaryFile
+
+import io
+import fitz
+from PIL import Image
+import os
+import glob
+PDFReader = download_loader("PDFReader")
+import os
+import openai 
+import json
+import xml.etree.ElementTree as ET
+from xml.dom import minidom
+from pathlib import Path
+from llama_index import download_loader
+from xml.etree.ElementTree import Element, SubElement, tostring
+import requests
+import zipfile
+
+
+from langchain import OpenAI
+st.set_page_config(page_title=None, page_icon=None, layout="wide", initial_sidebar_state="collapsed")
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+
+st.title("CourseBot")
+st.caption("AI-powered course creation made easy")
+DATA_DIR = "data"
+
+PDFReader = download_loader("PDFReader")
+
+loader = PDFReader()
+
+
+if not os.path.exists("images"):
+    os.makedirs("images")
+
+# Create the "pages" folder if it doesn't exist
+if not os.path.exists("pages"):
+    os.makedirs("pages")
+
+def clear_all_json_files():
+    """Clear all JSON files in all directories under the current working directory"""
+    
+    root_directory = os.path.abspath(os.getcwd())
+    
+    # Iterate over all files and directories under the root directory
+    for dirpath, dirnames, filenames in os.walk(root_directory):
+        # Iterate over all files in the current directory
+        for filename in filenames:
+            # Check if the file has a .json extension
+            if filename.endswith('.json'):
+                # Open the JSON file, clear its contents, and save the empty file
+                file_path = os.path.join(dirpath, filename)
+                with open(file_path, 'w') as json_file:
+                    json.dump({}, json_file)
+
+def clear_images_folder():
+    for file in os.listdir("images"):
+        if file.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
+            os.remove(os.path.join("images", file))
+
+def clear_pages_folder():
+    for file in os.listdir("pages"):
+        if file.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
+            os.remove(os.path.join("pages", file))
+
+
+def update_json(topic_data):
+    with open("output.json", "w") as f:
+        st.session_state.toc = {"Topics": [{k: v} for k, v in topic_data.items()]}
+        json.dump({"Topics": [{k: v} for k, v in topic_data.items()]}, f)
+
+
+def load_db():
+    if not os.path.exists("db.json"):
+        with open("db.json", "w") as f:
+            json.dump({}, f)
+    
+    with open("db.json", "r") as f:
+        db = json.load(f)
+    
+    return db
+
+def delete_chapter(chapter_name):
+    db = load_db()
+    if chapter_name in db:
+        del db[chapter_name]
+        with open("db.json", "w") as f:
+            json.dump(db, f)
+        return True
+    return False
+
+def post_xml_string(xml_string):
+    url = 'https://coursebot2.flipick.com/couresbuilderapi/api/Course/ImportCourse'
+    headers = {
+        'Content-type': 'application/json'
+    }
+    payload = json.dumps({"ImportXML": str(xml_string)})
+    response = requests.request("POST",url, headers=headers, data=payload)
+    # print(data)
+    print(response)
+    return response
+
+
+def json_to_xml(json_data, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets):
+    chapter = Element('Chapter')
+
+    no_of_bullets_element = SubElement(chapter, 'NoOfBullets')
+    no_of_bullets_element.text = str(NoOfBullets)
+
+    no_of_words_per_bullet_element = SubElement(chapter, 'NoOfWordsPerBullet')
+    no_of_words_per_bullet_element.text = str(NoOfWordsPerBullet)
+
+    no_of_words_for_vo_per_bullet_element = SubElement(chapter, 'NoOfWordsForVOPerBullet')
+    no_of_words_for_vo_per_bullet_element.text = str(NoOfWordsForVOPerBullet)
+
+    chapter_name_element = SubElement(chapter, 'ChapterName')
+    chapter_name_element.text = chapter_name
+
+    topics = SubElement(chapter, 'Topics')
+
+    for topic_name, topic_info in json_data.items():
+        topic = SubElement(topics, 'Topic')
+        topic_name_element = SubElement(topic, 'TopicName')
+        topic_name_element.text = topic_name
+
+        # Add img tag for the topic if it exists
+        if "img" in topic_info:
+            for img_path in topic_info["img"]:
+                img_element = SubElement(topic, 'img')
+                img_element.text = img_path
+
+        subtopics = SubElement(topic, 'SubTopics')
+        for subtopic_info in topic_info['Subtopics']:
+            subtopic = SubElement(subtopics, 'SubTopic')
+
+            subtopic_name = SubElement(subtopic, 'SubTopicName')
+            subtopic_name.text = subtopic_info['Subtopic']
+
+            subtopic_content = SubElement(subtopic, 'SubTopicContent')
+            subtopic_content.text = subtopic_info['content']
+
+            # Add img tag for the subtopic if it exists
+            if "img" in subtopic_info:
+                for img_path in subtopic_info["img"]:
+                    img_element = SubElement(subtopic, 'img')
+                    img_element.text = img_path
+
+    return tostring(chapter).decode()
+
+
+
+def process_pdf(uploaded_file):
+    loader = PDFReader()
+    with NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
+        temp_file.write(uploaded_file.getvalue())
+        documents = loader.load_data(file=Path(temp_file.name))
+    
+    llm_predictor = LLMPredictor(llm=OpenAI(temperature=0, model_name="text-davinci-003", max_tokens=1024))
+    service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
+
+    index = GPTSimpleVectorIndex.from_documents(documents,service_context=service_context)
+    # st.session_state.index = index
+    return index
+        
+
+######################       defining tabs      ##########################################
+
+upload_col, refine_toc,  extract_col, miss_col, edit_col, xml_col, manage_col = st.tabs(["⚪ __Upload Chapter__","⚪ __Refine_TOC__", "⚪ __Extract_Contents__","⚪ __missing_Contents__", "⚪ __Edit Contents__", "⚪ __Export Generated XML__", "⚪ __Manage XMLs__"])
+
+if "toc" not in st.session_state:
+    st.session_state.toc = {}
+
+
+
+
+######################       Upload chapter column      ##########################################
+
+uploaded_file = upload_col.file_uploader("Upload a Chapter as a PDF file", type="pdf")
+toc_option = upload_col.radio("Choose a method to provide TOC", ("Generate TOC", "Copy Paste TOC"))
+forma = """"{
+  "Topics": [
+    {
+      "Topic 1": [
+        "Subtopic 1.1",
+        "Subtopic 1.2",
+        "Subtopic 1.3"
+      ]
+    },
+    {
+      "Topic 2": [
+        "Subtopic 2.1",
+        "Subtopic 2.2",
+        "Subtopic 2.3"
+      ]
+    },
+     continue with topics...
+  ]
+}
+
+"""
+if uploaded_file is not None:
+        clear_all_json_files()
+
+        index = process_pdf(uploaded_file)
+        if "index" not in st.session_state:
+            st.session_state.index = index
+
+        upload_col.success("Index created successfully")
+        clear_images_folder()
+        clear_pages_folder()
+    # read PDF file
+        with open(uploaded_file.name, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+
+        # display PDF file
+        with fitz.open(uploaded_file.name) as doc:
+            for page in doc:  # iterate through the pages
+                pix = page.get_pixmap()  # render page to an image
+                pix.save("pages/page-%i.png" % page.number) 
+            for page_index in range(len(doc)):
+                page = doc[page_index]
+                image_list = page.get_images(full=True)
+                for image_index, img in enumerate(page.get_images(), start=1):
+                
+
+                    xref = img[0]
+                    base_image = doc.extract_image(xref)
+                    image_bytes = base_image["image"]
+                    image_ext = base_image["ext"]
+                    image = Image.open(io.BytesIO(image_bytes))
+                    image_filename = f"images/image_page{page_index}_{image_index}.{image_ext}"
+                    image.save(image_filename)
+
+if toc_option == "Generate TOC":
+    toc = upload_col.button("Genererate TOC")
+    try:
+        if toc:
+            toc_res = st.session_state.index.query(f" create a table of contents with topics and subtopics by reading through the document and create a table of contents that accurately reflects the main topics and subtopics covered in the document. The table of contents should be in the following format: " + str(forma))
+            str_toc = str(toc_res)
+            table_of_contents = json.loads(str_toc)
+
+            if "table_of_contents" not in st.session_state:
+                st.session_state.table_of_contents = table_of_contents
+            upload_col.write(st.session_state.table_of_contents)
+
+            upload_col.success("TOC loaded, Go to the next tab")
+
+    except (KeyError, AttributeError) as e:
+        print("Error generating TOC")
+        print(f"Error: {type(e).__name__} - {e}")
+
+
+elif toc_option == "Copy Paste TOC":
+    toc_input = upload_col.text_area("Paste your Table of contents:")
+    if toc_input:
+        try:
+            # table_of_contents = json.loads(toc_input)
+            toc_res = st.session_state.index.query(f"convert the following table of contents into the specified JSON format\n"+ "Table of contents:\n"+ str(toc_input) + "\n JSON format:\n"+ str(forma))
+            str_toc = str(toc_res)
+            table_of_contents = json.loads(str_toc)
+
+            st.write(table_of_contents)
+
+            if "table_of_contents" not in st.session_state:
+                st.session_state.table_of_contents = table_of_contents
+            upload_col.write(st.session_state.table_of_contents)
+
+            upload_col.success("TOC loaded, Go to the next tab")
+
+
+            # if "table_of_contents" not in st.session_state:
+            #     st.session_state.table_of_contents = table_of_contents
+            # upload_col.write(st.session_state.table_of_contents)
+            # upload_col.success("TOC loaded, Go to the next tab")
+        except json.JSONDecodeError as e:
+            upload_col.error("Invalid JSON format. Please check your input.")
