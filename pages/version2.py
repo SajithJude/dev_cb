@@ -274,10 +274,96 @@ elif toc_option == "Copy Paste TOC":
 
             upload_col.success("TOC loaded, Go to the next tab")
 
-
-            # if "table_of_contents" not in st.session_state:
-            #     st.session_state.table_of_contents = table_of_contents
-            # upload_col.write(st.session_state.table_of_contents)
-            # upload_col.success("TOC loaded, Go to the next tab")
         except json.JSONDecodeError as e:
             upload_col.error("Invalid JSON format. Please check your input.")
+
+
+
+
+
+######################       refining toc start      ##########################################
+
+
+try:
+    with refine_toc:
+        column1, column2 = st.columns(2, gap="large")
+        data = st.session_state.table_of_contents
+        topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
+        if "topic_data" not in st.session_state:
+            st.session_state['topic_data'] = topic_data
+        column1.write("# Editor")
+
+        column1.write("### Topics:")
+        topic_name = column1.text_input("Enter New topic name:")
+
+        if column1.button("Save New Topic"):
+            if topic_name not in st.session_state['topic_data']:
+                st.session_state['topic_data'][topic_name] = []
+                update_json(topic_data)
+
+        topic_options = list(st.session_state['topic_data'].keys())
+        selected_topic = column1.selectbox("Select a Topic to edit Subtopics", topic_options)
+        
+        delete_topic = column1.button("Remove Selected Topic")
+        if delete_topic:
+            if selected_topic in st.session_state['topic_data']:
+                del st.session_state['topic_data'][selected_topic]
+                update_json(st.session_state['topic_data'])
+                st.experimental_rerun()
+                
+                
+        subtopics = st.session_state['topic_data'][selected_topic]
+
+        column1.write("### Subtopics:")
+        subtopics_input = column1.multiselect("Remove Unwanted Subtopics", subtopics, default=subtopics)
+
+        if subtopics_input:
+            st.session_state['topic_data'][selected_topic] = subtopics_input
+            update_json(st.session_state['topic_data'])
+        add = column1.button("Create New Subtopic")
+        if "add" in st.session_state  or add:
+            st.session_state['add'] = True
+            new_subtopic = column1.text_input("Enter New Subtopic name:")
+            if column1.button("Save New Subtopic"):
+                if new_subtopic not in st.session_state['topic_data'][selected_topic]:
+                    st.session_state['topic_data'][selected_topic].append(new_subtopic)
+                    add= None
+                    st.session_state['add'] = False
+                    st.experimental_rerun()
+        
+        if column1.button("Save"):
+            try:
+                if "new_dict" not in st.session_state:
+                        st.session_state.new_dict = {}
+                for topic in st.session_state.toc["Topics"]:
+                    for key, value in topic.items():
+                        # Add a description for the topic
+                        st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
+                        # Add descriptions for the values
+                        for item in value:
+                            st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
+            except (KeyError, AttributeError) as e:
+                print("Error Formating TOC "+str(e))
+                print(f"Error: {type(e).__name__} - {e}")
+
+        column2.write("# Table of Contents")
+
+        for topic, subtopics in st.session_state['topic_data'].items():
+            column2.markdown(f"**{topic}**")
+            for subtopic in subtopics:
+                column2.write(f"- {subtopic}")
+
+
+
+
+except (KeyError, AttributeError) as e:
+    print("Error refining toc")
+    print(f"Error: {type(e).__name__} - {e}")
+
+
+
+
+
+######################       extract content      ##########################################
+
+
