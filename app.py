@@ -164,10 +164,11 @@ def process_pdf(uploaded_file):
     
     llm_predictor = LLMPredictor(llm=OpenAI(temperature=0, model_name="text-davinci-003", max_tokens=2048))
     service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
-
-    index = GPTSimpleVectorIndex.from_documents(documents,service_context=service_context)
+    if "index" not in st.session_state:
+        st.session_state.index = GPTSimpleVectorIndex.from_documents(documents,service_context=service_context)
+    # index = 
     # st.session_state.index = index
-    return index
+    return st.session_state.index
         
 
 ######################       defining tabs      ##########################################
@@ -207,9 +208,9 @@ forma = """"{
 if uploaded_file is not None:
         clear_all_json_files()
 
-        index = process_pdf(uploaded_file)
+        # index = 
         if "index" not in st.session_state:
-            st.session_state.index = index
+            st.session_state.index = process_pdf(uploaded_file)
 
         upload_col.success("Index created successfully")
         clear_images_folder()
