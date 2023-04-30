@@ -179,11 +179,10 @@ if "toc" not in st.session_state:
 
 
 
-
 ######################       Upload chapter column      ##########################################
 
 uploaded_file = upload_col.file_uploader("Upload a Chapter as a PDF file", type="pdf")
-
+toc_option = upload_col.radio("Choose a method to provide TOC", ("Generate TOC", "Copy Paste TOC"))
 forma = """"{
   "Topics": [
     {
@@ -238,23 +237,46 @@ if uploaded_file is not None:
                     image_filename = f"images/image_page{page_index}_{image_index}.{image_ext}"
                     image.save(image_filename)
 
+if toc_option == "Generate TOC":
+    toc = upload_col.button("Genererate TOC")
+    try:
+        if toc:
+            toc_res = st.session_state.index.query(f" create a table of contents with topics and subtopics by reading through the document and create a table of contents that accurately reflects the main topics and subtopics covered in the document. The table of contents should be in the following format: " + str(forma))
+            str_toc = str(toc_res)
+            table_of_contents = json.loads(str_toc)
 
-toc = upload_col.button("Genererate TOC")
-try:
-    if toc:
-        toc_res = st.session_state.index.query(f" create a table of contents with topics and subtopics by reading through the document and create a table of contents that accurately reflects the main topics and subtopics covered in the document. The table of contents should be in the following format: " + str(forma))
-        str_toc = str(toc_res)
-        table_of_contents = json.loads(str_toc)
+            if "table_of_contents" not in st.session_state:
+                st.session_state.table_of_contents = table_of_contents
+            upload_col.write(st.session_state.table_of_contents)
 
-        if "table_of_contents" not in st.session_state:
-            st.session_state.table_of_contents = table_of_contents
-        upload_col.write(st.session_state.table_of_contents)
+            upload_col.success("TOC loaded, Go to the next tab")
 
-        upload_col.success("TOC loaded, Go to the next tab")
+    except (KeyError, AttributeError) as e:
+        print("Error generating TOC")
+        print(f"Error: {type(e).__name__} - {e}")
 
-except (KeyError, AttributeError) as e:
-    print("Error generating TOC")
-    print(f"Error: {type(e).__name__} - {e}")
+
+elif toc_option == "Copy Paste TOC":
+    toc_input = upload_col.text_area("Paste your Table of contents:")
+
+    if st.button("Save TOC"):
+        try:
+            # table_of_contents = json.loads(toc_input)
+            toc_res = st.session_state.index.query(f"convert the following table of contents into the specified JSON format\n"+ "Table of contents:\n"+ str(toc_input) + "\n JSON format:\n"+ str(forma))
+            str_toc = str(toc_res)
+            table_of_contents = json.loads(str_toc)
+
+            st.write(table_of_contents)
+
+            if "table_of_contents" not in st.session_state:
+                st.session_state.table_of_contents = table_of_contents
+            upload_col.write(st.session_state.table_of_contents)
+
+            upload_col.success("TOC loaded, Go to the next tab")
+
+        except json.JSONDecodeError as e:
+            upload_col.error("Invalid JSON format. Please check your input.")
+
 
 
 
