@@ -394,13 +394,13 @@ try:
         for topic, subtopics_dict in st.session_state.new_dict.items():
             for subtopic_dict in subtopics_dict['Subtopics']:
                 subtopic_name = subtopic_dict['Subtopic']
-                subtopicres = index.query("extract all the information under the subtopic  "+str(subtopic_name)+ ", while extracting preserve the contents list items and subsections, dont miss any information.")
+                subtopicres = index.query("extract all the information under the subtopic  "+str(subtopic_name)+ ", in 4 paragraphs where each paragraph has minimum 40 words.")
                 subtopic_dict['content'] = subtopicres.response
                 items_processed += 1
                 progress_bar.progress(items_processed / total_items)
                 ecol.info(f"Extracted {subtopic_name}")
             
-            topicres = index.query("extract all the content as it is without paraphrasing, inside first paragraph the topic "+str(topic))
+            topicres = index.query("generate a summary of the contents in minimum 20 words, out of the contents under the topic "+str(topic))
             subtopics_dict['content'] = topicres.response
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
