@@ -387,33 +387,63 @@ try:
 
     quer = ecol.button("Extract Contents")
 
-    # seca, secb = extract_col.columns(2)
     if quer:
-        progress_bar = ecol.progress(0)
-        total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
-        items_processed = 0
-        for topic, subtopics_dict in st.session_state.new_dict.items():
-            for subtopic_dict in subtopics_dict['Subtopics']:
-                subtopic_name = subtopic_dict['Subtopic']
-                subtopicres = st.session_state.index.query("extract all the information under the subtopic  "+str(subtopic_name)+ ", in 4 paragraphs where each paragraph has minimum 40 words.")
-                subtopic_dict['content'] = subtopicres.response
-                items_processed += 1
-                progress_bar.progress(items_processed / total_items)
-                ecol.info(f"Extracted {subtopic_name}")
+        # extract course name and course description
+        course_name = st.session_state.index.query("Course_Name").response
+        course_desc = st.session_state.index.query(f"Course_Description {course_description_wc}").response
+        
+        # extract topics and their subtopics
+        topic_names = st.session_state.index.query("Chapters").response
+        topic_summaries = {}
+        subtopic_names = {}
+        for topic_name in topic_names:
+            topic_summary = st.session_state.index.query(f"Chapter_Summary {topic_name} {topic_summary_wc}").response
+            topic_summaries[topic_name] = topic_summary
+            subtopic_names[topic_name] = st.session_state.index.query(f"topic {topic_name}").response
+        
+        # extract course objectives
+        course_obj = st.session_state.index.query(f"Objectives_{course_description_vo_wc}").response
+        
+        # extract subtopics and bullets
+        for topic_name, subtopics in subtopic_names.items():
+            for subtopic_name in subtopics:
+                subtopic_res = st.session_state.index.query(f"topic {subtopic_name} 4 40")
+                subtopic_content = subtopic_res.response
+                subtopic_bullets = []
+                for i in range(bullets_per_slide):
+                    bullet_res = st.session_state.index.query(f"bullet {subtopic_name} {i+1} {words_per_bullet}")
+                    bullet_content = bullet_res.response
+                    subtopic_bullets.append(bullet_content)
+                new_dict[course_name]['Subtopics'].append({
+                    'Subtopic': subtopic_name,
+                    'content': subtopic_content,
+                    'bullets': subtopic_bullets
+                })
+        
+        # store the extracted information in new_dict
+        new_dict[course_name] = {
+            'Course_Description': course_desc,
+            'Course_Objectives': course_obj,
+            'Topics': []
+        }
+        for topic_name, subtopics in subtopic_names.items():
+            topic_summary = topic_summaries[topic_name]
+            topic = {
+                'Topic': topic_name,
+                'Summary': topic_summary,
+                'Subtopics': []
+            }
+            for subtopic_name in subtopics:
+                subtopic = next((sub for sub in new_dict[course_name]['Subtopics'] if sub['Subtopic'] == subtopic_name), None)
+                if subtopic:
+                    topic['Subtopics'].append(subtopic)
+            new_dict[course_name]['Topics'].append(topic)
             
-            topicres = st.session_state.index.query("generate a summary of the contents in minimum 20 words, out of the contents under the topic "+str(topic))
-            subtopics_dict['content'] = topicres.response
-            items_processed += 1
-            progress_bar.progress(items_processed / total_items)
+        # generate topic and course summaries
+        for topic in new_dict[course_name]['Topics']:
+            topic['Topic_Summary'] = st.session_state.index.query(f"Chapter_Summary {topic['Topic']} {topic_summary_wc}").response
+        new_dict[course_name]['Course_Summary'] = st.session_state.index.query(f"Course_Summary 20").response
 
-   
-    for topic_key, topic_value in st.session_state.new_dict.items():
-        expander = ecol.expander(f"{topic_key}")
-        expander.write(topic_value["content"])
-        for subtopic in topic_value["Subtopics"]:
-            expander.markdown(f"**{subtopic['Subtopic']}**")
-            expander.write(subtopic["content"])
-                    
         
     
         

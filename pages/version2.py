@@ -371,18 +371,18 @@ except (KeyError, AttributeError) as e:
 try:
     pagecol, ecol = extract_col.columns([2,5],gap="large")
 
-    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+    # pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
-    selected_page = pagecol.number_input("Change page number to compare:",step=1)
-    selected_image = f"page-{selected_page}.png"
-    # Display the selected image
-    if selected_image:
-        pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
-    else:
-        pagecol.warning("No images found in the 'pages' folder.")
+    # selected_page = pagecol.number_input("Change page number to compare:",step=1)
+    # selected_image = f"page-{selected_page}.png"
+    # # Display the selected image
+    # if selected_image:
+    #     pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
+    # else:
+    #     pagecol.warning("No images found in the 'pages' folder.")
 
     # st.subheader("Word Count Settings")
-    ec1,ec2 = ecol.columns(2)
+    ec1,ec2 = pagecol.columns(2)
     course_description_wc = ec1.number_input("Course Description Word Count", value=30, min_value=1)
     course_description_vo_wc = ec1.number_input("Course Description VoiceOver Word Count", value=50, min_value=1)
 
@@ -396,7 +396,7 @@ try:
     paraphrasing_range = ecol.slider("Paraphrasing % Range", min_value=0, max_value=100, value=(25, 35))
 
 
-    ecol.write(st.session_state.new_dict)
+    # ecol.write(st.session_state.new_dict)
 
     for topic_key, topic_value in st.session_state.new_dict.items():
         expander = ecol.expander(f"{topic_key}")
