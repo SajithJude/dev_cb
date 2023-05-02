@@ -382,18 +382,18 @@ try:
         pagecol.warning("No images found in the 'pages' folder.")
 
     # st.subheader("Word Count Settings")
+    ec1,ec2 = ecol.columns(2)
+    course_description_wc = ec1.number_input("Course Description Word Count", value=30, min_value=1)
+    course_description_vo_wc = ec1.number_input("Course Description VoiceOver Word Count", value=50, min_value=1)
 
-    course_description_wc = ecol.number_input("Course Description Word Count", value=30, min_value=1)
-    course_description_vo_wc = ecol.number_input("Course Description VoiceOver Word Count", value=50, min_value=1)
+    topic_summary_wc = ec1.number_input("Topic Summary Word Count", value=30, min_value=1)
+    topic_summary_vo_wc = ec1.number_input("Topic Summary VoiceOver Word Count", value=50, min_value=1)
 
-    topic_summary_wc = ecol.number_input("Topic Summary Word Count", value=30, min_value=1)
-    topic_summary_vo_wc = ecol.number_input("Topic Summary VoiceOver Word Count", value=50, min_value=1)
+    bullets_per_slide = ec2.number_input("Number of Bullets per Slide", value=4, min_value=1)
+    words_per_bullet = ec2.number_input("Number of Words per Bullet", value=20, min_value=1)
+    bullet_vo_wc = ec2.number_input("Bullet VoiceOver Word Count", value=50, min_value=1)
 
-    bullets_per_slide = ecol.number_input("Number of Bullets per Slide", value=4, min_value=1)
-    words_per_bullet = ecol.number_input("Number of Words per Bullet", value=20, min_value=1)
-    bullet_vo_wc = ecol.number_input("Bullet VoiceOver Word Count", value=50, min_value=1)
-
-    paraphrasing_range = ecol.slider("Paraphrasing % Range", min_value=0, max_value=100, value=(25, 35))
+    paraphrasing_range = ec2.slider("Paraphrasing % Range", min_value=0, max_value=100, value=(25, 35))
 
 
     
