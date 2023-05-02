@@ -10,7 +10,7 @@ but = st.button("send")
 
 if but:
     res= index.query(qw)
-    st.write(res)
+    st.write(res[0]["node"]["text"])
     st.write(res.source_nodes)
     st.write(res.get_formatted_sources())
 
