@@ -400,27 +400,27 @@ try:
 
     for topic_key, topic_value in st.session_state.new_dict.items():
         expander = ecol.expander(f"{topic_key}")
-            if ecol.button(f"Extract content for {topic_key}"):
-                subtopics = topic_value["Subtopics"]
-                progress_bar = ecol.progress(0)
-                total_items = len(subtopics) + 1
-                items_processed = 0
-                for subtopic in subtopics:
-                    subtopic_name = subtopic['Subtopic']
-                    subtopicres = st.session_state.index.query(f"extract all the information under the subtopic {subtopic_name}, in 4 paragraphs where each paragraph has minimum 40 words.")
-                    subtopic['content'] = subtopicres.response
-                    items_processed += 1
-                    progress_bar.progress(items_processed / total_items)
-                    ecol.info(f"Extracted {subtopic_name}")
-
-                topicres = st.session_state.index.query(f"generate a summary of the contents in minimum 20 words, out of the contents under the topic {topic_key}")
-                topic_value['content'] = topicres.response
+        if ecol.button(f"Extract content for {topic_key}"):
+            subtopics = topic_value["Subtopics"]
+            progress_bar = ecol.progress(0)
+            total_items = len(subtopics) + 1
+            items_processed = 0
+            for subtopic in subtopics:
+                subtopic_name = subtopic['Subtopic']
+                subtopicres = st.session_state.index.query(f"extract all the information under the subtopic {subtopic_name}, in 4 paragraphs where each paragraph has minimum 40 words.")
+                subtopic['content'] = subtopicres.response
                 items_processed += 1
                 progress_bar.progress(items_processed / total_items)
-            expander.write(topic_value["content"])
-            for subtopic in topic_value["Subtopics"]:
-                expander.markdown(f"**{subtopic['Subtopic']}**")
-                expander.write(subtopic["content"])
+                ecol.info(f"Extracted {subtopic_name}")
+
+            topicres = st.session_state.index.query(f"generate a summary of the contents in minimum 20 words, out of the contents under the topic {topic_key}")
+            topic_value['content'] = topicres.response
+            items_processed += 1
+            progress_bar.progress(items_processed / total_items)
+        expander.write(topic_value["content"])
+        for subtopic in topic_value["Subtopics"]:
+            expander.markdown(f"**{subtopic['Subtopic']}**")
+            expander.write(subtopic["content"])
 
                         
             
