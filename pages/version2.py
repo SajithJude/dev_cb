@@ -396,7 +396,7 @@ try:
     paraphrasing_range = ecol.slider("Paraphrasing % Range", min_value=0, max_value=100, value=(25, 35))
 
 
-    
+    ecol.write(ecol)
 
     quer = ecol.button("Extract Contents")
 
