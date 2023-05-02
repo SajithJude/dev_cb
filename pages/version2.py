@@ -1,29 +1,26 @@
 import streamlit as st
-from llama_index import GPTSimpleVectorIndex, Document, SimpleDirectoryReader, QuestionAnswerPrompt, LLMPredictor, ServiceContext
+from llama_index import GPTSimpleVectorIndex, Document, download_loader, QuestionAnswerPrompt, LLMPredictor, ServiceContext
 import json
 from langchain import OpenAI
-from llama_index import download_loader
 from tempfile import NamedTemporaryFile
-
 import io
 import fitz
 from PIL import Image
 import os
 import glob
-PDFReader = download_loader("PDFReader")
 import os
 import openai 
 import json
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 from pathlib import Path
-from llama_index import download_loader
 from xml.etree.ElementTree import Element, SubElement, tostring
 import requests
 import zipfile
 
 
-from langchain import OpenAI
+
+
 st.set_page_config(page_title=None, page_icon=None, layout="wide", initial_sidebar_state="collapsed")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -33,7 +30,6 @@ st.caption("AI-powered course creation made easy")
 DATA_DIR = "data"
 
 PDFReader = download_loader("PDFReader")
-
 loader = PDFReader()
 
 
