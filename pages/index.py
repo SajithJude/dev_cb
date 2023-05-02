@@ -12,5 +12,5 @@ if but:
     res= index.query(qw)
     # st.write(res[0]["node"]["text"])
     st.write(res.source_nodes[0])
-    st.write(res())
+    # st.write(res())
 
