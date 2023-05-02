@@ -393,7 +393,7 @@ try:
     words_per_bullet = ec2.number_input("Number of Words per Bullet", value=20, min_value=1)
     bullet_vo_wc = ec2.number_input("Bullet VoiceOver Word Count", value=50, min_value=1)
 
-    paraphrasing_range = ec2.slider("Paraphrasing % Range", min_value=0, max_value=100, value=(25, 35))
+    paraphrasing_range = ecol.slider("Paraphrasing % Range", min_value=0, max_value=100, value=(25, 35))
 
 
     
