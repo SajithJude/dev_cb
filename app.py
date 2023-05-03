@@ -186,6 +186,7 @@ def generate_xml_structure(data):
         SubElement(slide, 'Slide_Name').text = topic_key
         SubElement(slide, 'Topic_Name').text = topic_key
         
+        slide_counter += 1
         for i, subtopic in enumerate(topic_value['Subtopics'], start=1):
             subtopic_element = SubElement(slide, f'SubTopic_{i}')
             SubElement(subtopic_element, 'Content').text = subtopic['content']
@@ -199,7 +200,7 @@ def generate_xml_structure(data):
 
         # Add other elements like <image> and <VO_Script> if needed
 
-        slide_counter += 1
+        
 
     # Add your predefined slides at the end (e.g., Slide7)
 
