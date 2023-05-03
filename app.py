@@ -160,6 +160,9 @@ def json_to_xml(json_data, chapter_name):
 
     return tostring(chapter).decode()
 
+from xml.etree.ElementTree import Element, SubElement, tostring
+
+
 def generate_xml_structure(data):
     slides = Element('Slides')
 
@@ -172,9 +175,19 @@ def generate_xml_structure(data):
 
         SubElement(slide, 'Slide_Name').text = topic_key
         SubElement(slide, 'Topic_Name').text = topic_value['content']
+        SubElement(slide, 'VoiceOver').text = topic_value['VoiceOver']
+        SubElement(slide, 'Topic_Summary').text = topic_value['Topic_Summary']
 
         for i, subtopic in enumerate(topic_value['Subtopics'], start=1):
-            SubElement(slide, f'SubTopic_{i}').text = subtopic['content']
+            subtopic_element = SubElement(slide, f'SubTopic_{i}')
+            SubElement(subtopic_element, 'Content').text = subtopic['content']
+            SubElement(subtopic_element, 'Subtopic').text = subtopic['Subtopic']
+
+            bullets = SubElement(subtopic_element, 'Bullets')
+            for j, bullet in enumerate(subtopic['Bullets'], start=1):
+                SubElement(bullets, f'Bullet_{j}').text = bullet
+
+            SubElement(subtopic_element, 'VoiceOver').text = subtopic['VoiceOver']
 
         # Add other elements like <image> and <VO_Script> if needed
 
@@ -182,8 +195,9 @@ def generate_xml_structure(data):
 
     # Add your predefined slides at the end (e.g., Slide7)
 
-    # xml_string = 
+    # xml_string =
     return tostring(slides).decode()
+
 
 def process_pdf(uploaded_file):
     loader = PDFReader()
