@@ -202,7 +202,7 @@ try:
                         st.session_state.new_dict[key] = {'Topic_Summary': '', 'VoiceOver': '', 'Subtopics': []}
                         # Add descriptions for the values
                         for item in value:
-                            st.session_state.new_dict[key]['Subtopics'].append({'VoiceOver': '', 'Subtopic': item, , "SubtopicBullets": []})
+                            st.session_state.new_dict[key]['Subtopics'].append({'VoiceOver': '', 'Subtopic': item, "SubtopicBullets": []})
             except (KeyError, AttributeError) as e:
                 print("Error Formating TOC "+str(e))
                 print(f"Error: {type(e).__name__} - {e}")
