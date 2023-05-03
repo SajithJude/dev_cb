@@ -551,7 +551,7 @@ try:
         for topic_key, topic_value in st.session_state.new_dict.items():
             print("looping")
             # Add "voice_over" key to the main topic
-            topic = st.sessionstate.new_dict[topic_key]
+            topic = st.session_state.new_dict[topic_key]
             topic_content = topic['content']
             topic_voiceover_prompt = f"generate a voice over for the following paragraph in {topic_summary_voiceover_limit} words: {topic_content}"
             st.sessionstate.new_dict[topic_key]["voice_over"] = str(call_openai(topic_voiceover_prompt))
