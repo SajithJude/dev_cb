@@ -562,7 +562,7 @@ try:
                 for subtopic in topic_value["Subtopics"]:
                     subtopic_content = subtopic['content']
                     subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points with from the following content: {subtopic_content}\n, give the output as a json list."
-                    subtopic['Bullets'] = call_openai(subtopic_bullet_prompt)
+                    subtopic['Bullets'] = str(call_openai(subtopic_bullet_prompt))
 
                     # Add "voice_over" key to the subtopic
                     # subtopic["voice_over"] = ""
