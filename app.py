@@ -545,7 +545,7 @@ try:
 
     coursename = excol.text_input("Enter Course Name")
     ex = excol.button("Generate Voice Over")
-
+    excol.write(st.session_state.new_dict)
     if ex:
         for topic_key in st.sessionstate.new_dict.items():
             excol.write(topic_key)
