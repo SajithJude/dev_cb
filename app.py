@@ -545,7 +545,7 @@ try:
 
     coursename = excol.text_input("Enter Course Name")
     ex = excol.button("Generate Voice Over")
-    # excol.write(st.session_state.new_dict)
+    excol.write(st.session_state.new_dict)
     if ex:
         print("button clicked")
         for topic_key, topic_value in st.session_state.new_dict.items():
