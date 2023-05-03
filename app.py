@@ -173,8 +173,8 @@ def generate_xml_structure(data):
         SubElement(slide, 'Slide_Name').text = topic_key
         SubElement(slide, 'Topic_Name').text = CDATA(topic_value['content'])
 
-        for i, subtopic in enumerate(topic_value['Subtopics'], start=1):
-            SubElement(slide, f'SubTopic_{i}').text = CDATA(subtopic['content'])
+        # for i, subtopic in enumerate(topic_value['Subtopics'], start=1):
+        #     SubElement(slide, f'SubTopic_{i}').text = CDATA(subtopic['content'])
 
         # Add other elements like <image> and <VO_Script> if needed
 
