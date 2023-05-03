@@ -161,20 +161,20 @@ def json_to_xml(json_data, chapter_name):
     return tostring(chapter).decode()
 
 def generate_xml_structure(data):
-    slides = ET.Element('Slides')
+    slides = Element('Slides')
 
     # Add your predefined slides here (e.g., Slide1, Slide2, Slide3)
 
     slide_counter = 4
     for topic_key, topic_value in data.items():
         slide_name = f'Slide{slide_counter}'
-        slide = ET.SubElement(slides, slide_name)
+        slide = SubElement(slides, slide_name)
 
-        ET.SubElement(slide, 'Slide_Name').text = topic_key
-        ET.SubElement(slide, 'Topic_Name').text = ET.CDATA(topic_value['content'])
+        SubElement(slide, 'Slide_Name').text = topic_key
+        SubElement(slide, 'Topic_Name').text = CDATA(topic_value['content'])
 
         for i, subtopic in enumerate(topic_value['Subtopics'], start=1):
-            ET.SubElement(slide, f'SubTopic_{i}').text = ET.CDATA(subtopic['content'])
+            SubElement(slide, f'SubTopic_{i}').text = CDATA(subtopic['content'])
 
         # Add other elements like <image> and <VO_Script> if needed
 
@@ -182,8 +182,8 @@ def generate_xml_structure(data):
 
     # Add your predefined slides at the end (e.g., Slide7)
 
-    xml_string = ET.tostring(slides, encoding='utf-8', method='xml').decode()
-    return xml_string
+    # xml_string = 
+    return tostring(slides).decode()
 
 def process_pdf(uploaded_file):
     loader = PDFReader()
@@ -587,7 +587,8 @@ try:
                
         # excol.write(st.session_state.new_dict)
         xml_output = generate_xml_structure(st.session_state.new_dict)
-        voice_col.code(xml_output, language=None)
+        pretty_xml = minidom.parseString(xml_output).toprettyxml()
+        voice_col.code(pretty_xml)
 
     
 
