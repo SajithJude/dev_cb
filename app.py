@@ -548,7 +548,7 @@ try:
     # excol.write(st.session_state.new_dict)
     if ex:
         print("button clicked")
-        for topic_key, topic_value in st.sessionstate.new_dict.items():
+        for topic_key, topic_value in st.session_state.new_dict.items():
             print("looping")
             # Add "voice_over" key to the main topic
             topic = st.sessionstate.new_dict[topic_key]
