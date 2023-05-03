@@ -547,13 +547,16 @@ try:
     ex = excol.button("Generate Voice Over")
 
     if ex:
+
         for topic_key in st.sessionstate.new_dict.keys():
+            excol.write(topic_key)
             topic = st.sessionstate.new_dict[topic_key]
             topic_content = topic['content']
             topic_voiceover_prompt = f"generate a voice over for the following paragraph in {topic_summary_voiceover_limit} words: {topic_content}"
             topic['VoiceOver'] = call_openai(topic_voiceover_prompt)
             
             for subtopic in topic['Subtopics']:
+
                 subtopic_content = subtopic['content']
                 subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points with from the following content: {subtopic_content}\n, give the output as a json list."
                 subtopic['Bullets'] = call_openai(subtopic_bullet_prompt)
