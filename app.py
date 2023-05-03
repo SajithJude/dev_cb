@@ -1,5 +1,5 @@
 import streamlit as st
-from llama_index import GPTSimpleVectorIndex, Document, SimpleDirectoryReader, QuestionAnswerPrompt, LLMPredictor, ServiceContext
+from llama_index import GPTVectorStoreIndex, Document, SimpleDirectoryReader, QuestionAnswerPrompt, LLMPredictor, ServiceContext
 import json
 from langchain import OpenAI
 from llama_index import download_loader
@@ -164,9 +164,11 @@ def process_pdf(uploaded_file):
     
     llm_predictor = LLMPredictor(llm=OpenAI(temperature=0, model_name="text-davinci-003", max_tokens=1900))
     service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
+    
     if "index" not in st.session_state:
-        st.session_state.index = GPTSimpleVectorIndex.from_documents(documents,service_context=service_context)
-    # index = 
+        index = GPTVectorStoreIndex.from_documents(documents,service_context=service_context)
+        index = index.as_query_engine()
+        st.session_state.index = index
     # st.session_state.index = index
     return st.session_state.index
         

@@ -203,6 +203,8 @@ try:
                         # Add descriptions for the values
                         for item in value:
                             st.session_state.new_dict[key]['Subtopics'].append({'VoiceOver': '', 'Subtopic': item, "SubtopicBullets": []})
+                st.write(st.session_state.new_dict)
+            
             except (KeyError, AttributeError) as e:
                 print("Error Formating TOC "+str(e))
                 print(f"Error: {type(e).__name__} - {e}")
@@ -213,7 +215,6 @@ try:
             column2.markdown(f"**{topic}**")
             for subtopic in subtopics:
                 column2.write(f"- {subtopic}")
-
 
 
 
@@ -261,7 +262,7 @@ try:
     ecol.write(coursdescription.response)
     ecol.write(voiceover.response)
 
-    ecol.write(st.session_state.new_dict)
+    # ecol.write(st.session_state.new_dict)
 
 except (KeyError,NameError, FileNotFoundError,AttributeError) as e:
     print("Error Extracting Data")
