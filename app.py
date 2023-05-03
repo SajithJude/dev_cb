@@ -554,12 +554,14 @@ try:
             topic = st.session_state.new_dict[topic_key]
             topic_content = topic['content']
             topic_voiceover_prompt = f"generate a voice over for the following paragraph in {topic_summary_voiceover_limit} words: {topic_content}"
-            st.sessionstate.new_dict[topic_key]["voice_over"] = str(call_openai(topic_voiceover_prompt))
+            st.session_state.new_dict[topic_key]["voice_over"] = str(call_openai(topic_voiceover_prompt))
             
             # Check if the topic has subtopics
             # if "Subtopics" in topic_value:
                 # Iterate through the subtopics
             for subtopic in topic_value["Subtopics"]:
+                excol.write("looping subtopics")
+
                 subtopic_content = subtopic['content']
                 subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points with from the following content: {subtopic_content}\n, give the output as a json list."
                 subtopic['Bullets'] = str(call_openai(subtopic_bullet_prompt))
