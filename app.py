@@ -284,8 +284,8 @@ elif toc_option == "Copy Paste TOC":
 
             upload_col.write(table_of_contents)
 
-            if "table_of_contents" not in st.session_state:
-                st.session_state.table_of_contents = table_of_contents
+            # if "table_of_contents" not in st.session_state:
+            st.session_state.table_of_contents = table_of_contents
             upload_col.write(st.session_state.table_of_contents)
 
             upload_col.success("TOC loaded, Go to the next tab")
