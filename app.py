@@ -178,7 +178,7 @@ def generate_xml_structure(data):
     
 
 
-    slide_counter = 1
+    slide_counter = 2
     for topic_key, topic_value in data.items():
         slide_name = f'Slide{slide_counter}'
         slide = SubElement(slides, slide_name)
