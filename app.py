@@ -171,10 +171,10 @@ def generate_xml_structure(data):
         slide = SubElement(slides, slide_name)
 
         SubElement(slide, 'Slide_Name').text = topic_key
-        SubElement(slide, 'Topic_Name').text = CDATA(topic_value['content'])
+        SubElement(slide, 'Topic_Name').text = topic_value['content']
 
-        # for i, subtopic in enumerate(topic_value['Subtopics'], start=1):
-        #     SubElement(slide, f'SubTopic_{i}').text = CDATA(subtopic['content'])
+        for i, subtopic in enumerate(topic_value['Subtopics'], start=1):
+            SubElement(slide, f'SubTopic_{i}').text = subtopic['content']
 
         # Add other elements like <image> and <VO_Script> if needed
 
@@ -532,72 +532,72 @@ except (KeyError,FileNotFoundError, AttributeError) as e:
 
 
 
-# try:
-edcol, excol = voice_col.columns([3,5],gap="large")
+try:
+    edcol, excol = voice_col.columns([3,5],gap="large")
 
-# Course Description
-course_description_limit = edcol.number_input("Course Description Word Count Limit", value=30, min_value=1)
+    # Course Description
+    course_description_limit = edcol.number_input("Course Description Word Count Limit", value=30, min_value=1)
 
-# Course Description VoiceOver
-course_description_voiceover_limit = edcol.number_input("Course Description VoiceOver Word Count Limit", value=50, min_value=1)
+    # Course Description VoiceOver
+    course_description_voiceover_limit = edcol.number_input("Course Description VoiceOver Word Count Limit", value=50, min_value=1)
 
-# Topic Summary
-topic_summary_limit = edcol.number_input("Topic Summary Word Count Limit", value=30, min_value=1)
+    # Topic Summary
+    topic_summary_limit = edcol.number_input("Topic Summary Word Count Limit", value=30, min_value=1)
 
-# Topic Summary VoiceOver
-topic_summary_voiceover_limit = edcol.number_input("Topic Summary VoiceOver Word Count Limit", value=50, min_value=1)
+    # Topic Summary VoiceOver
+    topic_summary_voiceover_limit = edcol.number_input("Topic Summary VoiceOver Word Count Limit", value=50, min_value=1)
 
-# Number of Bullets per Slide
-num_bullets_per_slide = edcol.number_input("Number of Bullets per Slide", value=4, min_value=1)
+    # Number of Bullets per Slide
+    num_bullets_per_slide = edcol.number_input("Number of Bullets per Slide", value=4, min_value=1)
 
-# Number of Words per Bullet
-num_words_bullet = edcol.number_input("Number of Words per Bullet", value=20, min_value=1)
+    # Number of Words per Bullet
+    num_words_bullet = edcol.number_input("Number of Words per Bullet", value=20, min_value=1)
 
-# Bullet VoiceOver
-bullet_voiceover_limit = edcol.number_input("Bullet VoiceOver Word Count Limit", value=50, min_value=1)
+    # Bullet VoiceOver
+    bullet_voiceover_limit = edcol.number_input("Bullet VoiceOver Word Count Limit", value=50, min_value=1)
 
-# Paraphrasing Percentage Range
-paraphrasing_range = edcol.slider("Paraphrasing % Range", min_value=25, max_value=35, value=(25, 35))
+    # Paraphrasing Percentage Range
+    paraphrasing_range = edcol.slider("Paraphrasing % Range", min_value=25, max_value=35, value=(25, 35))
 
-coursename = excol.text_input("Enter Course Name")
-ex = excol.button("Generate Voice Over")
-# voice_col.write(st.session_state.new_dict)
-if ex:
-    for topic_key, topic_value in st.session_state.new_dict.items():
-        # Add "VoiceOver" key to the main topic
-        topic = st.session_state.new_dict[topic_key]
-        topic_content = topic['content']
-        topic_voiceover_prompt = f"generate a voice over for the following paragraph in {topic_summary_voiceover_limit} words: {topic_content}"
-        st.session_state.new_dict[topic_key]["VoiceOver"] = str(call_openai(topic_voiceover_prompt))
-        
-        topic_summary_prompt = f"generate a voice over for the following paragraph in {topic_summary_limit} words: {topic_content}"
-        st.session_state.new_dict[topic_key]["Topic_Summary"] = str(call_openai(topic_summary_prompt))
-        
-        # Check if the topic has subtopics
-        # if "Subtopics" in topic_value:
-            # Iterate through the subtopics
-        for subtopic in topic_value["Subtopics"]:
-            subtopic_content = subtopic['content']
-            subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points with {num_words_bullet} number of words per bullet from the following content: {subtopic_content}\n, give the output as a json list."
-            bullets = call_openai(subtopic_bullet_prompt)
-            listbul = ast.literal_eval(bullets.strip())
-            subtopic['Bullets'] = listbul
-            subtopic_voiceover_prompt = f"generate a voice over for the following content in {bullet_voiceover_limit} words: {subtopic_content}"
-            subtopic["VoiceOver"] = str(call_openai(subtopic_voiceover_prompt))
+    coursename = excol.text_input("Enter Course Name")
+    ex = excol.button("Generate Voice Over")
+    # voice_col.write(st.session_state.new_dict)
+    if ex:
+        for topic_key, topic_value in st.session_state.new_dict.items():
+            # Add "VoiceOver" key to the main topic
+            topic = st.session_state.new_dict[topic_key]
+            topic_content = topic['content']
+            topic_voiceover_prompt = f"generate a voice over for the following paragraph in {topic_summary_voiceover_limit} words: {topic_content}"
+            st.session_state.new_dict[topic_key]["VoiceOver"] = str(call_openai(topic_voiceover_prompt))
             
-    # excol.write(st.session_state.new_dict)
-if excol.button("generate xml"):
-    excol.write(st.session_state.new_dict)
+            topic_summary_prompt = f"generate a voice over for the following paragraph in {topic_summary_limit} words: {topic_content}"
+            st.session_state.new_dict[topic_key]["Topic_Summary"] = str(call_openai(topic_summary_prompt))
+            
+            # Check if the topic has subtopics
+            # if "Subtopics" in topic_value:
+                # Iterate through the subtopics
+            for subtopic in topic_value["Subtopics"]:
+                subtopic_content = subtopic['content']
+                subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points with {num_words_bullet} number of words per bullet from the following content: {subtopic_content}\n, give the output as a json list."
+                bullets = call_openai(subtopic_bullet_prompt)
+                listbul = ast.literal_eval(bullets.strip())
+                subtopic['Bullets'] = listbul
+                subtopic_voiceover_prompt = f"generate a voice over for the following content in {bullet_voiceover_limit} words: {subtopic_content}"
+                subtopic["VoiceOver"] = str(call_openai(subtopic_voiceover_prompt))
+               
+        # excol.write(st.session_state.new_dict)
+    if excol.button("generate xml"):
+        excol.write(st.session_state.new_dict)
 
-    xml_output = generate_xml_structure(st.session_state.new_dict)
-    pretty_xml = minidom.parseString(xml_output).toprettyxml()
-    excol.code(pretty_xml)
+        xml_output = generate_xml_structure(st.session_state.new_dict)
+        pretty_xml = minidom.parseString(xml_output).toprettyxml()
+        voice_col.code(pretty_xml)
 
     
 
-# except (KeyError,NameError, FileNotFoundError,AttributeError) as e:
-#     print("Error Extracting Data")
-#     print(f"Error: {type(e).__name__} - {e}")
+except (KeyError,NameError, FileNotFoundError,AttributeError) as e:
+    print("Error Extracting Data")
+    print(f"Error: {type(e).__name__} - {e}")
 
 
 
