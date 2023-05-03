@@ -547,8 +547,7 @@ try:
     ex = excol.button("Generate Voice Over")
 
     if ex:
-
-        for topic_key in st.sessionstate.new_dict.keys():
+        for topic_key in st.sessionstate.new_dict.items():
             excol.write(topic_key)
             topic = st.sessionstate.new_dict[topic_key]
             topic_content = topic['content']
