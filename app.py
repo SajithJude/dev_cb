@@ -504,7 +504,7 @@ except (KeyError,FileNotFoundError, AttributeError) as e:
 
 
 try:
-    edcol, excol = voice_col.columns([2,5],gap="large")
+    edcol, excol = voice_col.columns([3,5],gap="large")
 
     # Course Description
     course_description_limit = edcol.number_input("Course Description Word Count Limit", value=30, min_value=1)
@@ -531,9 +531,18 @@ try:
     paraphrasing_range = edcol.slider("Paraphrasing % Range", min_value=25, max_value=35, value=(25, 35))
 
     coursename = excol.text_input("Enter Course Name")
-    # quer = excol.button("Extract Contents")
+    ex = excol.button("Generate Voice Over")
 
-    # if quer:
+    if ex:
+        for topic_key in st.sessionstate.new_dict.keys():
+            topic = st.sessionstate.new_dict[topic_key]
+            topic_content = topic['content']
+            topic['VoiceOver'] = topic_content
+            
+            for subtopic in topic['Subtopics']:
+                subtopic_content = subtopic['content']
+                subtopic['VoiceOver'] = subtopic_content
+
     #     coursdescription = st.session_state.index.query(f"Generate a course description in {course_description_limit} no of words")
     #     voiceover = st.session_state.index.query(f"Generate a voiceover in {course_description_voiceover_limit} no of words")
 
