@@ -504,41 +504,41 @@ except (KeyError,FileNotFoundError, AttributeError) as e:
 
 
 try:
-    pagecol, ecol = voice_col.columns([2,5],gap="large")
+    edcol, excol = voice_col.columns([2,5],gap="large")
 
     # Course Description
-    course_description_limit = pagecol.number_input("Course Description Word Count Limit", value=30, min_value=1)
+    course_description_limit = edcol.number_input("Course Description Word Count Limit", value=30, min_value=1)
 
     # Course Description VoiceOver
-    course_description_voiceover_limit = pagecol.number_input("Course Description VoiceOver Word Count Limit", value=50, min_value=1)
+    course_description_voiceover_limit = edcol.number_input("Course Description VoiceOver Word Count Limit", value=50, min_value=1)
 
     # Topic Summary
-    topic_summary_limit = pagecol.number_input("Topic Summary Word Count Limit", value=30, min_value=1)
+    topic_summary_limit = edcol.number_input("Topic Summary Word Count Limit", value=30, min_value=1)
 
     # Topic Summary VoiceOver
-    topic_summary_voiceover_limit = pagecol.number_input("Topic Summary VoiceOver Word Count Limit", value=50, min_value=1)
+    topic_summary_voiceover_limit = edcol.number_input("Topic Summary VoiceOver Word Count Limit", value=50, min_value=1)
 
     # Number of Bullets per Slide
-    num_bullets_per_slide = pagecol.number_input("Number of Bullets per Slide", value=4, min_value=1)
+    num_bullets_per_slide = edcol.number_input("Number of Bullets per Slide", value=4, min_value=1)
 
     # Number of Words per Bullet
-    num_words_bullet = pagecol.number_input("Number of Words per Bullet", value=20, min_value=1)
+    num_words_bullet = edcol.number_input("Number of Words per Bullet", value=20, min_value=1)
 
     # Bullet VoiceOver
-    bullet_voiceover_limit = pagecol.number_input("Bullet VoiceOver Word Count Limit", value=50, min_value=1)
+    bullet_voiceover_limit = edcol.number_input("Bullet VoiceOver Word Count Limit", value=50, min_value=1)
 
     # Paraphrasing Percentage Range
-    paraphrasing_range = pagecol.slider("Paraphrasing % Range", min_value=25, max_value=35, value=(25, 35))
+    paraphrasing_range = edcol.slider("Paraphrasing % Range", min_value=25, max_value=35, value=(25, 35))
 
-    coursename = ecol.text_input("Enter Course Name")
-    quer = ecol.button("Extract Contents")
+    coursename = excol.text_input("Enter Course Name")
+    # quer = excol.button("Extract Contents")
 
-    if quer:
-        coursdescription = st.session_state.index.query(f"Generate a course description in {course_description_limit} no of words")
-        voiceover = st.session_state.index.query(f"Generate a voiceover in {course_description_voiceover_limit} no of words")
+    # if quer:
+    #     coursdescription = st.session_state.index.query(f"Generate a course description in {course_description_limit} no of words")
+    #     voiceover = st.session_state.index.query(f"Generate a voiceover in {course_description_voiceover_limit} no of words")
 
-    ecol.write(coursdescription.response)
-    ecol.write(voiceover.response)
+    # excol.write(coursdescription.response)
+    # ecol.write(voiceover.response)
 
     voice_col.write(st.session_state.new_dict)
 
