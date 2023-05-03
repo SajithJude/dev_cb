@@ -198,8 +198,8 @@ def generate_xml_structure(data):
                 slide_name = f'Slide{slide_counter}'
                 slide = SubElement(slides, slide_name)
 
-                SubElement(slide, 'Slide_Name').text = topic_key
-                SubElement(slide, 'Topic_Name').text = topic_key
+                SubElement(slide, 'Slide_Name').text = "Subtopic"
+                # SubElement(slide, 'Topic_Name').text = topic_key
                 SubElement(slide, 'Subtopic_Name').text = subtopic['Subtopic']
 
                 bullets = SubElement(slide, 'Bullets')
