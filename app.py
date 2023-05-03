@@ -44,6 +44,19 @@ if not os.path.exists("images"):
 if not os.path.exists("pages"):
     os.makedirs("pages")
 
+
+def call_openai(source):
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=source,
+        temperature=0.56,
+        max_tokens=2066,
+        top_p=1,
+        frequency_penalty=0.35,
+        presence_penalty=0
+    )
+    return response.choices[0].text
+
 def clear_all_json_files():
     """Clear all JSON files in all directories under the current working directory"""
     
@@ -537,11 +550,13 @@ try:
         for topic_key in st.sessionstate.new_dict.keys():
             topic = st.sessionstate.new_dict[topic_key]
             topic_content = topic['content']
-            topic['VoiceOver'] = topic_content
+            topic_voiceover_prompt = f"generate a voice over for the following paragraph in {topic_summary_voiceover_limit} words: {topic_content}"
+            topic['VoiceOver'] = call_openai(topic_voiceover_prompt)
             
             for subtopic in topic['Subtopics']:
                 subtopic_content = subtopic['content']
-                subtopic['VoiceOver'] = subtopic_content
+                subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points with from the following content: {subtopic_content}\n, give the output as a json list."
+                subtopic['Bullets'] = call_openai(subtopic_bullet_prompt)
 
     #     coursdescription = st.session_state.index.query(f"Generate a course description in {course_description_limit} no of words")
     #     voiceover = st.session_state.index.query(f"Generate a voiceover in {course_description_voiceover_limit} no of words")
