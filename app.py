@@ -547,9 +547,9 @@ try:
     ex = excol.button("Generate Voice Over")
     voice_col.write(st.session_state.new_dict)
     if ex:
-        print("button clicked")
+        excol.write("button clicked")
         for topic_key, topic_value in st.session_state.new_dict.items():
-            print("looping")
+            excol.write("looping")
             # Add "voice_over" key to the main topic
             topic = st.session_state.new_dict[topic_key]
             topic_content = topic['content']
