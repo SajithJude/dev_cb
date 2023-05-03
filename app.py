@@ -160,49 +160,55 @@ def json_to_xml(json_data, chapter_name):
 
     return tostring(chapter).decode()
 
-from xml.etree.ElementTree import Element, SubElement, tostring
+# from xml.etree.ElementTree import Element, SubElement, tostring
+
+
+# from xml.etree.ElementTree import Element, SubElement, tostring
 
 
 def generate_xml_structure(data):
     slides = Element('Slides')
 
     # Add your predefined slides here (e.g., Slide1, Slide2, Slide3)
-    slide_name = f'Slide1'
+    slide_name = 'Slide1'
     slide = SubElement(slides, slide_name)
 
     SubElement(slide, 'Slide_Name').text = "Topics"
-    j=1
+    j = 1
     for topic_key in data.keys():
         SubElement(slide, f'Topic_{j}').text = topic_key
-        j+=1
-    
-
+        j += 1
 
     slide_counter = 2
     for topic_key, topic_value in data.items():
-        slide_name = f'Slide{slide_counter}'
-        slide = SubElement(slides, slide_name)
+        subtopics = topic_value['Subtopics']
 
-        SubElement(slide, 'Slide_Name').text = topic_key
-        SubElement(slide, 'Topic_Name').text = topic_key
-        SubElement(slide, 'Topic_Summary').text = topic_value['Topic_Summary']
-        SubElement(slide, 'VoiceOver').text = topic_value['VoiceOver']
+        if not subtopics:
+            slide_name = f'Slide{slide_counter}'
+            slide = SubElement(slides, slide_name)
 
-        slide_counter += 1
-        for i, subtopic in enumerate(topic_value['Subtopics'], start=1):
-            subtopic_element = SubElement(slide, f'SubTopic_{i}')
-            # SubElement(subtopic_element, 'Content').text = subtopic['content']
-            SubElement(subtopic_element, 'Subtopic').text = subtopic['Subtopic']
+            SubElement(slide, 'Slide_Name').text = topic_key
+            SubElement(slide, 'Topic_Name').text = topic_key
+            SubElement(slide, 'Topic_Summary').text = topic_value['Topic_Summary']
+            SubElement(slide, 'VoiceOver').text = topic_value['VoiceOver']
 
-            bullets = SubElement(subtopic_element, 'Bullets')
-            for j, bullet in enumerate(subtopic['Bullets'], start=1):
-                SubElement(bullets, f'Bullet_{j}').text = bullet
+            slide_counter += 1
+        else:
+            for i, subtopic in enumerate(subtopics, start=1):
+                slide_name = f'Slide{slide_counter}'
+                slide = SubElement(slides, slide_name)
 
-            SubElement(subtopic_element, 'VoiceOver').text = subtopic['VoiceOver']
+                SubElement(slide, 'Slide_Name').text = topic_key
+                SubElement(slide, 'Topic_Name').text = topic_key
+                SubElement(slide, 'Subtopic_Name').text = subtopic['Subtopic']
 
-        # Add other elements like <image> and <VO_Script> if needed
+                bullets = SubElement(slide, 'Bullets')
+                for j, bullet in enumerate(subtopic['Bullets'], start=1):
+                    SubElement(bullets, f'Bullet_{j}').text = bullet
 
-        
+                SubElement(slide, 'VoiceOver').text = subtopic['VoiceOver']
+
+                slide_counter += 1
 
     # Add your predefined slides at the end (e.g., Slide7)
 
