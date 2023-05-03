@@ -8,6 +8,7 @@ from tempfile import NamedTemporaryFile
 import io
 import fitz
 from PIL import Image
+import ast
 import os
 import glob
 PDFReader = download_loader("PDFReader")
@@ -565,7 +566,8 @@ try:
                 subtopic_content = subtopic['content']
                 subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points with from the following content: {subtopic_content}\n, give the output as a json list."
                 bullets = call_openai(subtopic_bullet_prompt)
-                subtopic['Bullets'] = bullets
+                listbul = ast.literal_eval(bullets.strip())
+                subtopic['Bullets'] = listbul
                 # subtopic["voice_over"] = str(call_openai(subtopic_voiceover_prompt))
                     # Add "voice_over" key to the subtopic
                     # subtopic["voice_over"] = ""
