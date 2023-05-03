@@ -278,8 +278,8 @@ elif toc_option == "Copy Paste TOC":
     if upload_col.button("Save TOC"):
         try:
             # table_of_contents = json.loads(toc_input)
-            toc_res = st.session_state.index.query(f"convert the following table of contents into the specified JSON format\n"+ "Table of contents:\n"+ str(toc_input) + "\n JSON format:\n"+ str(forma))
-            str_toc = str(toc_res)
+            toc_res = f"convert the following table of contents into the specified JSON format\n"+ "Table of contents:\n"+ str(toc_input) + "\n JSON format:\n"+ str(forma)
+            str_toc = call_openai(toc_res)
             table_of_contents = json.loads(str_toc)
 
             upload_col.write(table_of_contents)
