@@ -122,17 +122,9 @@ def post_xml_string(xml_string):
     return response
 
 
-def json_to_xml(json_data, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets):
+def json_to_xml(json_data, chapter_name):
     chapter = Element('Chapter')
 
-    no_of_bullets_element = SubElement(chapter, 'NoOfBullets')
-    no_of_bullets_element.text = str(NoOfBullets)
-
-    no_of_words_per_bullet_element = SubElement(chapter, 'NoOfWordsPerBullet')
-    no_of_words_per_bullet_element.text = str(NoOfWordsPerBullet)
-
-    no_of_words_for_vo_per_bullet_element = SubElement(chapter, 'NoOfWordsForVOPerBullet')
-    no_of_words_for_vo_per_bullet_element.text = str(NoOfWordsForVOPerBullet)
 
     chapter_name_element = SubElement(chapter, 'ChapterName')
     chapter_name_element.text = chapter_name
@@ -417,7 +409,7 @@ try:
                 progress_bar.progress(items_processed / total_items)
                 ecol.info(f"Extracted {subtopic_name}")
             
-            topicres = st.session_state.index.query("generate a summary of the contents in minimum 20 words, out of the contents under the topic "+str(topic))
+            topicres = st.session_state.index.query("extract the contents belonging to following topic into a paragraph :"+str(topic))
             subtopics_dict['content'] = topicres.response
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
@@ -548,9 +540,7 @@ try:
     ex = excol.button("Generate Voice Over")
     voice_col.write(st.session_state.new_dict)
     if ex:
-        excol.write("button clicked")
         for topic_key, topic_value in st.session_state.new_dict.items():
-            excol.write("looping")
             # Add "VoiceOver" key to the main topic
             topic = st.session_state.new_dict[topic_key]
             topic_content = topic['content']
@@ -561,8 +551,6 @@ try:
             # if "Subtopics" in topic_value:
                 # Iterate through the subtopics
             for subtopic in topic_value["Subtopics"]:
-                excol.write("looping subtopics")
-
                 subtopic_content = subtopic['content']
                 subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points with from the following content: {subtopic_content}\n, give the output as a json list."
                 bullets = call_openai(subtopic_bullet_prompt)
@@ -570,9 +558,7 @@ try:
                 subtopic['Bullets'] = listbul
                 subtopic_voiceover_prompt = f"generate a voice over for the following content in {bullet_voiceover_limit} words: {subtopic_content}"
                 subtopic["VoiceOver"] = str(call_openai(subtopic_voiceover_prompt))
-                # subtopic["VoiceOver"] = str(call_openai(subtopic_voiceover_prompt))
-                    # Add "VoiceOver" key to the subtopic
-                    # subtopic["VoiceOver"] = ""
+               
         excol.write(st.session_state.new_dict)
 
     
