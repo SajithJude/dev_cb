@@ -588,6 +588,7 @@ try:
         # excol.write(st.session_state.new_dict)
     if excol.button("generate xml"):
         xml_output = generate_xml_structure(st.session_state.new_dict)
+        excol.write(st.session_state.new_dict)
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
         voice_col.code(pretty_xml)
 
