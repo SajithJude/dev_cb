@@ -547,6 +547,9 @@ try:
             topic_voiceover_prompt = f"generate a voice over for the following paragraph in {topic_summary_voiceover_limit} words: {topic_content}"
             st.session_state.new_dict[topic_key]["VoiceOver"] = str(call_openai(topic_voiceover_prompt))
             
+            topic_summary_prompt = f"generate a voice over for the following paragraph in {topic_summary_limit} words: {topic_content}"
+            st.session_state.new_dict[topic_key]["Topic_Summary"] = str(call_openai(topic_summary_prompt))
+            
             # Check if the topic has subtopics
             # if "Subtopics" in topic_value:
                 # Iterate through the subtopics
