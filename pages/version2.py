@@ -256,7 +256,6 @@ try:
 
     if quer:
         coursdescription = st.session_state.index.query(f"Generate a course description in {course_description_limit} no of words")
-
         voiceover = st.session_state.index.query(f"Generate a voiceover in {course_description_voiceover_limit} no of words")
 
     ecol.write(coursdescription.response)
@@ -264,6 +263,6 @@ try:
 
     ecol.write(st.session_state.new_dict)
 
-except (KeyError, FileNotFoundError,AttributeError) as e:
+except (KeyError,NameError, FileNotFoundError,AttributeError) as e:
     print("Error Extracting Data")
     print(f"Error: {type(e).__name__} - {e}")
