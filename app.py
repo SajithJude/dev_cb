@@ -545,7 +545,7 @@ try:
 
     coursename = excol.text_input("Enter Course Name")
     ex = excol.button("Generate Voice Over")
-    excol.write(st.session_state.new_dict)
+    voice_col.write(st.session_state.new_dict)
     if ex:
         print("button clicked")
         for topic_key, topic_value in st.session_state.new_dict.items():
@@ -568,31 +568,7 @@ try:
                     # subtopic["voice_over"] = ""
         excol.write(st.session_state.new_dict)
 
-
-
-
-
-
-    #     for topic_key in st.sessionstate.new_dict.items():
-    #         excol.write(topic_key)
-    #         topic = st.sessionstate.new_dict[topic_key]
-    #         topic_content = topic['content']
-    #         topic_voiceover_prompt = f"generate a voice over for the following paragraph in {topic_summary_voiceover_limit} words: {topic_content}"
-    #         topic['VoiceOver'] = call_openai(topic_voiceover_prompt)
-            
-    #         for subtopic in topic['Subtopics']:
-
-    #             subtopic_content = subtopic['content']
-    #             subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points with from the following content: {subtopic_content}\n, give the output as a json list."
-    #             subtopic['Bullets'] = call_openai(subtopic_bullet_prompt)
-
-    # #     coursdescription = st.session_state.index.query(f"Generate a course description in {course_description_limit} no of words")
-    # #     voiceover = st.session_state.index.query(f"Generate a voiceover in {course_description_voiceover_limit} no of words")
-
-    # # excol.write(coursdescription.response)
-    # # ecol.write(voiceover.response)
-
-    voice_col.write(st.session_state.new_dict)
+    
 
 except (KeyError,NameError, FileNotFoundError,AttributeError) as e:
     print("Error Extracting Data")
