@@ -175,7 +175,7 @@ def process_pdf(uploaded_file):
 
 ######################       defining tabs      ##########################################
 
-upload_col, refine_toc,  extract_col, miss_col, edit_col, xml_col, manage_col = st.tabs(["⚪ __Upload Chapter__","⚪ __Refine_TOC__", "⚪ __Extract_Contents__","⚪ __missing_Contents__", "⚪ __Edit Contents__", "⚪ __Export Generated XML__", "⚪ __Manage XMLs__"])
+upload_col, refine_toc,  extract_col, miss_col, edit_col,voice_col, xml_col, manage_col = st.tabs(["⚪ __Upload Chapter__","⚪ __Refine_TOC__", "⚪ __Extract_Contents__","⚪ __missing_Contents__", "⚪ __Edit Contents__", "⚪ Voice Over__", "⚪ __Export Generated XML__", "⚪ __Manage XMLs__"])
 
 if "toc" not in st.session_state:
     st.session_state.toc = {}
@@ -483,9 +483,6 @@ except (KeyError, AttributeError,FileNotFoundError) as e:
 ######################       edit contents      ##########################################
 
 try:
-
-    # if "new_dict" not in st.session_state:
- 
         
     for topic, subtopics_dict in st.session_state.new_dict.items():
         content = subtopics_dict['content']
@@ -494,18 +491,64 @@ try:
             subtopic_name = subtopic_dict['Subtopic']
             content = subtopic_dict['content']
             subtopic_dict['content'] = edit_col.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
-    # pass 
-
-    # save = edit_col.button("Save")
-    # if save:
-        # with open("saveedit.json", "w") as f:
-        #     json.dump(st.session_state.new_dict, f,indent=2)
-
-
 
 except (KeyError,FileNotFoundError, AttributeError) as e:
     print("Error saving Edited content")
     print(f"Error: {type(e).__name__} - {e}")
+
+
+
+######################       voice over      ##########################################
+
+
+
+
+try:
+    pagecol, ecol = voice_col.columns([2,5],gap="large")
+
+    # Course Description
+    course_description_limit = pagecol.number_input("Course Description Word Count Limit", value=30, min_value=1)
+
+    # Course Description VoiceOver
+    course_description_voiceover_limit = pagecol.number_input("Course Description VoiceOver Word Count Limit", value=50, min_value=1)
+
+    # Topic Summary
+    topic_summary_limit = pagecol.number_input("Topic Summary Word Count Limit", value=30, min_value=1)
+
+    # Topic Summary VoiceOver
+    topic_summary_voiceover_limit = pagecol.number_input("Topic Summary VoiceOver Word Count Limit", value=50, min_value=1)
+
+    # Number of Bullets per Slide
+    num_bullets_per_slide = pagecol.number_input("Number of Bullets per Slide", value=4, min_value=1)
+
+    # Number of Words per Bullet
+    num_words_bullet = pagecol.number_input("Number of Words per Bullet", value=20, min_value=1)
+
+    # Bullet VoiceOver
+    bullet_voiceover_limit = pagecol.number_input("Bullet VoiceOver Word Count Limit", value=50, min_value=1)
+
+    # Paraphrasing Percentage Range
+    paraphrasing_range = pagecol.slider("Paraphrasing % Range", min_value=25, max_value=35, value=(25, 35))
+
+    coursename = ecol.text_input("Enter Course Name")
+    quer = ecol.button("Extract Contents")
+
+    if quer:
+        coursdescription = st.session_state.index.query(f"Generate a course description in {course_description_limit} no of words")
+        voiceover = st.session_state.index.query(f"Generate a voiceover in {course_description_voiceover_limit} no of words")
+
+    ecol.write(coursdescription.response)
+    ecol.write(voiceover.response)
+
+    voice_col.write(st.session_state.new_dict)
+
+except (KeyError,NameError, FileNotFoundError,AttributeError) as e:
+    print("Error Extracting Data")
+    print(f"Error: {type(e).__name__} - {e}")
+
+
+
+
 
 
 
