@@ -160,7 +160,30 @@ def json_to_xml(json_data, chapter_name):
 
     return tostring(chapter).decode()
 
+def generate_xml_structure(data):
+    slides = ET.Element('Slides')
 
+    # Add your predefined slides here (e.g., Slide1, Slide2, Slide3)
+
+    slide_counter = 4
+    for topic_key, topic_value in data.items():
+        slide_name = f'Slide{slide_counter}'
+        slide = ET.SubElement(slides, slide_name)
+
+        ET.SubElement(slide, 'Slide_Name').text = topic_key
+        ET.SubElement(slide, 'Topic_Name').text = ET.CDATA(topic_value['content'])
+
+        for i, subtopic in enumerate(topic_value['Subtopics'], start=1):
+            ET.SubElement(slide, f'SubTopic_{i}').text = ET.CDATA(subtopic['content'])
+
+        # Add other elements like <image> and <VO_Script> if needed
+
+        slide_counter += 1
+
+    # Add your predefined slides at the end (e.g., Slide7)
+
+    xml_string = ET.tostring(slides, encoding='utf-8', method='xml').decode()
+    return xml_string
 
 def process_pdf(uploaded_file):
     loader = PDFReader()
@@ -538,7 +561,7 @@ try:
 
     coursename = excol.text_input("Enter Course Name")
     ex = excol.button("Generate Voice Over")
-    voice_col.write(st.session_state.new_dict)
+    # voice_col.write(st.session_state.new_dict)
     if ex:
         for topic_key, topic_value in st.session_state.new_dict.items():
             # Add "VoiceOver" key to the main topic
@@ -562,7 +585,9 @@ try:
                 subtopic_voiceover_prompt = f"generate a voice over for the following content in {bullet_voiceover_limit} words: {subtopic_content}"
                 subtopic["VoiceOver"] = str(call_openai(subtopic_voiceover_prompt))
                
-        excol.write(st.session_state.new_dict)
+        # excol.write(st.session_state.new_dict)
+        xml_output = generate_xml_structure(st.session_state.new_dict)
+        voice_col.code(xml_output, language=None)
 
     
 
