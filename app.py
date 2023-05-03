@@ -605,7 +605,7 @@ try:
         xml_output = generate_xml_structure(st.session_state.new_dict)
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
         voice_col.code(pretty_xml)
-        excol.write(st.session_state.new_dict)
+        voice_col.write(st.session_state.new_dict)
 
 
     
