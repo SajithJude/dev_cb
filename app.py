@@ -167,22 +167,18 @@ def generate_xml_structure(data):
     slides = Element('Slides')
 
     # Add your predefined slides here (e.g., Slide1, Slide2, Slide3)
-    for topic_key, topic_value in data.items():
-        slide_name = f'Slide1'
-        slide = SubElement(slides, slide_name)
+    slide_name = f'Slide1'
+    slide = SubElement(slides, slide_name)
 
-        SubElement(slide, 'Slide_Name').text = topic_key
-        SubElement(slide, 'Topic_Name').text = topic_key
-        SubElement(slide, 'Topic_Summary').text = topic_value['Topic_Summary']
-        
-        for i, subtopic in enumerate(topic_value['Subtopics'], start=1):
-            subtopic_element = SubElement(slide, f'SubTopic_{i}') 
-        
-        SubElement(slide, 'VoiceOver').text = topic_value['VoiceOver']
+    SubElement(slide, 'Slide_Name').text = "Topics"
+    j=1
+    for topic_key in data.keys():
+        SubElement(slide, f'Topic_{j}').text = topic_key
+        j+=1
+    
 
 
-
-    slide_counter = 2
+    slide_counter = 1
     for topic_key, topic_value in data.items():
         slide_name = f'Slide{slide_counter}'
         slide = SubElement(slides, slide_name)
