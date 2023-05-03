@@ -551,11 +551,11 @@ try:
         excol.write("button clicked")
         for topic_key, topic_value in st.session_state.new_dict.items():
             excol.write("looping")
-            # Add "voice_over" key to the main topic
+            # Add "VoiceOver" key to the main topic
             topic = st.session_state.new_dict[topic_key]
             topic_content = topic['content']
             topic_voiceover_prompt = f"generate a voice over for the following paragraph in {topic_summary_voiceover_limit} words: {topic_content}"
-            st.session_state.new_dict[topic_key]["voice_over"] = str(call_openai(topic_voiceover_prompt))
+            st.session_state.new_dict[topic_key]["VoiceOver"] = str(call_openai(topic_voiceover_prompt))
             
             # Check if the topic has subtopics
             # if "Subtopics" in topic_value:
@@ -568,9 +568,11 @@ try:
                 bullets = call_openai(subtopic_bullet_prompt)
                 listbul = ast.literal_eval(bullets.strip())
                 subtopic['Bullets'] = listbul
-                # subtopic["voice_over"] = str(call_openai(subtopic_voiceover_prompt))
-                    # Add "voice_over" key to the subtopic
-                    # subtopic["voice_over"] = ""
+                subtopic_voiceover_prompt = f"generate a voice over for the following content in {bullet_voiceover_limit} words: {subtopic_content}"
+                subtopic["VoiceOver"] = str(call_openai(subtopic_voiceover_prompt))
+                # subtopic["VoiceOver"] = str(call_openai(subtopic_voiceover_prompt))
+                    # Add "VoiceOver" key to the subtopic
+                    # subtopic["VoiceOver"] = ""
         excol.write(st.session_state.new_dict)
 
     
@@ -659,17 +661,17 @@ try:
 
 
     rendu.write("### Configure ")
-    chapter_name = rendu.text_input("enter chapter name")
-    r1,r2 = rendu.columns(2)
+    # chapter_name = rendu.text_input("enter chapter name")
+    # r1,r2 = rendu.columns(2)
 
-    NoOfBullets = r1.text_input("No. of Bullets per Sub Topic")
-    NoOfWordsPerBullet = r1.text_input("No. of words per Bullet")
-    NoOfWordsForVOPerBullet = r1.text_input("No. of words for Voice Over per Bullet")
+    # NoOfBullets = r1.text_input("No. of Bullets per Sub Topic")
+    # NoOfWordsPerBullet = r1.text_input("No. of words per Bullet")
+    # NoOfWordsForVOPerBullet = r1.text_input("No. of words for Voice Over per Bullet")
     save_xml = rendu.button("Save XML")
     
 
 
-    if chapter_name and NoOfBullets and NoOfWordsPerBullet and NoOfWordsForVOPerBullet and save_xml:
+    if save_xml:
 
         # if "edited" not in st.session_state:
         #     st.session_state.edited = st.session_state.missing
