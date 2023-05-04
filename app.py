@@ -270,7 +270,7 @@ forma = """"{
 
 """
 if uploaded_file is not None:
-        clear_all_json_files()
+        # clear_all_json_files()
 
         # index = 
         if "index" not in st.session_state:
