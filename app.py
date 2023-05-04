@@ -205,7 +205,7 @@ def generate_xml_structure(data):
 
                 # bullets = SubElement(slide, 'Bullets')
                 for j, bullet in enumerate(subtopic['Bullets'], start=1):
-                    SubElement(stopic, f'Bullet_{j}').text = bullet
+                    SubElement(slide, f'Bullet_{j}').text = bullet
 
                 SubElement(slide, 'VoiceOver').text = subtopic['VoiceOver']
 
