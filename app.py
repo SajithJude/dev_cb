@@ -468,7 +468,7 @@ try:
             subtopics_dict['content'] = topicres.response
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
-            with open(f'{course_name}.json', 'w') as outfile:
+            with open(os.path.join('data',,f'{course_name}.json', 'w')) as outfile:
                 json.dump({
                     'course_name': course_name,
                     'data': st.session_state.new_dict
@@ -481,7 +481,7 @@ try:
     #     if isinstance(data, str):
     #         data = json.loads(data)
 
-    saved_extracts = [file for file in os.listdir('.') if file.endswith('.json')]
+    saved_extracts = [file for file in os.listdir('data') if file.endswith('.json')]
 
     # course_names = list(set([item['course_name'] for item in data]))
     selected_course = ecol.selectbox('Select a course name', saved_extracts)
