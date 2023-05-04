@@ -473,11 +473,13 @@ try:
                     'course_name': course_name,
                     'data': st.session_state.new_dict
                 }, outfile)
-                
+
 
     with open('db.json') as json_file:
         data = json.load(json_file)
-        course_names = list(set([item['course_name'] for item in data]))
+        if isinstance(data, str):
+            data = json.loads(data)
+    course_names = list(set([item['course_name'] for item in data]))
     selected_course = ecol.selectbox('Select a course name', course_names)
 
     # if a course name is selected, update new_dict with the corresponding data
