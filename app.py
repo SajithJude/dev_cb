@@ -687,8 +687,8 @@ try:
 
     
 
-except (KeyError,NameError, FileNotFoundError,AttributeError) as e:
-    print("Error Extracting Data")
+except error as e:
+    print(error)
     print(f"Error: {type(e).__name__} - {e}")
 
 
