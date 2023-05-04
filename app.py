@@ -54,7 +54,7 @@ def call_openai(source):
         max_tokens=3000,
         top_p=1,
         frequency_penalty=0.35,
-        presence_penalty=0
+        presence_penalty=1
     )
     return response.choices[0].text
 
@@ -659,7 +659,7 @@ try:
                 # Iterate through the subtopics
             for subtopic in topic_value["Subtopics"]:
                 subtopic_content = subtopic['content']
-                subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points with {num_words_bullet} number of words per bullet from the following paragraph {subtopic_content}, give the output as a json list."
+                subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points, with {num_words_bullet} number of words per bullet from the following paragraph {subtopic_content}, give the output as a json list."
                 bullets = call_openai(subtopic_bullet_prompt)
                 listbul = ast.literal_eval(bullets.strip())
                 subtopic['Bullets'] = listbul
