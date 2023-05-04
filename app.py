@@ -207,7 +207,7 @@ def generate_xml_structure(data):
                 for j, bullet in enumerate(subtopic['Bullets'], start=1):
                     SubElement(slide, f'Bullet_{j}').text = bullet
 
-                SubElement(slide, 'VoiceOver').text = subtopic['VoiceOver'].strip()
+                SubElement(slide, 'VO_Script').text = subtopic['VoiceOver'].strip()
 
                 slide_counter += 1
 
@@ -565,7 +565,7 @@ except (KeyError,FileNotFoundError, AttributeError) as e:
 
 
 try:
-    edcol, excol = voice_col.columns([3,5],gap="large")
+    edcol, excol = voice_col.columns([3,5])
 
     # Course Description
     course_description_limit = edcol.number_input("Course Description Word Count Limit", value=30, min_value=1)
