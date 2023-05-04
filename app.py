@@ -468,28 +468,33 @@ try:
             subtopics_dict['content'] = topicres.response
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
-            with open('db.json', 'w') as outfile:
+            with open(f'{course_name}.json', 'w') as outfile:
                 json.dump({
                     'course_name': course_name,
                     'data': st.session_state.new_dict
                 }, outfile)
 
 
-    with open('db.json') as json_file:
-        data = json.load(json_file)
-        st.write(data)
-        if isinstance(data, str):
-            data = json.loads(data)
+    # with open('db.json') as json_file:
+    #     data = json.load(json_file)
+    #     st.write(data)
+    #     if isinstance(data, str):
+    #         data = json.loads(data)
 
-    course_names = list(set([item['course_name'] for item in data]))
-    selected_course = ecol.selectbox('Select a course name', course_names)
+    saved_extracts = [file for file in os.listdir('.') if file.endswith('.json')]
+
+    # course_names = list(set([item['course_name'] for item in data]))
+    selected_course = ecol.selectbox('Select a course name', saved_extracts)
 
     # if a course name is selected, update new_dict with the corresponding data
     if selected_course:
-        for item in data:
-            if item['course_name'] == selected_course:
-                st.session_state.new_dict = item['data']
-            break
+        with open(selected_course, 'r') as json_file:
+            data = json.load(json_file)
+
+        if isinstance(data, str):
+            data = json.loads(data)
+
+    st.session_state.new_dict = data['data']
     for topic_key, topic_value in st.session_state.new_dict.items():
         expander = ecol.expander(f"{topic_key}")
         expander.write(topic_value["content"])
