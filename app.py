@@ -487,6 +487,7 @@ try:
 
     # course_names = list(set([item['course_name'] for item in data]))
     selected_course = ecol.selectbox('Select a course name', saved_extracts)
+    delete_button = ecol.button("Delete")
 
     # if a course name is selected, update new_dict with the corresponding data
     if selected_course:
@@ -496,7 +497,6 @@ try:
             st.session_state.new_dict = data['data']
             # st.write(data)
 
-    delete_button = ecol.button("Delete")
 
     if selected_course and delete_button:
         selected_course_path = os.path.join('.', selected_course)
