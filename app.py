@@ -498,7 +498,7 @@ try:
             # st.write(data)
 
 
-    if selected_course and delete_button:
+    if delete_button:
         selected_course_path = os.path.join('.', selected_course)
         os.remove(selected_course_path)
         print("Selected file path:", selected_course_path)
