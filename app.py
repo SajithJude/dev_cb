@@ -275,7 +275,7 @@ try:
             st.error(f"Error deleting file: {e}")
         pass
 
-except (KeyError, FileNotFoundError,AttributeError) as e:
+except (KeyError, NameError,FileNotFoundError,AttributeError) as e:
     print("Error Extracting Data")
     print(f"Error: {type(e).__name__} - {e}")
 
