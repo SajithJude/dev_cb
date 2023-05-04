@@ -449,6 +449,7 @@ try:
     
 
     course_name = ecol.text_input("Enter course name")
+    quer = ecol.button("Extract Contents")
 
     saved_extracts = [file for file in os.listdir('.') if file.endswith('.json')]
 
@@ -477,7 +478,6 @@ try:
         except OSError as e:
             st.error(f"Error deleting file: {e}")
         pass
-    quer = ecol.button("Extract Contents")
 
     # seca, secb = extract_col.columns(2)
     if quer:
