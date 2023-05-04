@@ -204,10 +204,10 @@ def generate_xml_structure(data):
                 stopic.text = subtopic['Subtopic']
 
                 bullets = subtopics['Bullets']
-                for k, bullet in enumerate(bullets, start=1):
+                for bullets in range(k, len(bullets)):
 
                     SubElement(slide, f'Bullet_{k}').text = bullet
-
+                    k+=1
                 SubElement(slide, 'VO_Script').text = subtopic['VoiceOver'].strip()
 
                 slide_counter += 1
