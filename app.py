@@ -189,8 +189,8 @@ def generate_xml_structure(data):
 
             SubElement(slide, 'Slide_Name').text = "Topic_Summary"
             SubElement(slide, 'Topic_Name').text = topic_key
-            SubElement(slide, 'Topic_Summary').text = topic_value['Topic_Summary']
-            SubElement(slide, 'VoiceOver').text = topic_value['VoiceOver']
+            SubElement(slide, 'Topic_Summary').text = topic_value['Topic_Summary'].strip()
+            SubElement(slide, 'VoiceOver').text = topic_value['VoiceOver'].strip()
 
             slide_counter += 1
         else:
@@ -207,7 +207,7 @@ def generate_xml_structure(data):
                 for j, bullet in enumerate(subtopic['Bullets'], start=1):
                     SubElement(slide, f'Bullet_{j}').text = bullet
 
-                SubElement(slide, 'VoiceOver').text = subtopic['VoiceOver']
+                SubElement(slide, 'VoiceOver').text = subtopic['VoiceOver'].strip()
 
                 slide_counter += 1
 
