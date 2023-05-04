@@ -496,7 +496,7 @@ try:
             st.session_state.new_dict = data['data']
             # st.write(data)
 
-    delete_button = st.button("Delete")
+    delete_button = ecol.button("Delete")
 
     if selected_course and delete_button:
         selected_course_path = os.path.join('.', selected_course)
