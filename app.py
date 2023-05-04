@@ -493,8 +493,22 @@ try:
         selected_course_path = os.path.join('.', selected_course)
         with open(selected_course_path, 'r') as json_file:
             data = json.load(json_file)
-            st.write(data)
-            # pass
+            st.session_state.new_dict = data['data']
+            # st.write(data)
+
+    delete_button = st.button("Delete")
+
+    if selected_course and delete_button:
+        selected_course_path = os.path.join('.', selected_course)
+        print("Selected file path:", selected_course_path)
+
+    # Delete the selected file
+        try:
+            os.remove(selected_course_path)
+            st.success("File deleted successfully.")
+        except OSError as e:
+            st.error(f"Error deleting file: {e}")
+                # pass
 
     # if isinstance(data, str):
     #     data = json.loads(data)
