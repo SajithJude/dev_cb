@@ -251,9 +251,10 @@ try:
 
     selected_course = upload_col.selectbox('Select a course name', saved_extracts)
     delete_button = upload_col.button("Delete")
+    load = upload_col.button("load")
 
     # if a course name is selected, update new_dict with the corresponding data
-    if selected_course:
+    if load:
         selected_course_path = os.path.join('.', selected_course)
         with open(selected_course_path, 'r') as json_file:
             data = json.load(json_file)
@@ -532,7 +533,7 @@ try:
                     
         
     with open(f'{course_name}.json', 'w') as outfile:
-        
+
         json.dump({
                     'course_name': course_name,
                     'data': st.session_state.new_dict
