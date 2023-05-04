@@ -473,6 +473,7 @@ try:
                     'course_name': course_name,
                     'data': st.session_state.new_dict
                 }, outfile)
+                
 
     with open('db.json') as json_file:
         data = json.load(json_file)
