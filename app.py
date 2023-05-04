@@ -531,8 +531,8 @@ try:
             expander.write(subtopic["content"])
                     
         
-     with open(f'{course_name}.json', 'w') as outfile:
-
+    with open(f'{course_name}.json', 'w') as outfile:
+        
         json.dump({
                     'course_name': course_name,
                     'data': st.session_state.new_dict
