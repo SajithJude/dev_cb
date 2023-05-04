@@ -523,7 +523,7 @@ try:
     
 
 
-    st.session_state.new_dict = data['data']
+    # st.session_state.new_dict = data['data']
     for topic_key, topic_value in st.session_state.new_dict.items():
         expander = ecol.expander(f"{topic_key}")
         expander.write(topic_value["content"])
