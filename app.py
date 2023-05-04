@@ -211,7 +211,7 @@ def generate_xml_structure(data):
 
                 for j in range(0,len(subtopics[i]['Bullets'])):
 
-                    SubElement(slide, f'Bullet_{j}').text = subtopics[i]['Bullets'][j]
+                    SubElement(slide, f'Bullet_{j}').text = j
 
                 SubElement(slide, 'VO_Script').text = subtopic['VoiceOver'].strip()
 
