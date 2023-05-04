@@ -454,31 +454,7 @@ try:
     saved_extracts = [file for file in os.listdir('.') if file.endswith('.json')]
 
     # course_names = list(set([item['course_name'] for item in data]))
-    selected_course = ecol.selectbox('Select a course name', saved_extracts)
-    delete_button = ecol.button("Delete")
-
-    # if a course name is selected, update new_dict with the corresponding data
-    if selected_course:
-        selected_course_path = os.path.join('.', selected_course)
-        with open(selected_course_path, 'r') as json_file:
-            data = json.load(json_file)
-            st.session_state.new_dict = data['data']
-            # st.write(data)
-
-
-    if delete_button:
-        selected_course_path = os.path.join('.', selected_course)
-        os.remove(selected_course_path)
-        print("Selected file path:", selected_course_path)
-
-    # Delete the selected file
-        try:
-            os.remove(selected_course_path)
-            st.success("File deleted successfully.")
-        except OSError as e:
-            st.error(f"Error deleting file: {e}")
-        pass
-
+    
     # seca, secb = extract_col.columns(2)
     if quer:
         progress_bar = ecol.progress(0)
@@ -513,7 +489,34 @@ try:
 
 
     # if isinstance(data, str):
+
     #     data = json.loads(data)
+
+    selected_course = ecol.selectbox('Select a course name', saved_extracts)
+    delete_button = ecol.button("Delete")
+
+    # if a course name is selected, update new_dict with the corresponding data
+    if selected_course:
+        selected_course_path = os.path.join('.', selected_course)
+        with open(selected_course_path, 'r') as json_file:
+            data = json.load(json_file)
+            st.session_state.new_dict = data['data']
+            # st.write(data)
+
+
+    if delete_button:
+        selected_course_path = os.path.join('.', selected_course)
+        os.remove(selected_course_path)
+        print("Selected file path:", selected_course_path)
+
+    # Delete the selected file
+        try:
+            os.remove(selected_course_path)
+            st.success("File deleted successfully.")
+        except OSError as e:
+            st.error(f"Error deleting file: {e}")
+        pass
+
 
     st.session_state.new_dict = data['data']
     for topic_key, topic_value in st.session_state.new_dict.items():
