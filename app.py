@@ -209,7 +209,7 @@ def generate_xml_structure(data):
 
             SubElement(slide, 'VO_Script').text = subtopic['VoiceOver'].strip()
 
-                slide_counter += 1
+            slide_counter += 1
 
     # Add your predefined slides at the end (e.g., Slide7)
 
