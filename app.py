@@ -468,7 +468,7 @@ try:
             subtopics_dict['content'] = topicres.response
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
-            with open(os.path.join('data',,f'{course_name}.json', 'w')) as outfile:
+            with open(os.path.join('data',f'{course_name}.json', 'w')) as outfile:
                 json.dump({
                     'course_name': course_name,
                     'data': st.session_state.new_dict
