@@ -687,8 +687,8 @@ try:
 
     
 
-except error as e:
-    print(error)
+except Error as e:
+    print(e)
     print(f"Error: {type(e).__name__} - {e}")
 
 
