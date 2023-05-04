@@ -469,7 +469,7 @@ try:
                 progress_bar.progress(items_processed / total_items)
                 ecol.info(f"Extracted {subtopic_name}")
             
-            topicres = st.session_state.index.query("extract all the information belonging to following section into a paragraph :"+str(topic))
+            topicres = st.session_state.index.query("extract all the information belonging to following section into a paragraph "+str(topic))
             subtopics_dict['content'] = topicres.response
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
@@ -663,7 +663,7 @@ try:
                 bullets = call_openai(subtopic_bullet_prompt)
                 listbul = ast.literal_eval(bullets.strip())
                 subtopic['Bullets'] = listbul
-                subtopic_voiceover_prompt = f"generate a voice over for the following paragraph in {bullet_voiceover_limit} number of words\n, paragraph {subtopic_content}"
+                subtopic_voiceover_prompt = f"generate a voice over in {bullet_voiceover_limit} number of words, for the following paragraph {subtopic_content}"
                 subtopic["VoiceOver"] = str(call_openai(subtopic_voiceover_prompt))
                
         # excol.write(st.session_state.new_dict)
