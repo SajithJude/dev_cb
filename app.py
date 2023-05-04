@@ -51,7 +51,7 @@ def call_openai(source):
         model="text-davinci-003",
         prompt=source,
         temperature=0.56,
-        max_tokens=2066,
+        max_tokens=2500,
         top_p=1,
         frequency_penalty=0.35,
         presence_penalty=0
