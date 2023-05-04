@@ -477,8 +477,10 @@ try:
 
     with open('db.json') as json_file:
         data = json.load(json_file)
+        st.write(data)
         if isinstance(data, str):
             data = json.loads(data)
+
     course_names = list(set([item['course_name'] for item in data]))
     selected_course = ecol.selectbox('Select a course name', course_names)
 
