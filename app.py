@@ -506,12 +506,7 @@ try:
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
             
-    with open(f'{course_name}.json', 'w') as outfile:
-
-        json.dump({
-                    'course_name': course_name,
-                    'data': st.session_state.new_dict
-                }, outfile)
+   
 
     # with open('db.json') as json_file:
     #     data = json.load(json_file)
@@ -536,7 +531,12 @@ try:
             expander.write(subtopic["content"])
                     
         
-    
+     with open(f'{course_name}.json', 'w') as outfile:
+
+        json.dump({
+                    'course_name': course_name,
+                    'data': st.session_state.new_dict
+                }, outfile)
         
 
 except (KeyError, FileNotFoundError,AttributeError) as e:
