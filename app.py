@@ -449,6 +449,12 @@ try:
 
     course_name = ecol.text_input("Enter course name")
 
+    saved_extracts = [file for file in os.listdir('.') if file.endswith('.json')]
+
+    # course_names = list(set([item['course_name'] for item in data]))
+    selected_course = ecol.selectbox('Select a course name', saved_extracts)
+    delete_button = ecol.button("Delete")
+
     quer = ecol.button("Extract Contents")
 
     # seca, secb = extract_col.columns(2)
@@ -482,12 +488,6 @@ try:
     #     st.write(data)
     #     if isinstance(data, str):
     #         data = json.loads(data)
-
-    saved_extracts = [file for file in os.listdir('.') if file.endswith('.json')]
-
-    # course_names = list(set([item['course_name'] for item in data]))
-    selected_course = ecol.selectbox('Select a course name', saved_extracts)
-    delete_button = ecol.button("Delete")
 
     # if a course name is selected, update new_dict with the corresponding data
     if selected_course:
