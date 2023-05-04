@@ -660,8 +660,8 @@ try:
             for subtopic in topic_value["Subtopics"]:
                 subtopic_content = subtopic['content']
                 subtopic_bullet_prompt = f"generate {num_bullets_per_slide} sentences, with {num_words_bullet} words per sentence from the following paragraph {subtopic_content}"
-                bullets = str(call_openai(subtopic_bullet_prompt))
-                listbul = ast.literal_eval(bullets.strip())
+                bullets = call_openai(subtopic_bullet_prompt)
+                listbul = bullets.strip("\n")
                 subtopic['Bullets'] = listbul
                 subtopic_voiceover_prompt = f"generate a voice over in {bullet_voiceover_limit} number of words, for the following paragraph {subtopic_content}"
                 subtopic["VoiceOver"] = str(call_openai(subtopic_voiceover_prompt))
