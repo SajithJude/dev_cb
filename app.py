@@ -491,9 +491,10 @@ try:
     if selected_course:
         with open(selected_course, 'r') as json_file:
             data = json.load(json_file)
+            pass
 
-    if isinstance(data, str):
-        data = json.loads(data)
+    # if isinstance(data, str):
+    #     data = json.loads(data)
 
     st.session_state.new_dict = data['data']
     for topic_key, topic_value in st.session_state.new_dict.items():
@@ -512,76 +513,76 @@ except (KeyError, FileNotFoundError,AttributeError) as e:
     print(f"Error: {type(e).__name__} - {e}")
 
 
-######################       missing contents      ##########################################
+# ######################       missing contents      ##########################################
 
 
-try:
-    amiscol, bmiscol = miss_col.columns([2,5],gap="large")
+# try:
+#     amiscol, bmiscol = miss_col.columns([2,5],gap="large")
 
-    extractedcontent = st.session_state.new_dict
-    topic_names = [key for key, value in extractedcontent.items()]
+#     extractedcontent = st.session_state.new_dict
+#     topic_names = [key for key, value in extractedcontent.items()]
     
-    new_query = bmiscol.text_input("Name of the missing Subtopic")
-    topic_belong = bmiscol.selectbox("Select the belonging topic",topic_names)
-    query_again = bmiscol.button("extract missing")
+#     new_query = bmiscol.text_input("Name of the missing Subtopic")
+#     topic_belong = bmiscol.selectbox("Select the belonging topic",topic_names)
+#     query_again = bmiscol.button("extract missing")
     
-    if query_again:
+#     if query_again:
         
-        missing_info = index.query("extract the information about "+str(new_query))
-        selected_topic = topic_belong
-        new_subtopic = new_query
-        content_value = missing_info.response
-        topic_dict = st.session_state.new_dict[selected_topic]
-    # Append the new subtopic and its content to the appropriate topic
-        topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
+#         missing_info = index.query("extract the information about "+str(new_query))
+#         selected_topic = topic_belong
+#         new_subtopic = new_query
+#         content_value = missing_info.response
+#         topic_dict = st.session_state.new_dict[selected_topic]
+#     # Append the new subtopic and its content to the appropriate topic
+#         topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
        
 
-    for topic_key, topic_value in st.session_state.new_dict.items():
+#     for topic_key, topic_value in st.session_state.new_dict.items():
 
-        expander = bmiscol.expander(f"{topic_key}")
-        expander.write(topic_value["content"])
-        for subtopic in topic_value["Subtopics"]:
+#         expander = bmiscol.expander(f"{topic_key}")
+#         expander.write(topic_value["content"])
+#         for subtopic in topic_value["Subtopics"]:
 
-            expander.markdown(f"**{subtopic['Subtopic']}**")
-            expander.write(subtopic["content"])
+#             expander.markdown(f"**{subtopic['Subtopic']}**")
+#             expander.write(subtopic["content"])
     
-    if "missing" not in st.session_state:
-        st.session_state.missing = st.session_state.new_dict
-        query_again = False
-        pass
+#     if "missing" not in st.session_state:
+#         st.session_state.missing = st.session_state.new_dict
+#         query_again = False
+#         pass
 
-    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+#     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
-    if pages_files:
-        selected_page = amiscol.number_input("compare with missing content:",step=1)
-        selected_image = f"page-{selected_page}.png"
-        # Display the selected image
-        if selected_image:
-            amiscol.image(os.path.join("pages", selected_image), use_column_width=True)
-    else:
-        amiscol.warning("No images found in the 'pages' folder.")
-
-
-except (KeyError, AttributeError,FileNotFoundError) as e:
-    print("Error missing Data")
-    print(f"Error: {type(e).__name__} - {e}")
+#     if pages_files:
+#         selected_page = amiscol.number_input("compare with missing content:",step=1)
+#         selected_image = f"page-{selected_page}.png"
+#         # Display the selected image
+#         if selected_image:
+#             amiscol.image(os.path.join("pages", selected_image), use_column_width=True)
+#     else:
+#         amiscol.warning("No images found in the 'pages' folder.")
 
 
-######################       edit contents      ##########################################
+# except (KeyError, AttributeError,FileNotFoundError) as e:
+#     print("Error missing Data")
+#     print(f"Error: {type(e).__name__} - {e}")
 
-try:
+
+# ######################       edit contents      ##########################################
+
+# try:
         
-    for topic, subtopics_dict in st.session_state.new_dict.items():
-        content = subtopics_dict['content']
-        subtopics_dict['content'] = edit_col.text_area(f"Topic {topic}:", value=content)
-        for subtopic_dict in subtopics_dict['Subtopics']:
-            subtopic_name = subtopic_dict['Subtopic']
-            content = subtopic_dict['content']
-            subtopic_dict['content'] = edit_col.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
+#     for topic, subtopics_dict in st.session_state.new_dict.items():
+#         content = subtopics_dict['content']
+#         subtopics_dict['content'] = edit_col.text_area(f"Topic {topic}:", value=content)
+#         for subtopic_dict in subtopics_dict['Subtopics']:
+#             subtopic_name = subtopic_dict['Subtopic']
+#             content = subtopic_dict['content']
+#             subtopic_dict['content'] = edit_col.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
 
-except (KeyError,FileNotFoundError, AttributeError) as e:
-    print("Error saving Edited content")
-    print(f"Error: {type(e).__name__} - {e}")
+# except (KeyError,FileNotFoundError, AttributeError) as e:
+#     print("Error saving Edited content")
+#     print(f"Error: {type(e).__name__} - {e}")
 
 
 
@@ -790,70 +791,70 @@ except (KeyError,NameError, AttributeError) as e:
 
 
 
-######################      Manage XML      ##########################################
+# ######################      Manage XML      ##########################################
 
-db = load_db()
-chapter_list = list(db.keys())
+# db = load_db()
+# chapter_list = list(db.keys())
 
-if chapter_list:
+# if chapter_list:
 
-    filesinsidefolder = manage_col.selectbox("Select a zip file", [f for f in os.listdir("images") if f.endswith(('.zip'))])
+#     filesinsidefolder = manage_col.selectbox("Select a zip file", [f for f in os.listdir("images") if f.endswith(('.zip'))])
 
-    if filesinsidefolder and filesinsidefolder.endswith('.zip'):
-        file_path = os.path.join("images", filesinsidefolder)
-        with open(file_path, "rb") as f:
-            file_bytes = f.read()
-        manage_col.download_button(
-            label="Download Zip File",
-            data=file_bytes,
-            file_name=filesinsidefolder,
-            mime="application/zip",
-        )
+#     if filesinsidefolder and filesinsidefolder.endswith('.zip'):
+#         file_path = os.path.join("images", filesinsidefolder)
+#         with open(file_path, "rb") as f:
+#             file_bytes = f.read()
+#         manage_col.download_button(
+#             label="Download Zip File",
+#             data=file_bytes,
+#             file_name=filesinsidefolder,
+#             mime="application/zip",
+#         )
    
-    else:
-        manage_col.warning("No file selected.")
+#     else:
+#         manage_col.warning("No file selected.")
 
 
 
-    selected_chapter = manage_col.selectbox("Select a chapter first:", chapter_list)
-    delete_button = manage_col.button("Delete Chapter")
-    post_button= manage_col.button("Continue with CourseBOT 2")
+#     selected_chapter = manage_col.selectbox("Select a chapter first:", chapter_list)
+#     delete_button = manage_col.button("Delete Chapter")
+#     post_button= manage_col.button("Continue with CourseBOT 2")
 
 
-    if post_button:
-        url = "https://coursebot2.flipick.com/couresbuilderapi/api/Course/ImportCourse"
-        payload = json.dumps({
-                                "ImportXML": str(db[selected_chapter])
-                                })
-        headers = {
-                    'Content-Type': 'application/json'
-                    }
+#     if post_button:
+#         url = "https://coursebot2.flipick.com/couresbuilderapi/api/Course/ImportCourse"
+#         payload = json.dumps({
+#                                 "ImportXML": str(db[selected_chapter])
+#                                 })
+#         headers = {
+#                     'Content-Type': 'application/json'
+#                     }
 
 
-        response = requests.request("POST", url, headers=headers, data=payload)
+#         response = requests.request("POST", url, headers=headers, data=payload)
         
-        print(response)
-        response_dict = json.loads(response.text)
+#         print(response)
+#         response_dict = json.loads(response.text)
 
-        url_to_launch = response_dict["result"]["urlToLaunch"]
-        manage_col.subheader("Click on the url bellow to continue.")
-        manage_col.write(url_to_launch)
-
-
+#         url_to_launch = response_dict["result"]["urlToLaunch"]
+#         manage_col.subheader("Click on the url bellow to continue.")
+#         manage_col.write(url_to_launch)
 
 
-    if delete_button:
-        if delete_chapter(selected_chapter):
-            manage_col.success(f"Chapter {selected_chapter} deleted successfully.")
-            db = load_db()
-            chapter_list = list(db.keys())
-            if chapter_list:
-                selected_chapter = manage_col.selectbox("Select a chapter:", chapter_list)
-                manage_col.code(db[selected_chapter], language="xml")
-            else:
-                manage_col.warning("No chapters found. Upload a chapter and save its XML first.")
-        else:
-            manage_col.error(f"Failed to delete chapter {selected_chapter}.")
 
-else:
-    manage_col.warning("No chapters found. Upload a chapter and save its XML first.")
+
+#     if delete_button:
+#         if delete_chapter(selected_chapter):
+#             manage_col.success(f"Chapter {selected_chapter} deleted successfully.")
+#             db = load_db()
+#             chapter_list = list(db.keys())
+#             if chapter_list:
+#                 selected_chapter = manage_col.selectbox("Select a chapter:", chapter_list)
+#                 manage_col.code(db[selected_chapter], language="xml")
+#             else:
+#                 manage_col.warning("No chapters found. Upload a chapter and save its XML first.")
+#         else:
+#             manage_col.error(f"Failed to delete chapter {selected_chapter}.")
+
+# else:
+#     manage_col.warning("No chapters found. Upload a chapter and save its XML first.")
