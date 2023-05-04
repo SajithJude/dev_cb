@@ -659,7 +659,7 @@ try:
                 # Iterate through the subtopics
             for subtopic in topic_value["Subtopics"]:
                 subtopic_content = subtopic['content']
-                subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of unordered bullet points, with {num_words_bullet} number of words per bullet from the following paragraph {subtopic_content}, give the output as a json list with strings."
+                subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of  sentences, with {num_words_bullet} number of words per sentence from the following paragraph {subtopic_content}, give the output as a json list with strings."
                 bullets = str(call_openai(subtopic_bullet_prompt))
                 listbul = ast.literal_eval(bullets.strip())
                 subtopic['Bullets'] = listbul
