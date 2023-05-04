@@ -184,6 +184,7 @@ def generate_xml_structure(data):
         subtopics = topic_value['Subtopics']
 
         if not subtopics:
+
             slide_name = f'Slide{slide_counter}'
             slide = SubElement(slides, slide_name)
 
@@ -195,8 +196,9 @@ def generate_xml_structure(data):
             slide_counter += 1
 
         else:
+
             for i, subtopic in enumerate(subtopics, start=1):
-                st.write(subtopic)
+                st.write(subtopics)
                 slide_name = f'Slide{slide_counter}'
                 slide = SubElement(slides, slide_name)
 
