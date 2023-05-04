@@ -245,7 +245,39 @@ if "toc" not in st.session_state:
 
 
 ######################       Upload chapter column      ##########################################
+######################       load content      ##########################################
+try:
+    saved_extracts = [file for file in os.listdir('.') if file.endswith('.json')]
 
+    selected_course = ecol.selectbox('Select a course name', saved_extracts)
+    delete_button = ecol.button("Delete")
+
+    # if a course name is selected, update new_dict with the corresponding data
+    if selected_course:
+        selected_course_path = os.path.join('.', selected_course)
+        with open(selected_course_path, 'r') as json_file:
+            data = json.load(json_file)
+            st.session_state.new_dict = data['data']
+            # st.write(data)
+
+
+    if delete_button:
+        selected_course_path = os.path.join('.', selected_course)
+        os.remove(selected_course_path)
+        print("Selected file path:", selected_course_path)
+
+    # Delete the selected file
+        try:
+            os.remove(selected_course_path)
+            st.success("File deleted successfully.")
+        except OSError as e:
+            st.error(f"Error deleting file: {e}")
+        pass
+
+except (KeyError, FileNotFoundError,AttributeError) as e:
+    print("Error Extracting Data")
+    print(f"Error: {type(e).__name__} - {e}")
+    
 uploaded_file = upload_col.file_uploader("Upload a Chapter as a PDF file", type="pdf")
 toc_option = upload_col.radio("Choose a method to provide TOC", ("Generate TOC", "Copy Paste TOC"))
 forma = """"{
@@ -492,30 +524,7 @@ try:
 
     #     data = json.loads(data)
 
-    selected_course = ecol.selectbox('Select a course name', saved_extracts)
-    delete_button = ecol.button("Delete")
-
-    # if a course name is selected, update new_dict with the corresponding data
-    if selected_course:
-        selected_course_path = os.path.join('.', selected_course)
-        with open(selected_course_path, 'r') as json_file:
-            data = json.load(json_file)
-            st.session_state.new_dict = data['data']
-            # st.write(data)
-
-
-    if delete_button:
-        selected_course_path = os.path.join('.', selected_course)
-        os.remove(selected_course_path)
-        print("Selected file path:", selected_course_path)
-
-    # Delete the selected file
-        try:
-            os.remove(selected_course_path)
-            st.success("File deleted successfully.")
-        except OSError as e:
-            st.error(f"Error deleting file: {e}")
-        pass
+    
 
 
     st.session_state.new_dict = data['data']
