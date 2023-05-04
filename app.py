@@ -663,7 +663,7 @@ try:
                 bullets = call_openai(subtopic_bullet_prompt)
                 listbul = ast.literal_eval(bullets.strip())
                 subtopic['Bullets'] = listbul
-                subtopic_voiceover_prompt = f"generate a voice over for the following paragraph in {bullet_voiceover_limit} number of words\n, paragraph: {subtopic_content}"
+                subtopic_voiceover_prompt = f"generate a voice over for the following paragraph in {bullet_voiceover_limit} number of words\n, paragraph {subtopic_content}"
                 subtopic["VoiceOver"] = str(call_openai(subtopic_voiceover_prompt))
                
         # excol.write(st.session_state.new_dict)
