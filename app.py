@@ -184,7 +184,6 @@ def generate_xml_structure(data):
         subtopics = topic_value['Subtopics']
 
         if not subtopics:
-
             slide_name = f'Slide{slide_counter}'
             slide = SubElement(slides, slide_name)
 
@@ -194,9 +193,7 @@ def generate_xml_structure(data):
             SubElement(slide, 'VoiceOver').text = topic_value['VoiceOver'].strip()
 
             slide_counter += 1
-
         else:
-
             for i, subtopic in enumerate(subtopics, start=1):
                 slide_name = f'Slide{slide_counter}'
                 slide = SubElement(slides, slide_name)
@@ -207,13 +204,9 @@ def generate_xml_structure(data):
                 stopic.text = subtopic['Subtopic']
 
                 # bullets = SubElement(slide, 'Bullets')
-                # st.write()
-                # k=0l=1
-                l=1
-                for k in subtopics[i]['Bullets']:
-                    # k+=1
-                    SubElement(slide, f'Bullet_{l}').text = k
-                    l+=1
+                for j, bullet in enumerate(subtopic['Bullets'], start=1):
+                    SubElement(slide, f'Bullet_{j}').text = bullet
+
                 SubElement(slide, 'VO_Script').text = subtopic['VoiceOver'].strip()
 
                 slide_counter += 1
