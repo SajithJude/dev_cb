@@ -491,7 +491,8 @@ try:
     if selected_course:
         with open(selected_course, 'r') as json_file:
             data = json.load(json_file)
-            pass
+            st.write(data['data'])
+            # pass
 
     # if isinstance(data, str):
     #     data = json.loads(data)
