@@ -672,7 +672,7 @@ if ex:
             subtopic_bullet_prompt = f"generate {num_bullets_per_slide} sentences, with {num_words_bullet} words per sentence from the following paragraph {subtopic_content}"
             bullets = call_openai(subtopic_bullet_prompt)
             st.write(bullets)
-            listbul = bullets.strip("\n")
+            listbul = bullets.strip()
             subtopic['Bullets'] = listbul
             subtopic_voiceover_prompt = f"generate a voice over in {bullet_voiceover_limit} number of words, for the following paragraph {subtopic_content}"
             subtopic["VoiceOver"] = str(call_openai(subtopic_voiceover_prompt))
