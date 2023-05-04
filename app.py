@@ -565,7 +565,7 @@ except (KeyError,FileNotFoundError, AttributeError) as e:
 
 
 try:
-    edcol, excol = voice_col.columns([3,5])
+    edcol, excol = voice_col.columns([1,3])
 
     # Course Description
     course_description_limit = edcol.number_input("Course Description Word Count Limit", value=30, min_value=1)
@@ -622,7 +622,7 @@ try:
 
         xml_output = generate_xml_structure(st.session_state.new_dict)
         pretty_xml = minidom.parseString(xml_output).toprettyxml()
-        voice_col.code(pretty_xml)
+        excol.code(pretty_xml)
         voice_col.write(st.session_state.new_dict)
 
 
