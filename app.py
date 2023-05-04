@@ -203,7 +203,7 @@ def generate_xml_structure(data):
                 stopic = SubElement(slide, 'Subtopic')
                 stopic.text = subtopic['Subtopic']
                 k=1
-                bullets = subtopic['Bullets']
+                bullets = subtopic[i]['Bullets']
                 for bullet in range(k, len(bullets)):
 
                     SubElement(slide, f'Bullet_{k}').text = bullet
