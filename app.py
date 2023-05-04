@@ -475,7 +475,7 @@ try:
             st.success("File deleted successfully.")
         except OSError as e:
             st.error(f"Error deleting file: {e}")
-                pass
+        pass
     quer = ecol.button("Extract Contents")
 
     # seca, secb = extract_col.columns(2)
