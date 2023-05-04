@@ -249,8 +249,8 @@ if "toc" not in st.session_state:
 try:
     saved_extracts = [file for file in os.listdir('.') if file.endswith('.json')]
 
-    selected_course = ecol.selectbox('Select a course name', saved_extracts)
-    delete_button = ecol.button("Delete")
+    selected_course = upload_col.selectbox('Select a course name', saved_extracts)
+    delete_button = upload_col.button("Delete")
 
     # if a course name is selected, update new_dict with the corresponding data
     if selected_course:
@@ -277,7 +277,7 @@ try:
 except (KeyError, FileNotFoundError,AttributeError) as e:
     print("Error Extracting Data")
     print(f"Error: {type(e).__name__} - {e}")
-    
+
 uploaded_file = upload_col.file_uploader("Upload a Chapter as a PDF file", type="pdf")
 toc_option = upload_col.radio("Choose a method to provide TOC", ("Generate TOC", "Copy Paste TOC"))
 forma = """"{
