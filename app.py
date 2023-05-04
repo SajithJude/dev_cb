@@ -671,7 +671,7 @@ if ex:
             # Iterate through the subtopics
         for subtopic in topic_value["Subtopics"]:
             subtopic_content = subtopic['content']
-            subtopic_bullet_prompt = f"generate {num_bullets_per_slide} sentences, with {num_words_bullet} words per sentence from the following paragraph {subtopic_content}, in list object"
+            subtopic_bullet_prompt = f"generate {num_bullets_per_slide} sentences, with {num_words_bullet} words per sentence from the following paragraph {subtopic_content}, in a comma seperated list object "
             bullets = call_openai(subtopic_bullet_prompt)
             st.write(bullets)
             listbul = ast.literal_eval(str(bullets.strip()))
