@@ -489,7 +489,8 @@ try:
 
     # if a course name is selected, update new_dict with the corresponding data
     if selected_course:
-        with open(selected_course, 'r') as json_file:
+        selected_course_path = os.path.join('.', selected_course)
+        with open(selected_course_path, 'r') as json_file:
             data = json.load(json_file)
             st.write(data['data'])
             # pass
