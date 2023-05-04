@@ -50,11 +50,11 @@ def call_openai(source):
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=source,
-        temperature=0.56,
+        temperature=0.1,
         max_tokens=3600,
         top_p=1,
         frequency_penalty=0.35,
-        presence_penalty=1
+        presence_penalty=0
     )
     return response.choices[0].text
 
