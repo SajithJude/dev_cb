@@ -51,7 +51,7 @@ def call_openai(source):
         model="text-davinci-003",
         prompt=source,
         temperature=0.56,
-        max_tokens=3000,
+        max_tokens=3600,
         top_p=1,
         frequency_penalty=0.35,
         presence_penalty=1
@@ -204,7 +204,7 @@ def generate_xml_structure(data):
                 stopic.text = subtopic['Subtopic']
 
                 # bullets = SubElement(slide, 'Bullets')
-                for j, bullet in enumerate(subtopic['Bullets'], start=0):
+                for j, bullet in enumerate(subtopic['Bullets'], start=1):
                     SubElement(slide, f'Bullet_{j}').text = bullet
 
                 SubElement(slide, 'VO_Script').text = subtopic['VoiceOver'].strip()
