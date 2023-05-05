@@ -339,9 +339,10 @@ if uploaded_file is not None:
 
 if toc_option == "Generate TOC":
     toc = upload_col.button("Genererate TOC")
+    edirpeompt = upload_col.text_input("Input prompt ")
     try:
         if toc:
-            toc_res = st.session_state.index.query(f" create a table of contents with topics and subtopics by refering to the section wise hierarchy numbers or the size of the content . The output table of contents should be in the following format: " + str(forma))
+            toc_res = st.session_state.index.query(str(edirpeompt) + "\n. The output table of contents should be in the following format: " + str(forma))
             str_toc = str(toc_res)
             table_of_contents = json.loads(str_toc)
 
