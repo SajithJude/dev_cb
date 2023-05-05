@@ -287,16 +287,16 @@ forma = """"{
   "Topics": [
     {
       "Topic 1": [
-        "Subtopic 1.1",
-        "Subtopic 1.2",
-        "Subtopic 1.3"
+        "Subtopic ",
+        "Subtopic",
+        "Subtopic "
       ]
     },
     {
       "Topic 2": [
-        "Subtopic 2.1",
-        "Subtopic 2.2",
-        "Subtopic 2.3"
+        "Subtopic ",
+        "Subtopic ",
+        "Subtopic "
       ]
     },
      continue with topics...
