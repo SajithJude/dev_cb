@@ -432,6 +432,7 @@ try:
                     st.experimental_rerun()
         
         if column1.button("Save"):
+
             try:
                 if "new_dict" not in st.session_state:
                         st.session_state.new_dict = {}
@@ -442,6 +443,8 @@ try:
                         # Add descriptions for the values
                         for item in value:
                             st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
+
+                st.write(st.session_state.new_dict)
             except (KeyError, AttributeError) as e:
                 print("Error Formating TOC "+str(e))
                 print(f"Error: {type(e).__name__} - {e}")
