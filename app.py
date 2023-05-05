@@ -290,14 +290,14 @@ forma = """"{
         "Subtopic 1.1",
         "Subtopic 1.2",
         "Subtopic 1.3"
-      ]
+      ],
     },
     {
       "Topic 2": [
         "Subtopic 2.1",
         "Subtopic 2.2",
         "Subtopic 2.3"
-      ]
+      ],
     },
      continue with topics...
   ]
