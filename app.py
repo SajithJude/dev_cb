@@ -116,26 +116,28 @@ def delete_chapter(chapter_name):
     return False
 
 
-
 def generate_xml_structure(new_dict):
-    root = ET.Element("VoiceOverSlides")
+    root = ET.Element("Slides")
+    slide_counter = 1
 
     # First slide with topic names
-    slide = ET.SubElement(root, "Slide")
+    slide = ET.SubElement(root, f"Slide{slide_counter}")
     for topic in new_dict:
         topic_name = ET.SubElement(slide, "TopicName")
         topic_name.text = topic
+    slide_counter += 1
 
     # Iterate through topics and subtopics
     for topic, details in new_dict.items():
-        slide = ET.SubElement(root, "Slide")
+        slide = ET.SubElement(root, f"Slide{slide_counter}")
         topic_elem = ET.SubElement(slide, "TopicVoiceOver")
         topic_elem.text = details["Topic_Summary"]
+        slide_counter += 1
 
         # Add subtopics if they exist
         if details["Subtopics"]:
             for subtopic in details["Subtopics"]:
-                sub_slide = ET.SubElement(root, "Slide")
+                sub_slide = ET.SubElement(root, f"Slide{slide_counter}")
                 subtopic_elem = ET.SubElement(sub_slide, "Subtopic")
                 subtopic_elem.text = subtopic["Subtopic"]
 
@@ -150,6 +152,7 @@ def generate_xml_structure(new_dict):
                     bullet_voiceover_elem = ET.SubElement(bullets_slide, "BulletVoiceOver")
                     bullet_voiceover_elem.text = subtopic["VoiceOverBullets"][i]
                     bullet_count += 1
+                slide_counter += 1
 
     # Generate XML string
     xml_string = ET.tostring(root, encoding="utf-8", method="xml").decode("utf-8")
