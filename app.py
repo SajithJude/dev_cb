@@ -117,58 +117,47 @@ def delete_chapter(chapter_name):
 
 
 
-def generate_xml_structure(data):
-    slides = Element('Slides')
+def generate_xml_structure(new_dict):
+    root = ET.Element("VoiceOverSlides")
 
-    # Add your predefined slides here (e.g., Slide1, Slide2, Slide3)
-    slide_name = 'Slide1'
-    slide = SubElement(slides, slide_name)
+    # First slide with topic names
+    slide = ET.SubElement(root, "Slide")
+    for topic in new_dict:
+        topic_name = ET.SubElement(slide, "TopicName")
+        topic_name.text = topic
 
-    SubElement(slide, 'Slide_Name').text = "Topics"
-    j = 1
-    for topic_key in data.keys():
-        SubElement(slide, f'Topic_{j}').text = topic_key
-        j += 1
+    # Iterate through topics and subtopics
+    for topic, details in new_dict.items():
+        slide = ET.SubElement(root, "Slide")
+        topic_elem = ET.SubElement(slide, "TopicVoiceOver")
+        topic_elem.text = details["Topic_Summary"]
 
-    slide_counter = 2
-    for topic_key, topic_value in data.items():
-        subtopics = topic_value['Subtopics']
+        # Add subtopics if they exist
+        if details["Subtopics"]:
+            for subtopic in details["Subtopics"]:
+                sub_slide = ET.SubElement(root, "Slide")
+                subtopic_elem = ET.SubElement(sub_slide, "Subtopic")
+                subtopic_elem.text = subtopic["Subtopic"]
 
-        if not subtopics:
-            slide_name = f'Slide{slide_counter}'
-            slide = SubElement(slides, slide_name)
+                # Add bullets (4 per slide)
+                bullet_count = 0
+                bullets_slide = None
+                for i, bullet in enumerate(subtopic["Bullets"]):
+                    if bullet_count % 4 == 0:
+                        bullets_slide = ET.SubElement(sub_slide, "BulletsSlide")
+                    bullet_elem = ET.SubElement(bullets_slide, "Bullet")
+                    bullet_elem.text = bullet
+                    bullet_voiceover_elem = ET.SubElement(bullets_slide, "BulletVoiceOver")
+                    bullet_voiceover_elem.text = subtopic["VoiceOverBullets"][i]
+                    bullet_count += 1
 
-            SubElement(slide, 'Slide_Name').text = "Topic_Summary"
-            SubElement(slide, 'Topic_Name').text = topic_key
-            SubElement(slide, 'Topic_Summary').text = topic_value['Topic_Summary'].strip()
-            SubElement(slide, 'VoiceOver').text = topic_value['VoiceOver'].strip()
+    # Generate XML string
+    xml_string = ET.tostring(root, encoding="utf-8", method="xml").decode("utf-8")
+    return xml_string
 
-            slide_counter += 1
-        else:
-
-            for i, subtopic in enumerate(subtopics, start=1):
-
-                slide_name = f'Slide{slide_counter}'
-                slide = SubElement(slides, slide_name)
-
-                SubElement(slide, 'Slide_Name').text = "Subtopic"
-                # SubElement(slide, 'Topic_Name').text = topic_key
-                stopic = SubElement(slide, 'Subtopic')
-                stopic.text = subtopic['Subtopic']
-
-                # bullets = SubElement(slide, 'Bullets')
-            for j, bullet in enumerate(subtopic['Bullets'], start=1):
-                SubElement(slide, f'Bullet_{j}').text = bullet
-
-            SubElement(slide, 'VO_Script').text = subtopic['VoiceOver'].strip()
-
-            slide_counter += 1
-
-    # Add your predefined slides at the end (e.g., Slide7)
-
-    # xml_string =
-    return tostring(slides).decode()
-
+# # Example usage
+# xml_output = generate_xml_structure(st.session_state.new_dict)
+# print(xml_output)
 
 def process_pdf(uploaded_file):
     loader = PDFReader()
