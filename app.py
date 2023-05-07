@@ -116,6 +116,7 @@ def delete_chapter(chapter_name):
     return False
 
 
+
 def generate_xml_structure(new_dict):
     root = ET.Element("Slides")
     slide_counter = 1
@@ -138,7 +139,7 @@ def generate_xml_structure(new_dict):
         if details["Subtopics"]:
             for subtopic in details["Subtopics"]:
                 sub_slide = ET.SubElement(root, f"Slide{slide_counter}")
-                subtopic_elem = ET.SubElement(sub_slide, "SubtopicName")
+                subtopic_elem = ET.SubElement(sub_slide, "Subtopic")
                 subtopic_elem.text = subtopic["Subtopic"]
 
                 # Add bullets (4 per slide)
@@ -146,7 +147,7 @@ def generate_xml_structure(new_dict):
                 bullets_slide = None
                 for i, bullet in enumerate(subtopic["Bullets"]):
                     if bullet_count % 4 == 0:
-                        bullets_slide = ET.SubElement(sub_slide, "Subtopics")
+                        bullets_slide = ET.SubElement(sub_slide, "BulletsSlide")
                     bullet_elem = ET.SubElement(bullets_slide, "Bullet")
                     bullet_elem.text = bullet
                     bullet_voiceover_elem = ET.SubElement(bullets_slide, "BulletVoiceOver")
@@ -157,6 +158,11 @@ def generate_xml_structure(new_dict):
     # Generate XML string
     xml_string = ET.tostring(root, encoding="utf-8", method="xml").decode("utf-8")
     return xml_string
+
+# Example usage
+xml_output = generate_xml_structure(your_data_structure)
+print(xml_output)
+
 
 # # Example usage
 # xml_output = generate_xml_structure(st.session_state.new_dict)
