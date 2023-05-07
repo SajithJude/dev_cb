@@ -142,13 +142,10 @@ def generate_xml_structure(new_dict):
     for topic, details in new_dict.items():
         slide = ET.SubElement(root, f"Slide{slide_counter}")
         slideName = ET.SubElement(slide, "Slide_Name")
-        TopicName = ET.SubElement(slide, "Topic_Name")
         slideName.text = "Topic_Name"
-        TopicName.text= details["Topic_Summary"].strip()
-
+        
         topic_elem = ET.SubElement(slide, "VoiceOver")
         topic_elem.text = details["VoiceOver"].strip()
-        slide_counter += 1
 
         # Add subtopics if they exist
         if details["Subtopics"]:
@@ -169,6 +166,14 @@ def generate_xml_structure(new_dict):
                     bullet_voiceover_elem.text = subtopic["VoiceOverBullets"][i]
                     bullet_count += 1
                 slide_counter += 1
+
+        else:
+            Topic_Name = ET.SubElement(slide, "Topic_Name")
+            Topic_Name.text= topic
+            Topic_Summary = ET.SubElement(slide, "Topic_Summary")
+            Topic_Summary.text= details["Topic_Summary"].strip()
+            slide_counter += 1
+
 
     # Generate XML string
     xml_string = ET.tostring(root, encoding="utf-8", method="xml").decode("utf-8")
