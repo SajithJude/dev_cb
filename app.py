@@ -124,13 +124,15 @@ def generate_xml_structure(new_dict):
     # First slide with topic names
     slide = ET.SubElement(root, f"Slide{slide_counter}")
     tpcount=0
+    topic_list = ET.SubElement(slide, "Topics")
     for topic in new_dict:
-        topic_name = ET.SubElement(slide, f"Topic_{tpcount}")
+        topic_name = ET.SubElement(topic_list, f"Topic_{tpcount}")
         topic_name.text = topic
         tpcount +=1
     vocount=0
+    voiceovertopic_list = ET.SubElement(slide, "VoiceOver")
     for topic in new_dict:
-        topic_voiceover = ET.SubElement(slide, f"VoiceOver_{vocount}")
+        topic_voiceover = ET.SubElement(voiceovertopic_list, f"VoiceOver_{vocount}")
         topic_voiceover.text = topic
         vocount +=1
 
