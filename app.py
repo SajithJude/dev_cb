@@ -164,26 +164,27 @@ def generate_xml_structure(new_dict):
                 slideName = ET.SubElement(slide, "Slide_Name")
                 slideName.text = "Subtopic_Name"
                 Subtopicelement = ET.SubElement(sub_slide, "Subtopic")
-                for subtopic in details["Subtopics"]:
-                    Subtopicelement.text = subtopic["Subtopic"]
-                    bullet_count = 0
-                    bullets_slide = None
-                    for i, bullet in enumerate(subtopic["Bullets"]):
-                        if bullet_count % 4 == 0:
-                            pass 
-                            # bullets_slide = ET.SubElement(sub_slide, "BulletsSlide")
-                        bullet_elem = ET.SubElement(sub_slide, f"Bullet_{bullet_count}")
-                        bullet_elem.text = bullet
-                        bullet_count += 1
+            
+            # for subtopic in details["Subtopics"]:
+                Subtopicelement.text = subtopic["Subtopic"]
+                bullet_count = 0
+                bullets_slide = None
+                for i, bullet in enumerate(subtopic["Bullets"]):
+                    if bullet_count % 4 == 0:
+                        pass 
+                        # bullets_slide = ET.SubElement(sub_slide, "BulletsSlide")
+                    bullet_elem = ET.SubElement(sub_slide, f"Bullet_{bullet_count}")
+                    bullet_elem.text = bullet
+                    bullet_count += 1
 
-                    vobullet_count = 0
-                    for i, bullet in enumerate(subtopic["VoiceOverBullets"]):
-                        if vobullet_count % 4 == 0:
-                            bullets_VO_element = ET.SubElement(sub_slide, "VoiceOver")
-                        bullet_voiceover_elem = ET.SubElement(bullets_VO_element, f"VoiceOver_{vobullet_count}")
-                        bullet_voiceover_elem.text = subtopic["VoiceOverBullets"][i]
+                vobullet_count = 0
+                for i, bullet in enumerate(subtopic["VoiceOverBullets"]):
+                    if vobullet_count % 4 == 0:
+                        bullets_VO_element = ET.SubElement(sub_slide, "VoiceOver")
+                    bullet_voiceover_elem = ET.SubElement(bullets_VO_element, f"VoiceOver_{vobullet_count}")
+                    bullet_voiceover_elem.text = subtopic["VoiceOverBullets"][i]
                         vobullet_count += 1
-                    slide_counter += 1
+                slide_counter += 1
 
         else:
             Topic_Name = ET.SubElement(slide, "Topic_Name")
