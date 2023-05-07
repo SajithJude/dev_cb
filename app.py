@@ -138,7 +138,7 @@ def generate_xml_structure(new_dict):
         if details["Subtopics"]:
             for subtopic in details["Subtopics"]:
                 sub_slide = ET.SubElement(root, f"Slide{slide_counter}")
-                subtopic_elem = ET.SubElement(sub_slide, "Subtopic")
+                subtopic_elem = ET.SubElement(sub_slide, "SubtopicName")
                 subtopic_elem.text = subtopic["Subtopic"]
 
                 # Add bullets (4 per slide)
@@ -146,7 +146,7 @@ def generate_xml_structure(new_dict):
                 bullets_slide = None
                 for i, bullet in enumerate(subtopic["Bullets"]):
                     if bullet_count % 4 == 0:
-                        bullets_slide = ET.SubElement(sub_slide, "BulletsSlide")
+                        bullets_slide = ET.SubElement(sub_slide, "Subtopics")
                     bullet_elem = ET.SubElement(bullets_slide, "Bullet")
                     bullet_elem.text = bullet
                     bullet_voiceover_elem = ET.SubElement(bullets_slide, "BulletVoiceOver")
