@@ -131,7 +131,7 @@ def generate_xml_structure(new_dict):
     vocount=0
     for topic in new_dict:
         topic_voiceover = ET.SubElement(slide, f"VoiceOver_{vocount}")
-        topic_name.text = topic
+        topic_voiceover.text = topic
         vocount +=1
 
     slide_counter += 1
