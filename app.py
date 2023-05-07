@@ -144,7 +144,7 @@ def generate_xml_structure(new_dict):
         slideName = ET.SubElement(slide, "Topic_Summary")
         slideName.text= details["Topic_Summary"].strip()
 
-        topic_elem = ET.SubElement(slideName, "VoiceOver")
+        topic_elem = ET.SubElement(slide, "VoiceOver")
         topic_elem.text = details["VoiceOver"].strip()
         slide_counter += 1
 
