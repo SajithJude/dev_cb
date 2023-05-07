@@ -160,8 +160,8 @@ def generate_xml_structure(new_dict):
     return xml_string
 
 # Example usage
-xml_output = generate_xml_structure(your_data_structure)
-print(xml_output)
+# xml_output = generate_xml_structure(your_data_structure)
+# print(xml_output)
 
 
 # # Example usage
