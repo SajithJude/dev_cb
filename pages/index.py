@@ -1,16 +1,21 @@
 import streamlit as st
 
+import xml.etree.ElementTree as ET
 
-index = st.session_state.index
+# Parse the XML file
+tree = ET.parse("Time Management.xml")
 
-qw= st.text_input("Enter query")
+# Get the root element
+root = tree.getroot()
 
-but = st.button("send")
+# Define a recursive function to print the structure of the nodes
+def print_node_structure(node, indent):
+    # Print the tag name and attributes of the node
+    st.write(f"{indent}<{node.tag} {node.attrib}>")
 
+    # Recursively print the structure of the child nodes
+    for child in node:
+        print_node_structure(child, indent + "  ")
 
-if but:
-    res= index.query(qw)
-    # st.write(res[0]["node"]["text"])
-    st.write(res.source_nodes[0])
-    # st.write(res())
-
+# Call the function with the root element
+print_node_structure(root, "")
