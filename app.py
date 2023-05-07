@@ -648,7 +648,7 @@ topic_summary_voiceover_limit = edcol.number_input("Topic Summary VoiceOver Word
 num_bullets_per_slide = edcol.number_input("Number of Bullets per Slide", value=4, min_value=1)
 
 # Number of Words per Bullet
-num_words_bullet = edcol.number_input("Number of Words per Bullet", value=20, min_value=1)
+num_words_bullet = edcol.number_input("Number of Words per Bullet", value=10, min_value=1)
 
 # Bullet VoiceOver
 bullet_voiceover_limit = edcol.number_input("Bullet VoiceOver Word Count Limit", value=50, min_value=1)
@@ -675,7 +675,7 @@ if ex:
             # Iterate through the subtopics
         for subtopic in topic_value["Subtopics"]:
             subtopic_content = subtopic['content']
-            subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points with {num_words_bullet} number of words per bullet from the following content: {subtopic_content}\n, give the output as a json list."
+            subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points , where each bullet point should have exactly {num_words_bullet} words, from the following source: {subtopic_content}\n, give the output as a json list."
             bullets = call_openai(subtopic_bullet_prompt)
             st.write(bullets)
             listbul = ast.literal_eval(bullets.strip())
