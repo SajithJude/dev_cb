@@ -183,7 +183,7 @@ def generate_xml_structure(new_dict):
                         bullet_voiceover_elem = ET.SubElement(bullets_VO_element, f"VoiceOver_{vobullet_count}")
                         bullet_voiceover_elem.text = subtopic["VoiceOverBullets"][i]
                         vobullet_count += 1
-                slide_counter += 1
+                    slide_counter += 1
 
         else:
             Topic_Name = ET.SubElement(slide, "Topic_Name")
