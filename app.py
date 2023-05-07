@@ -493,10 +493,10 @@ num_bullets_per_slide = edcol.number_input("Number of Bullets per Slide", value=
 num_words_bullet = edcol.number_input("Number of Words per Bullet", value=10, min_value=1)
 
 # Bullet VoiceOver
-bullet_voiceover_limit = edcol.number_input("Bullet VoiceOver Word Count Limit", value=50, min_value=1)
+bullet_voiceover_limit = edcol.number_input("VoiceOver per Bullet Word Count Limit", value=20, min_value=1)
 
 # Paraphrasing Percentage Range
-paraphrasing_range = edcol.slider("Paraphrasing % Range", min_value=25, max_value=35, value=(25, 35))
+# paraphrasing_range = edcol.slider("Paraphrasing % Range", min_value=25, max_value=35, value=(25, 35))
 
 saved_courses = [file for file in os.listdir('.') if file.endswith('.json')]
 
@@ -505,7 +505,8 @@ selected_course = excol.selectbox("Select a saved course", saved_courses)
 
 if excol.button("Load Project"):
     st.session_state.new_dict = load_saved_course(selected_course)
-    excol.write(st.session_state.new_dict)
+    excol.success("Project loaded,, you can now continue with voice over")
+    # excol.write(st.session_state.new_dict)
 
 
 
@@ -532,9 +533,10 @@ if ex:
             st.write(bullets)
             listbul = ast.literal_eval(bullets.strip())
             subtopic['Bullets'] = listbul
-            subtopic_voiceover_prompt = f"generate a voice over in {bullet_voiceover_limit} number of words, for the following paragraph {subtopic_content}"
-            subtopic["VoiceOver"] = str(call_openai(subtopic_voiceover_prompt))
-            
+            subtopic_voiceover_prompt = f"generate voice over for {num_bullets_per_slide} number of bullet points ,where each voice over per bullet point should have exactly {bullet_voiceover_limit} words, from the following source: {subtopic_content}\n, give the output as a json list."
+            BulletVoiceOver = call_openai(subtopic_voiceover_prompt)
+            listvoice = ast.literal_eval(BulletVoiceOver.strip())
+            subtopic['VoiceOverBullets'] = listvoice
     # excol.write(st.session_state.new_dict)
 if excol.button("generate xml"):
     st.session_state.new_dict
