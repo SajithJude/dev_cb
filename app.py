@@ -46,6 +46,11 @@ if not os.path.exists("pages"):
     os.makedirs("pages")
 
 
+
+def load_saved_course(course_file):
+    with open(course_file, 'r') as infile:
+        return json.load(infile)
+
 def call_openai(source):
     response = openai.Completion.create(
         model="text-davinci-003",
@@ -110,60 +115,6 @@ def delete_chapter(chapter_name):
         return True
     return False
 
-def post_xml_string(xml_string):
-    url = 'https://coursebot2.flipick.com/couresbuilderapi/api/Course/ImportCourse'
-    headers = {
-        'Content-type': 'application/json'
-    }
-    payload = json.dumps({"ImportXML": str(xml_string)})
-    response = requests.request("POST",url, headers=headers, data=payload)
-    # print(data)
-    print(response)
-    return response
-
-
-def json_to_xml(json_data, chapter_name):
-    chapter = Element('Chapter')
-
-
-    chapter_name_element = SubElement(chapter, 'ChapterName')
-    chapter_name_element.text = chapter_name
-
-    topics = SubElement(chapter, 'Topics')
-
-    for topic_name, topic_info in json_data.items():
-        topic = SubElement(topics, 'Topic')
-        topic_name_element = SubElement(topic, 'TopicName')
-        topic_name_element.text = topic_name
-
-        # Add img tag for the topic if it exists
-        if "img" in topic_info:
-            for img_path in topic_info["img"]:
-                img_element = SubElement(topic, 'img')
-                img_element.text = img_path
-
-        subtopics = SubElement(topic, 'SubTopics')
-        for subtopic_info in topic_info['Subtopics']:
-            subtopic = SubElement(subtopics, 'SubTopic')
-
-            subtopic_name = SubElement(subtopic, 'SubTopicName')
-            subtopic_name.text = subtopic_info['Subtopic']
-
-            subtopic_content = SubElement(subtopic, 'SubTopicContent')
-            subtopic_content.text = subtopic_info['content']
-
-            # Add img tag for the subtopic if it exists
-            if "img" in subtopic_info:
-                for img_path in subtopic_info["img"]:
-                    img_element = SubElement(subtopic, 'img')
-                    img_element.text = img_path
-
-    return tostring(chapter).decode()
-
-# from xml.etree.ElementTree import Element, SubElement, tostring
-
-
-# from xml.etree.ElementTree import Element, SubElement, tostring
 
 
 def generate_xml_structure(data):
@@ -247,39 +198,7 @@ if "toc" not in st.session_state:
 
 
 ######################       Upload chapter column      ##########################################
-######################       load content      ##########################################
-try:
-    saved_extracts = [file for file in os.listdir('.') if file.endswith('.json')]
 
-    selected_course = upload_col.selectbox('Select a course name', saved_extracts)
-    delete_button = upload_col.button("Delete")
-    load = upload_col.button("load")
-
-    # if a course name is selected, update new_dict with the corresponding data
-    if load:
-        selected_course_path = os.path.join('.', selected_course)
-        with open(selected_course_path, 'r') as json_file:
-            data = json.load(json_file)
-            st.session_state.new_dict = data['data']
-            # st.write(data)
-
-
-    if delete_button:
-        selected_course_path = os.path.join('.', selected_course)
-        os.remove(selected_course_path)
-        print("Selected file path:", selected_course_path)
-
-    # Delete the selected file
-        try:
-            os.remove(selected_course_path)
-            st.success("File deleted successfully.")
-        except OSError as e:
-            st.error(f"Error deleting file: {e}")
-        pass
-
-except (KeyError, NameError,FileNotFoundError,AttributeError) as e:
-    print("Error Extracting Data")
-    print(f"Error: {type(e).__name__} - {e}")
 
 uploaded_file = upload_col.file_uploader("Upload a Chapter as a PDF file", type="pdf")
 toc_option = upload_col.radio("Choose a method to provide TOC", ("Generate TOC", "Copy Paste TOC"))
@@ -490,6 +409,7 @@ try:
     course_name = ecol.text_input("Enter course name")
     quer = ecol.button("Extract Contents")
 
+
     saved_extracts = [file for file in os.listdir('.') if file.endswith('.json')]
 
     # course_names = list(set([item['course_name'] for item in data]))
@@ -512,21 +432,11 @@ try:
             subtopics_dict['content'] = topicres.response
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
-            
-   
-
-    # with open('db.json') as json_file:
-    #     data = json.load(json_file)
-    #     st.write(data)
-    #     if isinstance(data, str):
-    #         data = json.loads(data)
-
-
-    # if isinstance(data, str):
-
-    #     data = json.loads(data)
 
     
+    
+                
+
 
 
     # st.session_state.new_dict = data['data']
@@ -536,91 +446,23 @@ try:
         for subtopic in topic_value["Subtopics"]:
             expander.markdown(f"**{subtopic['Subtopic']}**")
             expander.write(subtopic["content"])
-                    
-        
-    # with open(f'{course_name}.json', 'w') as outfile:
 
-    #     json.dump({
-    #                 'course_name': course_name,
-    #                 'data': st.session_state.new_dict
-    #             }, outfile)
-        
+
+
+    save = ecol.button("Save project")
+
+    if save:
+        json_filename = f"{course_name}.json"
+        with open(json_filename, 'w') as outfile:
+            json.dump(st.session_state.new_dict, outfile)
+
+                    
+
 
 except (KeyError, FileNotFoundError,AttributeError) as e:
     print("Error Extracting Data")
     print(f"Error: {type(e).__name__} - {e}")
 
-
-# ######################       missing contents      ##########################################
-
-
-# try:
-#     amiscol, bmiscol = miss_col.columns([2,5],gap="large")
-
-#     extractedcontent = st.session_state.new_dict
-#     topic_names = [key for key, value in extractedcontent.items()]
-    
-#     new_query = bmiscol.text_input("Name of the missing Subtopic")
-#     topic_belong = bmiscol.selectbox("Select the belonging topic",topic_names)
-#     query_again = bmiscol.button("extract missing")
-    
-#     if query_again:
-        
-#         missing_info = index.query("extract the information about "+str(new_query))
-#         selected_topic = topic_belong
-#         new_subtopic = new_query
-#         content_value = missing_info.response
-#         topic_dict = st.session_state.new_dict[selected_topic]
-#     # Append the new subtopic and its content to the appropriate topic
-#         topic_dict['Subtopics'].append({'content': content_value, 'Subtopic': new_subtopic})
-       
-
-#     for topic_key, topic_value in st.session_state.new_dict.items():
-
-#         expander = bmiscol.expander(f"{topic_key}")
-#         expander.write(topic_value["content"])
-#         for subtopic in topic_value["Subtopics"]:
-
-#             expander.markdown(f"**{subtopic['Subtopic']}**")
-#             expander.write(subtopic["content"])
-    
-#     if "missing" not in st.session_state:
-#         st.session_state.missing = st.session_state.new_dict
-#         query_again = False
-#         pass
-
-#     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
-
-#     if pages_files:
-#         selected_page = amiscol.number_input("compare with missing content:",step=1)
-#         selected_image = f"page-{selected_page}.png"
-#         # Display the selected image
-#         if selected_image:
-#             amiscol.image(os.path.join("pages", selected_image), use_column_width=True)
-#     else:
-#         amiscol.warning("No images found in the 'pages' folder.")
-
-
-# except (KeyError, AttributeError,FileNotFoundError) as e:
-#     print("Error missing Data")
-#     print(f"Error: {type(e).__name__} - {e}")
-
-
-# ######################       edit contents      ##########################################
-
-# try:
-        
-#     for topic, subtopics_dict in st.session_state.new_dict.items():
-#         content = subtopics_dict['content']
-#         subtopics_dict['content'] = edit_col.text_area(f"Topic {topic}:", value=content)
-#         for subtopic_dict in subtopics_dict['Subtopics']:
-#             subtopic_name = subtopic_dict['Subtopic']
-#             content = subtopic_dict['content']
-#             subtopic_dict['content'] = edit_col.text_area(f"Subtopic {subtopic_name} under topic {topic} :", value=content)
-
-# except (KeyError,FileNotFoundError, AttributeError) as e:
-#     print("Error saving Edited content")
-#     print(f"Error: {type(e).__name__} - {e}")
 
 
 
@@ -656,7 +498,17 @@ bullet_voiceover_limit = edcol.number_input("Bullet VoiceOver Word Count Limit",
 # Paraphrasing Percentage Range
 paraphrasing_range = edcol.slider("Paraphrasing % Range", min_value=25, max_value=35, value=(25, 35))
 
-coursename = excol.text_input("Enter Course Name")
+saved_courses = [file for file in os.listdir('.') if file.endswith('.json')]
+
+# Create a select box for saved courses
+selected_course = excol.selectbox("Select a saved course", saved_courses)
+
+if excol.button("Load Project"):
+    st.session_state.new_dict = load_saved_course(selected_course)
+    excol.write(st.session_state.new_dict)
+
+
+
 ex = excol.button("Generate Voice Over")
 # voice_col.write(st.session_state.new_dict)
 if ex:
@@ -690,17 +542,6 @@ if excol.button("generate xml"):
     xml_output = generate_xml_structure(st.session_state.new_dict)
     pretty_xml = minidom.parseString(xml_output).toprettyxml()
     excol.code(pretty_xml)
-
-
-    
-
-# except Exception  as e:
-#     print(e)
-#     print(f"Error: {type(e).__name__} - {e}")
-
-
-
-
 
 
 
