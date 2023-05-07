@@ -144,19 +144,21 @@ def generate_xml_structure(new_dict):
         slideName = ET.SubElement(slide, "Slide_Name")
         slideName.text = "Topic_Name"
         
-        topic_elem = ET.SubElement(slide, "VoiceOver")
-        topic_elem.text = details["VoiceOver"].strip()
-
+        
         # Add subtopics if they exist
         if details["Subtopics"]:
-            Topic_Name = ET.SubElement(slide, "Topic_Name")
+            sub_slide = ET.SubElement(root, f"Slide{slide_counter}")
+            Topic_Name = ET.SubElement(sub_slide, "Topic_Name")
             Topic_Name.text= topic
+            subtopiccounter=0
             for subtopic in details["Subtopics"]:
-                sub_slide = ET.SubElement(root, f"Slide{slide_counter}")
-                subtopic_elem = ET.SubElement(sub_slide, "Subtopic")
+                subtopic_elem = ET.SubElement(sub_slide, f"Subtopic_{subtopiccounter}")
                 subtopic_elem.text = subtopic["Subtopic"]
+                subtopiccounter +=1
+            slide_counter += 1
 
                 # Add bullets (4 per slide)
+            for subtopic in details["Subtopics"]:
                 bullet_count = 0
                 bullets_slide = None
                 for i, bullet in enumerate(subtopic["Bullets"]):
@@ -174,6 +176,9 @@ def generate_xml_structure(new_dict):
             Topic_Name.text= topic
             Topic_Summary = ET.SubElement(slide, "Topic_Summary")
             Topic_Summary.text= details["Topic_Summary"].strip()
+            topic_elem = ET.SubElement(slide, "VoiceOver")
+            topic_elem.text = details["VoiceOver"].strip()
+
             slide_counter += 1
 
 
