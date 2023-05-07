@@ -3,7 +3,7 @@ import streamlit as st
 import xml.etree.ElementTree as ET
 
 # Parse the XML file
-tree = ET.parse("Time Management.xml")
+tree = ET.parse("./pages/Time Management.xml")
 
 # Get the root element
 root = tree.getroot()
