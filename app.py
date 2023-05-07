@@ -163,7 +163,7 @@ def generate_xml_structure(new_dict):
             slideName.text = "Subtopic_Name"
             Subtopicelement = ET.SubElement(sub_slide, "Subtopic")
             for subtopic in details["Subtopics"]:
-                Subtopicelement.text = subtopic
+                Subtopicelement.text = subtopic["Subtopic"]
                 bullet_count = 0
                 bullets_slide = None
                 for i, bullet in enumerate(subtopic["Bullets"]):
