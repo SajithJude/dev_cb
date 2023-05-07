@@ -149,6 +149,8 @@ def generate_xml_structure(new_dict):
 
         # Add subtopics if they exist
         if details["Subtopics"]:
+            Topic_Name = ET.SubElement(slide, "Topic_Name")
+            Topic_Name.text= topic
             for subtopic in details["Subtopics"]:
                 sub_slide = ET.SubElement(root, f"Slide{slide_counter}")
                 subtopic_elem = ET.SubElement(sub_slide, "Subtopic")
