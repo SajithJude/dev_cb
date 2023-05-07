@@ -17,5 +17,7 @@ def print_node_structure(node, indent):
     for child in node:
         print_node_structure(child, indent + "  ")
 
+    st.write(f"{indent}</{node.tag}>")
+
 # Call the function with the root element
 print_node_structure(root, "")
