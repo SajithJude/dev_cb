@@ -161,7 +161,7 @@ def generate_xml_structure(new_dict):
 
             for subtopic in details["Subtopics"]:
                 sub_slide = ET.SubElement(root, f"Slide{slide_counter}")
-                slideName = ET.SubElement(slide, "Slide_Name")
+                slideName = ET.SubElement(sub_slide, "Slide_Name")
                 slideName.text = "Subtopic_Name"
                 Subtopicelement = ET.SubElement(sub_slide, "Subtopic")
             
