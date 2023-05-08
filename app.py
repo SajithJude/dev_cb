@@ -177,11 +177,12 @@ def generate_xml_structure(new_dict):
                     bullet_elem.text = bullet
                     bullet_count += 1
 
-                vobullet_count = 1
+                vobullet_count = 0
+                bullets_VO_element = ET.SubElement(sub_slide, "VoiceOver")
+
                 for i, bullet in enumerate(subtopic["VoiceOverBullets"]):
                     if vobullet_count % 4 == 0:
                         pass
-                    bullets_VO_element = ET.SubElement(sub_slide, "VoiceOver")
                     bullet_voiceover_elem = ET.SubElement(bullets_VO_element, f"VoiceOver_{vobullet_count}")
                     bullet_voiceover_elem.text = bullet
                     vobullet_count += 1
