@@ -160,8 +160,8 @@ def generate_xml_structure(new_dict):
                 # Add bullets (4 per slide)
 
             for subtopic in details["Subtopics"]:
-                # sub_slide = ET.SubElement(root, f"Slide{slide_counter}")
-                # slideName = ET.SubElement(slide, "Slide_Name")
+                sub_slide = ET.SubElement(root, f"Slide{slide_counter}")
+                slideName = ET.SubElement(slide, "Slide_Name")
                 slideName.text = "Subtopic_Name"
                 Subtopicelement = ET.SubElement(sub_slide, "Subtopic")
             
