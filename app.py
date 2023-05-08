@@ -616,7 +616,6 @@ if excol.button("generate xml"):
 
     xml_output = generate_xml_structure(st.session_state.new_dict,coursedesctip,coursedesctipvo,cn)
     pretty_xml = minidom.parseString(xml_output).toprettyxml()
-    excol.code(pretty_xml)
     
     file_name = f"{cn}.xml"
     b64_xml = base64.b64encode(pretty_xml.encode("utf-8")).decode("utf-8")
@@ -624,6 +623,9 @@ if excol.button("generate xml"):
 
     # Add the download button
     st.markdown(download_button, unsafe_allow_html=True)
+
+    excol.code(pretty_xml)
+
 
 
 
