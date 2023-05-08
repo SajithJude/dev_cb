@@ -4,7 +4,7 @@ import json
 from langchain import OpenAI
 from llama_index import download_loader
 from tempfile import NamedTemporaryFile
-
+import base64
 import io
 import fitz
 from PIL import Image
@@ -617,6 +617,13 @@ if excol.button("generate xml"):
     xml_output = generate_xml_structure(st.session_state.new_dict,coursedesctip,coursedesctipvo,cn)
     pretty_xml = minidom.parseString(xml_output).toprettyxml()
     excol.code(pretty_xml)
+    
+    file_name = f"{cn}.xml"
+    b64_xml = base64.b64encode(pretty_xml.encode("utf-8")).decode("utf-8")
+    download_button = f'<a href="data:application/xml;base64,{b64_xml}" download="{file_name}">Download XML file</a>'
+
+    # Add the download button
+    st.markdown(download_button, unsafe_allow_html=True)
 
 
 
