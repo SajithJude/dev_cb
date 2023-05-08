@@ -136,13 +136,16 @@ def generate_xml_structure(new_dict,coursedesctip,coursedescriptionvoiceover,cn)
     slide_counter = 2
     slide = ET.SubElement(root, f"Slide{slide_counter}")
 
-    tpcount=0
+    tpcount=1
+    slideName = ET.SubElement(slide, "Slide_Name")
+    slideName.text = "Topics"
     topic_list = ET.SubElement(slide, "Topics")
+
     for topic in new_dict:
         topic_name = ET.SubElement(topic_list, f"Topic_{tpcount}")
         topic_name.text = topic
         tpcount +=1
-    vocount=0
+    vocount=1
     voiceovertopic_list = ET.SubElement(slide, "VoiceOver")
     for topic in new_dict:
         topic_voiceover = ET.SubElement(voiceovertopic_list, f"VoiceOver_{vocount}")
@@ -163,7 +166,7 @@ def generate_xml_structure(new_dict,coursedesctip,coursedescriptionvoiceover,cn)
             sub_slide = ET.SubElement(root, f"Slide{slide_counter}")
             Topic_Name = ET.SubElement(sub_slide, "Topic_Name")
             Topic_Name.text= topic
-            subtopiccounter=0
+            subtopiccounter=1
             for subtopic in details["Subtopics"]:
                 subtopic_elem = ET.SubElement(sub_slide, f"Subtopic_{subtopiccounter}")
                 subtopic_elem.text = subtopic["Subtopic"]
@@ -175,8 +178,8 @@ def generate_xml_structure(new_dict,coursedesctip,coursedescriptionvoiceover,cn)
             for subtopic in details["Subtopics"]:
                 sub_slide = ET.SubElement(root, f"Slide{slide_counter}")
                 slideName = ET.SubElement(sub_slide, "Slide_Name")
-                slideName.text = "Subtopic_Name"
-                Subtopicelement = ET.SubElement(sub_slide, "Subtopic")
+                slideName.text = "SubTopic"
+                Subtopicelement = ET.SubElement(sub_slide, "SubTopic")
             
             # for subtopic in details["Subtopics"]:
                 Subtopicelement.text = subtopic["Subtopic"]
@@ -601,7 +604,7 @@ if excol.button("generate xml"):
         lsttopics.append(topic)
 
     course_descriptioninput= f"Generate a course description in exactly {course_description_limit} words for a course containing the following topics:\n"+str(lsttopics)
-    coursedesctip = call_openai(course_descriptioninput)
+    coursedesctip = call_openai(course_d  escriptioninput)
     course_descriptionvoin= f"Generate a voice over in exactly {course_description_voiceover_limit} words for a course description containing the following topics:\n"+str(lsttopics) +"\n Exclude objectives in the voice over"
     coursedesctipvo = call_openai(course_descriptionvoin)
     coursedesctipvo
