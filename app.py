@@ -125,10 +125,10 @@ def generate_xml_structure(new_dict,coursedesctip,coursedescriptionvoiceover):
     slideName = ET.SubElement(slide, "Slide_Name")
     slideName.text = "Course_Name"
     cd =  ET.SubElement(slide, "Course_Description")
-    cd.text = coursedesctip
+    cd.text = coursedesctip.strip()
     cdvo  =  ET.SubElement(slide, "VoiceOver")
     cdvo1  =  ET.SubElement(cdvo, "VoiceOver_1")
-    cdvo1.text = coursedescriptionvoiceover
+    cdvo1.text = coursedescriptionvoiceover.strip()
 
 
     slide_counter = 2
