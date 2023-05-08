@@ -566,7 +566,7 @@ saved_courses = [file for file in os.listdir('.') if file.endswith('.json')]
 # Create a select box for saved courses
 selectcol,loadcol = excol.columns(2)
 selected_course = selectcol.selectbox("Select a saved course", saved_courses)
-
+loadcol.write("")
 if loadcol.button("Load Project"):
     st.session_state.new_dict = load_saved_course(selected_course)
     excol.success("Project loaded,, you can now continue with Generate XML")
