@@ -167,7 +167,7 @@ def generate_xml_structure(new_dict):
             
             # for subtopic in details["Subtopics"]:
                 Subtopicelement.text = subtopic["Subtopic"]
-                bullet_count = 0
+                bullet_count = 1
                 bullets_slide = None
                 for i, bullet in enumerate(subtopic["Bullets"]):
                     if bullet_count % 4 == 0:
@@ -177,7 +177,7 @@ def generate_xml_structure(new_dict):
                     bullet_elem.text = bullet
                     bullet_count += 1
 
-                vobullet_count = 0
+                vobullet_count = 1    
                 for i, bullet in enumerate(subtopic["VoiceOverBullets"]):
                     if vobullet_count % 4 == 0:
                         bullets_VO_element = ET.SubElement(sub_slide, "VoiceOver")
