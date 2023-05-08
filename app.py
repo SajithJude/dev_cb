@@ -629,7 +629,7 @@ if excol.button("generate xml"):
     download_button = f'<a href="data:application/xml;base64,{b64_xml}" download="{file_name}">Download XML file</a>'
 
     # Add the download button
-    st.markdown(download_button, unsafe_allow_html=True)
+    excol.markdown(download_button, unsafe_allow_html=True)
 
     excol.code(pretty_xml)
 
