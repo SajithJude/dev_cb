@@ -602,9 +602,9 @@ if ex:
             subtopic['VoiceOverBullets'] = listvoice
 
 
-save = excol.button("Save voiceover")
+sv_voice = excol.button("Save voiceover")
 
-if save:
+if sv_voice:
     json_filename = f"{cn}.json"
     with open(json_filename, 'w') as outfile:
         json.dump(st.session_state.new_dict, outfile)
