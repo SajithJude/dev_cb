@@ -583,7 +583,7 @@ if ex:
     # excol.write(st.session_state.new_dict)
 if excol.button("generate xml"):
     lsttopics=[]
-    for topic in st.session_state.new_dict.items():
+    for topic in st.session_state.new_dict.keys():
         lsttopics.append(topic)
 
     lsttopics
