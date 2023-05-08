@@ -586,11 +586,12 @@ if excol.button("generate xml"):
     for topic in st.session_state.new_dict.keys():
         lsttopics.append(topic)
 
-    lsttopics
+    course_descriptioninput= f"Generate a course description in exactly {course_description_limit} words for a course containing the following topics:\n"+str(lsttopics)
+    coursedesctip = call_openai(course_descriptioninput)
+    coursedesctip
+    # st.session_state.new_dict
 
-    st.session_state.new_dict
-
-    xml_output = generate_xml_structure(st.session_state.new_dict)
+    xml_output = generate_xml_structure(st.session_state.new_dict,coursedesctip)
     pretty_xml = minidom.parseString(xml_output).toprettyxml()
     excol.code(pretty_xml)
 
