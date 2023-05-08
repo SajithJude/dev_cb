@@ -611,7 +611,7 @@ if excol.button("generate xml"):
     coursedesctip = call_openai(course_descriptioninput)
     course_descriptionvoin= f"Generate a voice over in exactly {course_description_voiceover_limit} words for a course description containing the following topics:\n"+str(lsttopics) +"\n Exclude objectives in the voice over"
     coursedesctipvo = call_openai(course_descriptionvoin)
-    coursedesctipvo
+    # coursedesctipvo
     # st.session_state.new_dict
 
     xml_output = generate_xml_structure(st.session_state.new_dict,coursedesctip,coursedesctipvo,cn)
