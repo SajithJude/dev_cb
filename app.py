@@ -593,7 +593,7 @@ if ex:
             subtopic_content = subtopic['content']
             subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points , where each bullet point should have exactly {num_words_bullet} words, from the following source: {subtopic_content}\n, give the output as a json list."
             bullets = call_openai(subtopic_bullet_prompt)
-            st.write(bullets)
+            # st.write(bullets)
             listbul = ast.literal_eval(bullets.strip())
             subtopic['Bullets'] = listbul
             subtopic_voiceover_prompt = f"generate voice over for {num_bullets_per_slide} number of bullet points ,where each voice over per bullet point should have exactly {bullet_voiceover_limit} words, from the following source: {subtopic_content}\n, give the output as a json list."
@@ -602,7 +602,7 @@ if ex:
             subtopic['VoiceOverBullets'] = listvoice
 
 
-    save = excol.button("Save project")
+    save = excol.button("Save voiceover")
 
     if save:
         json_filename = f"{cn}.json"
