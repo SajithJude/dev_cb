@@ -117,13 +117,15 @@ def delete_chapter(chapter_name):
 
 
 
-def generate_xml_structure(new_dict,coursedesctip,coursedescriptionvoiceover):
+def generate_xml_structure(new_dict,coursedesctip,coursedescriptionvoiceover,cn):
     root = ET.Element("Slides")
 
     # First slide with topic names
     slide = ET.SubElement(root, f"Slide1")
     slideName = ET.SubElement(slide, "Slide_Name")
     slideName.text = "Course_Name"
+    crsnmelement =  ET.SubElement(slide, "Course_Name")
+    crsnmelement.text = cn.strip()
     cd =  ET.SubElement(slide, "Course_Description")
     cd.text = coursedesctip.strip()
     cdvo  =  ET.SubElement(slide, "VoiceOver")
@@ -565,6 +567,7 @@ if excol.button("Load Project"):
 
 
 ex = excol.button("Generate Voice Over")
+cn = excol.text_input("Enter a Course Name")
 # voice_col.write(st.session_state.new_dict)
 if ex:
     for topic_key, topic_value in st.session_state.new_dict.items():
@@ -604,7 +607,7 @@ if excol.button("generate xml"):
     coursedesctipvo
     # st.session_state.new_dict
 
-    xml_output = generate_xml_structure(st.session_state.new_dict,coursedesctip,coursedesctipvo)
+    xml_output = generate_xml_structure(st.session_state.new_dict,coursedesctip,coursedesctipvo,cn)
     pretty_xml = minidom.parseString(xml_output).toprettyxml()
     excol.code(pretty_xml)
 
