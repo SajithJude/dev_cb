@@ -117,7 +117,7 @@ def delete_chapter(chapter_name):
 
 
 
-def generate_xml_structure(new_dict):
+def generate_xml_structure(new_dict,coursedesctip):
     root = ET.Element("Slides")
     slide_counter = 1
 
