@@ -117,12 +117,23 @@ def delete_chapter(chapter_name):
 
 
 
-def generate_xml_structure(new_dict,coursedesctip):
+def generate_xml_structure(new_dict,coursedesctip,coursedescriptionvoiceover):
     root = ET.Element("Slides")
-    slide_counter = 1
 
     # First slide with topic names
+    slide = ET.SubElement(root, f"Slide1")
+    slideName = ET.SubElement(slide, "Slide_Name")
+    slideName.text = "Course_Name"
+    cd =  ET.SubElement(slide, "Course_Description")
+    cd.text = coursedesctip
+    cdvo  =  ET.SubElement(slide, "VoiceOver")
+    cdvo1  =  ET.SubElement(cdvo, "VoiceOver_1")
+    cdvo1.text = coursedescriptionvoiceover
+
+
+    slide_counter = 2
     slide = ET.SubElement(root, f"Slide{slide_counter}")
+
     tpcount=0
     topic_list = ET.SubElement(slide, "Topics")
     for topic in new_dict:
@@ -588,10 +599,12 @@ if excol.button("generate xml"):
 
     course_descriptioninput= f"Generate a course description in exactly {course_description_limit} words for a course containing the following topics:\n"+str(lsttopics)
     coursedesctip = call_openai(course_descriptioninput)
-    coursedesctip
+    course_descriptionvoin= f"Generate a voice over in exactly {course_description_voiceover_limit} words for a course description containing the following topics:\n"+str(lsttopics) +"\n Exclude objectives in the voice over"
+    coursedesctipvo = call_openai(course_descriptionvoin)
+    coursedesctipvo
     # st.session_state.new_dict
 
-    xml_output = generate_xml_structure(st.session_state.new_dict,coursedesctip)
+    xml_output = generate_xml_structure(st.session_state.new_dict,coursedesctip,coursedesctipvo)
     pretty_xml = minidom.parseString(xml_output).toprettyxml()
     excol.code(pretty_xml)
 
