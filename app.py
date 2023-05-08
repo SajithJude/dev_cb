@@ -582,6 +582,12 @@ if ex:
             subtopic['VoiceOverBullets'] = listvoice
     # excol.write(st.session_state.new_dict)
 if excol.button("generate xml"):
+    lsttopics=[]
+    for topic in st.session_state.new_dict.items():
+        lsttopics.append(topic)
+
+    lsttopics
+
     st.session_state.new_dict
 
     xml_output = generate_xml_structure(st.session_state.new_dict)
