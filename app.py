@@ -564,16 +564,17 @@ bullet_voiceover_limit = edcol.number_input("VoiceOver per Bullet Word Count Lim
 saved_courses = [file for file in os.listdir('.') if file.endswith('.json')]
 
 # Create a select box for saved courses
-selected_course = excol.selectbox("Select a saved course", saved_courses)
+selectcol,loadcol = excol.columns(2)
+selected_course = selectcol.selectbox("Select a saved course", saved_courses)
 
-if excol.button("Load Project"):
+if loadcol.button("Load Project"):
     st.session_state.new_dict = load_saved_course(selected_course)
     excol.success("Project loaded,, you can now continue with Generate XML")
     # excol.write(st.session_state.new_dict)
 
-
+gencol, savecol = excol.columns(2)
 cn = excol.text_input("Enter a Course Name")
-ex = excol.button("Generate Voice Over")
+ex = gencol.button("Generate Voice Over")
 # voice_col.write(st.session_state.new_dict)
 if ex:
     for topic_key, topic_value in st.session_state.new_dict.items():
@@ -602,7 +603,7 @@ if ex:
             subtopic['VoiceOverBullets'] = listvoice
 
 
-sv_voice = excol.button("Save voiceover")
+sv_voice = savecol.button("Save voiceover")
 
 if sv_voice:
     json_filename = f"{cn}.json"
