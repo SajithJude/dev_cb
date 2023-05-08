@@ -602,12 +602,12 @@ if ex:
             subtopic['VoiceOverBullets'] = listvoice
 
 
-    save = excol.button("Save voiceover")
+save = excol.button("Save voiceover")
 
-    if save:
-        json_filename = f"{cn}.json"
-        with open(json_filename, 'w') as outfile:
-            json.dump(st.session_state.new_dict, outfile)
+if save:
+    json_filename = f"{cn}.json"
+    with open(json_filename, 'w') as outfile:
+        json.dump(st.session_state.new_dict, outfile)
     # excol.write(st.session_state.new_dict)
 if excol.button("generate xml"):
     lsttopics=[]
