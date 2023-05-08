@@ -512,12 +512,12 @@ try:
 
 
 
-    save = ecol.button("Save project")
+    # save = ecol.button("Save project")
 
-    if save:
-        json_filename = f"{course_name}.json"
-        with open(json_filename, 'w') as outfile:
-            json.dump(st.session_state.new_dict, outfile)
+    # if save:
+    #     json_filename = f"{course_name}.json"
+    #     with open(json_filename, 'w') as outfile:
+    #         json.dump(st.session_state.new_dict, outfile)
 
                     
 
@@ -568,7 +568,7 @@ selected_course = excol.selectbox("Select a saved course", saved_courses)
 
 if excol.button("Load Project"):
     st.session_state.new_dict = load_saved_course(selected_course)
-    excol.success("Project loaded,, you can now continue with voice over")
+    excol.success("Project loaded,, you can now continue with Generate XML")
     # excol.write(st.session_state.new_dict)
 
 
