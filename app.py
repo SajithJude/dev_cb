@@ -572,9 +572,8 @@ if excol.button("Load Project"):
     # excol.write(st.session_state.new_dict)
 
 
-
-ex = excol.button("Generate Voice Over")
 cn = excol.text_input("Enter a Course Name")
+ex = excol.button("Generate Voice Over")
 # voice_col.write(st.session_state.new_dict)
 if ex:
     for topic_key, topic_value in st.session_state.new_dict.items():
