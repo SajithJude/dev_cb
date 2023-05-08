@@ -190,7 +190,7 @@ def generate_xml_structure(new_dict):
 
         else:
             slideName = ET.SubElement(slide, "Slide_Name")
-            slideName.text = "Subtopic_Name"
+            slideName.text = "Topic_Name"
 
             Topic_Name = ET.SubElement(slide, "Topic_Name")
             Topic_Name.text= topic
