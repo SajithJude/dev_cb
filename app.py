@@ -189,6 +189,9 @@ def generate_xml_structure(new_dict):
             slide_counter += 1
 
         else:
+            slideName = ET.SubElement(slide, "Slide_Name")
+            slideName.text = "Subtopic_Name"
+
             Topic_Name = ET.SubElement(slide, "Topic_Name")
             Topic_Name.text= topic
             Topic_Summary = ET.SubElement(slide, "Topic_Summary")
