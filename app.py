@@ -372,8 +372,9 @@ elif toc_option == "Copy Paste TOC":
         toc_res = "Convert the following table of contents into a json string, use the JSON format given bellow:\n"+ "Table of contents:\n"+ toc_input.strip() + "\n JSON format:\n"+ str(forma) + ". Output should be a valid JSON string."
         
         str_toc = call_openai(toc_res)
-        st.write(str_toc)
-        table_of_contents = json.loads(str_toc)
+        str_to = str(str_toc)
+        st.write(str_to)
+        table_of_contents = json.loads(str_to)
 
      
         # if "table_of_contents" not in st.session_state:
