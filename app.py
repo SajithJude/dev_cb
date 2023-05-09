@@ -550,6 +550,7 @@ try:
 
 
 except (KeyError, FileNotFoundError,AttributeError) as e:
+    st.error(e)
     print("Error Extracting Data")
     print(f"Error: {type(e).__name__} - {e}")
 
