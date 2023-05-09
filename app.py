@@ -56,7 +56,7 @@ def call_openai(source):
         model="gpt-4",
         prompt=source,
         temperature=0.1,
-        max_tokens=30000,
+        max_tokens=3500,
         top_p=1,
         frequency_penalty=0.3,
         presence_penalty=0
