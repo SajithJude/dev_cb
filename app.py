@@ -22,7 +22,8 @@ from llama_index import download_loader
 from xml.etree.ElementTree import Element, SubElement, tostring
 import requests
 import zipfile
-
+from llama_index.retrievers import VectorIndexRetriever
+from llama_index.query_engine import RetrieverQueryEngine
 
 from langchain import OpenAI
 st.set_page_config(page_title=None, page_icon=None, layout="wide", initial_sidebar_state="collapsed")
@@ -251,7 +252,8 @@ def process_pdf(uploaded_file):
     
     if "index" not in st.session_state:
         index = GPTVectorStoreIndex.from_documents(documents,service_context=service_context)
-        index = index.as_query_engine()
+        retriever = index.as_retriever(retriever_mode='embedding')
+        index = RetrieverQueryEngine(retriever)
         st.session_state.index = index
     # st.session_state.index = index
     return st.session_state.index
@@ -581,7 +583,7 @@ loadcol.write("")
 if loadcol.button("Load Project"):
     st.session_state.new_dict = load_saved_course(selected_course)
     excol.success("Project loaded,, you can now continue with Generate XML")
-    # excol.write(st.session_state.new_dict)
+    excol.write(st.session_state.new_dict)
 
 gencol, savecol = excol.columns(2)
 cn = excol.text_input("Enter a Course Name")
