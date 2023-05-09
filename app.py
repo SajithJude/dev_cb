@@ -52,14 +52,14 @@ def load_saved_course(course_file):
         return json.load(infile)
 
 def call_openai(source):
+    messages=[{"role": "user", "content": source}]
+
     response = openai.Completion.create(
-        model="gpt-4",
-        prompt=source,
+        model="gpt-4-32k",
+        max_tokens=30000,
         temperature=0.1,
-        max_tokens=3500,
-        top_p=1,
-        frequency_penalty=0.3,
-        presence_penalty=0
+        messages = message
+       
     )
     return response.choices[0].text
 
