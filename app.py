@@ -53,10 +53,10 @@ def load_saved_course(course_file):
 
 def call_openai(source):
     response = openai.Completion.create(
-        model="text-davinci-003",
+        model="gpt-4",
         prompt=source,
         temperature=0.1,
-        max_tokens=3500,
+        max_tokens=30000,
         top_p=1,
         frequency_penalty=0.3,
         presence_penalty=0
@@ -353,6 +353,7 @@ elif toc_option == "Copy Paste TOC":
         try:
             # table_of_contents = json.loads(toc_input)
             toc_res = "Convert the following table of contents into a json string, use the JSON format given bellow:\n"+ "Table of contents:\n"+ toc_input.strip() + "\n JSON format:\n"+ str(forma) + ". Output should only contain the json string."
+            
             str_toc = call_openai(toc_res)
             st.write(str_toc)
             table_of_contents = json.loads(str_toc)
