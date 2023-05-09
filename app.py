@@ -58,7 +58,7 @@ def call_openai(source):
         model="gpt-4-32k",
         max_tokens=30000,
         temperature=0.1,
-        messages = message
+        message = messages
        
     )
     return response.choices[0].text
