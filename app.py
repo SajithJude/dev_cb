@@ -52,6 +52,21 @@ def load_saved_course(course_file):
     with open(course_file, 'r') as infile:
         return json.load(infile)
 
+
+def call_openai3(source):
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=source,
+        temperature=0.1,
+        max_tokens=3500,
+        top_p=1,
+        frequency_penalty=0.3,
+        presence_penalty=0
+    )
+    return response.choices[0].text
+
+
+
 def call_openai(source):
     messages=[{"role": "user", "content": source}]
 
@@ -605,13 +620,13 @@ if ex:
             # Iterate through the subtopics
         for subtopic in topic_value["Subtopics"]:
             subtopic_content = subtopic['content']
-            subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points , where each bullet point should have exactly {num_words_bullet} words, from the following source: {subtopic_content}\n, give the output as a python list."
-            bullets = call_openai(subtopic_bullet_prompt)
+            subtopic_bullet_prompt = f"generate {num_bullets_per_slide} number of bullet points , where each bullet point should have exactly {num_words_bullet} words, from the following source: {subtopic_content}\n, give the output as a json list."
+            bullets = call_openai3(subtopic_bullet_prompt)
             # st.write(bullets)
             listbul = ast.literal_eval(bullets.strip())
             subtopic['Bullets'] = listbul
-            subtopic_voiceover_prompt = f"generate voice over for {num_bullets_per_slide} number of bullet points ,where each voice over per bullet point should have exactly {bullet_voiceover_limit} words, from the following source: {subtopic_content}\n, give the output as a python list."
-            BulletVoiceOver = call_openai(subtopic_voiceover_prompt)
+            subtopic_voiceover_prompt = f"generate voice over for {num_bullets_per_slide} number of bullet points ,where each voice over per bullet point should have exactly {bullet_voiceover_limit} words, from the following source: {subtopic_content}\n, give the output as a json list."
+            BulletVoiceOver = call_openai3(subtopic_voiceover_prompt)
             listvoice = ast.literal_eval(BulletVoiceOver.strip())
             subtopic['VoiceOverBullets'] = listvoice
 
