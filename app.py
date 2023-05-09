@@ -225,7 +225,7 @@ def generate_xml_structure(new_dict,coursedesctip,coursedescriptionvoiceover,cn)
 
         else:
             slideName = ET.SubElement(slide, "Slide_Name")
-            slideName.text = "Topic_Name"
+            slideName.text = "Topic_Summary"
             Topic_Name = ET.SubElement(slide, "Topic_Name")
             Topic_Name.text= topic
             Topic_Summary = ET.SubElement(slide, "Topic_Summary")
