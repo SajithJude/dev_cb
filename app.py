@@ -367,6 +367,8 @@ elif toc_option == "Copy Paste TOC":
 
         except json.JSONDecodeError as e:
             upload_col.error("Invalid JSON format. Please check your input.")
+            upload_col.error(e)
+
 
 
 
