@@ -54,7 +54,7 @@ def load_saved_course(course_file):
 def call_openai(source):
     messages=[{"role": "user", "content": source}]
 
-    response = openai.Completion.create(
+    response = openai.ChatCompletion.create(
         model="gpt-4-32k",
         max_tokens=30000,
         temperature=0.1,
