@@ -500,7 +500,7 @@ try:
     quer = ecol.button("Extract Contents")
 
 
-    saved_extracts = [file for file in os.listdir('.') if file.endswith('.json')]
+    # saved_extracts = [file for file in os.listdir('.') if file.endswith('.json')]
 
     # course_names = list(set([item['course_name'] for item in data]))
     
