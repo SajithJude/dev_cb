@@ -61,7 +61,7 @@ def call_openai(source):
         messages = messages
        
     )
-    return response.choices[0].text
+    return response.choices[0].message.content
 
 def clear_all_json_files():
     """Clear all JSON files in all directories under the current working directory"""
