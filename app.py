@@ -610,10 +610,10 @@ if ex:
         topic = st.session_state.new_dict[topic_key]
         topic_content = topic['content']
         topic_voiceover_prompt = f"generate a voice over for the following paragraph in {topic_summary_voiceover_limit} words: {topic_content}"
-        st.session_state.new_dict[topic_key]["VoiceOver"] = str(call_openai(topic_voiceover_prompt))
+        st.session_state.new_dict[topic_key]["VoiceOver"] = str(call_openai3(topic_voiceover_prompt))
         
         topic_summary_prompt = f"generate a voice over for the following paragraph in {topic_summary_limit} words: {topic_content}"
-        st.session_state.new_dict[topic_key]["Topic_Summary"] = str(call_openai(topic_summary_prompt))
+        st.session_state.new_dict[topic_key]["Topic_Summary"] = str(call_openai3(topic_summary_prompt))
         
         # Check if the topic has subtopics
         # if "Subtopics" in topic_value:
@@ -644,9 +644,9 @@ if excol.button("generate xml"):
         lsttopics.append(topic)
 
     course_descriptioninput= f"Generate a course description in exactly {course_description_limit} words for a course containing the following topics:\n"+str(lsttopics)
-    coursedesctip = call_openai(course_descriptioninput)
+    coursedesctip = call_openai3(course_descriptioninput)
     course_descriptionvoin= f"Generate a voice over in exactly {course_description_voiceover_limit} words for a course description containing the following topics:\n"+str(lsttopics) +"\n Exclude objectives in the voice over"
-    coursedesctipvo = call_openai(course_descriptionvoin)
+    coursedesctipvo = call_openai3(course_descriptionvoin)
     coursedesctipvo
     coursedesctip
     # st.session_state.new_dict
