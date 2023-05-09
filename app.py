@@ -495,7 +495,7 @@ try:
 
     
 
-    course_name = ecol.text_input("Enter course name")
+    # course_name = ecol.text_input("Enter course name")
     quer = ecol.button("Extract Contents")
 
 
@@ -591,6 +591,8 @@ saved_courses = [file for file in os.listdir('.') if file.endswith('.json')]
 
 # Create a select box for saved courses
 selectcol,loadcol = excol.columns(2)
+cn = excol.text_input("Enter a Course Name")
+
 selected_course = selectcol.selectbox("Select a saved course", saved_courses)
 loadcol.write("")
 loadcol.write("")
@@ -598,10 +600,9 @@ loadcol.write("")
 if loadcol.button("Load Project"):
     st.session_state.new_dict = load_saved_course(selected_course)
     excol.success("Project loaded,, you can now continue with Generate XML")
-    excol.write(st.session_state.new_dict)
+    voice_col.write(st.session_state.new_dict)
 
 gencol, savecol = excol.columns(2)
-cn = excol.text_input("Enter a Course Name")
 ex = gencol.button("Generate Voice Over")
 # voice_col.write(st.session_state.new_dict)
 if ex:
@@ -670,192 +671,192 @@ if excol.button("generate xml"):
 ######################       export generated xml      ##########################################
 
 
-try:
-    # with 
-    ondu, naduvan, rendu   = xml_col.columns([4,3,4],gap="large")
+# try:
+#     # with 
+#     ondu, naduvan, rendu   = xml_col.columns([4,3,4],gap="large")
 
-    ondu.write("### Select Images")
-    ondu.write("")
-    ondu.write("")
+#     ondu.write("### Select Images")
+#     ondu.write("")
+#     ondu.write("")
 
-    left, right = ondu.columns(2)
-    image_topic = left.selectbox("Select a topic", list(st.session_state.new_dict.keys()),label_visibility="collapsed")
-    add_to_topic = right.button("Add Image to Topic")
+#     left, right = ondu.columns(2)
+#     image_topic = left.selectbox("Select a topic", list(st.session_state.new_dict.keys()),label_visibility="collapsed")
+#     add_to_topic = right.button("Add Image to Topic")
 
-# Dropdown menu for selecting a subtopic based on the selected topic
-    image_subtopic = left.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.new_dict[image_topic]["Subtopics"]],label_visibility="collapsed")
-    add_to_subtopic = right.button("Add image to Subtopic")
+# # Dropdown menu for selecting a subtopic based on the selected topic
+#     image_subtopic = left.selectbox("Select a subtopic", [subtopic["Subtopic"] for subtopic in st.session_state.new_dict[image_topic]["Subtopics"]],label_visibility="collapsed")
+#     add_to_subtopic = right.button("Add image to Subtopic")
 
-    image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
-    selected_images = []
-    # for image in image_files:
-    expander = ondu.expander("Select images")
-    n_pages = 20
+#     image_files = [f for f in os.listdir("images") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+#     selected_images = []
+#     # for image in image_files:
+#     expander = ondu.expander("Select images")
+#     n_pages = 20
 
-    image_exts = ['.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif']
-    page_index = ondu.number_input("Enter page number", min_value=1, max_value=n_pages, value=1)
+#     image_exts = ['.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif']
+#     page_index = ondu.number_input("Enter page number", min_value=1, max_value=n_pages, value=1)
 
-    with ondu.expander(f"Page {page_index}", expanded=True):
-        image_files = [f for f in os.listdir("images") if f.startswith(f'image_page{page_index}_') and f.endswith(tuple(image_exts))]
-        # if image_files:
-        for image_filename in image_files:
-            file_path = os.path.join("images", image_filename)
-            if os.path.isfile(file_path):
-                ondu.image(file_path, caption=os.path.basename(file_path),width=150)
-            else:
-                st.warning(f"Image not found: {os.path.basename(file_path)}")
-        # else:
-        #     st.warning("No images found for this page.")
+#     with ondu.expander(f"Page {page_index}", expanded=True):
+#         image_files = [f for f in os.listdir("images") if f.startswith(f'image_page{page_index}_') and f.endswith(tuple(image_exts))]
+#         # if image_files:
+#         for image_filename in image_files:
+#             file_path = os.path.join("images", image_filename)
+#             if os.path.isfile(file_path):
+#                 ondu.image(file_path, caption=os.path.basename(file_path),width=150)
+#             else:
+#                 st.warning(f"Image not found: {os.path.basename(file_path)}")
+#         # else:
+#         #     st.warning("No images found for this page.")
     
-    selected_image = image_filename
+#     selected_image = image_filename
 
-    if add_to_topic:
-        if "img" not in st.session_state.new_dict[image_topic]:
-            st.session_state.new_dict[image_topic]["img"] = []
-        st.session_state.new_dict[image_topic]["img"].append(selected_image)
-        ondu.success(f"Image {selected_image} added to topic {image_topic}")
+#     if add_to_topic:
+#         if "img" not in st.session_state.new_dict[image_topic]:
+#             st.session_state.new_dict[image_topic]["img"] = []
+#         st.session_state.new_dict[image_topic]["img"].append(selected_image)
+#         ondu.success(f"Image {selected_image} added to topic {image_topic}")
 
-    if add_to_subtopic:
-        for subtopic in st.session_state.new_dict[image_topic]["Subtopics"]:
-            if subtopic["Subtopic"] == image_subtopic:
-                if "img" not in subtopic:
-                    subtopic["img"] = []
-                subtopic["img"].append(selected_image)
-                ondu.success(f"Image {selected_image} added to subtopic {image_subtopic}")
-                break
+#     if add_to_subtopic:
+#         for subtopic in st.session_state.new_dict[image_topic]["Subtopics"]:
+#             if subtopic["Subtopic"] == image_subtopic:
+#                 if "img" not in subtopic:
+#                     subtopic["img"] = []
+#                 subtopic["img"].append(selected_image)
+#                 ondu.success(f"Image {selected_image} added to subtopic {image_subtopic}")
+#                 break
 
-    naduvan.write("### Compare ")
-    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
+#     naduvan.write("### Compare ")
+#     pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
 
-    # if pages_files:
-    selected_page = naduvan.number_input("Compare Images",step=1)
-    selected_image = f"page-{selected_page}.png"
-    # Display the selected image
-    if selected_image:
-        naduvan.image(os.path.join("pages", selected_image), use_column_width=True)
-    else:
-        naduvan.warning("No images found in the 'pages' folder.")
-
-
+#     # if pages_files:
+#     selected_page = naduvan.number_input("Compare Images",step=1)
+#     selected_image = f"page-{selected_page}.png"
+#     # Display the selected image
+#     if selected_image:
+#         naduvan.image(os.path.join("pages", selected_image), use_column_width=True)
+#     else:
+#         naduvan.warning("No images found in the 'pages' folder.")
 
 
-    rendu.write("### Configure ")
-    # chapter_name = rendu.text_input("enter chapter name")
-    # r1,r2 = rendu.columns(2)
 
-    # NoOfBullets = r1.text_input("No. of Bullets per Sub Topic")
-    # NoOfWordsPerBullet = r1.text_input("No. of words per Bullet")
-    # NoOfWordsForVOPerBullet = r1.text_input("No. of words for Voice Over per Bullet")
-    save_xml = rendu.button("Save XML")
+
+#     rendu.write("### Configure ")
+#     # chapter_name = rendu.text_input("enter chapter name")
+#     # r1,r2 = rendu.columns(2)
+
+#     # NoOfBullets = r1.text_input("No. of Bullets per Sub Topic")
+#     # NoOfWordsPerBullet = r1.text_input("No. of words per Bullet")
+#     # NoOfWordsForVOPerBullet = r1.text_input("No. of words for Voice Over per Bullet")
+#     save_xml = rendu.button("Save XML")
     
 
 
-    if save_xml:
+#     if save_xml:
 
-        # if "edited" not in st.session_state:
-        #     st.session_state.edited = st.session_state.missing
-        #xml_col.write(st.session_state.new_dict)
+#         # if "edited" not in st.session_state:
+#         #     st.session_state.edited = st.session_state.missing
+#         #xml_col.write(st.session_state.new_dict)
 
-        xml_output = json_to_xml(st.session_state.new_dict, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
-        pretty_xml = minidom.parseString(xml_output).toprettyxml()
+#         xml_output = json_to_xml(st.session_state.new_dict, chapter_name, NoOfWordsForVOPerBullet, NoOfWordsPerBullet, NoOfBullets) 
+#         pretty_xml = minidom.parseString(xml_output).toprettyxml()
 
-        xml_file_path = os.path.join("images", f"{chapter_name}.xml")
-        with open(xml_file_path, "w") as xml_file:
-            xml_file.write(pretty_xml)
-        # rendu.success(f"XML file saved as {xml_file_path}")
+#         xml_file_path = os.path.join("images", f"{chapter_name}.xml")
+#         with open(xml_file_path, "w") as xml_file:
+#             xml_file.write(pretty_xml)
+#         # rendu.success(f"XML file saved as {xml_file_path}")
 
-        with xml_col.expander("XML content"):
-            xml_col.code(pretty_xml)
+#         with xml_col.expander("XML content"):
+#             xml_col.code(pretty_xml)
 
-        # Zip the entire "images" folder with its contents
-        def zipdir(path, ziph):
-            for root, dirs, files in os.walk(path):
-                for file in files:
-                    ziph.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), path))
+#         # Zip the entire "images" folder with its contents
+#         def zipdir(path, ziph):
+#             for root, dirs, files in os.walk(path):
+#                 for file in files:
+#                     ziph.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), path))
 
-        zip_file_path = f"images/{chapter_name}.zip"
-        with zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
-            zipdir("images", zipf)
-        rendu.success(f"Zipped folder saved as {zip_file_path}")
+#         zip_file_path = f"images/{chapter_name}.zip"
+#         with zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+#             zipdir("images", zipf)
+#         rendu.success(f"Zipped folder saved as {zip_file_path}")
 
-        # st.session_state.table_of_contents = {}
-        # st.session_state.selected_items = []
-        # st.session_state.new_dict = {}
-        # st.session_state.index = ""
-        # st.session_state.new_dict = {}
+#         # st.session_state.table_of_contents = {}
+#         # st.session_state.selected_items = []
+#         # st.session_state.new_dict = {}
+#         # st.session_state.index = ""
+#         # st.session_state.new_dict = {}
  
                 
-except (KeyError,NameError, AttributeError) as e:
-    print("Error saving XML")
-    print(f"Error: {type(e).__name__} - {e}")
+# except (KeyError,NameError, AttributeError) as e:
+#     print("Error saving XML")
+#     print(f"Error: {type(e).__name__} - {e}")
 
 
 
 
-# ######################      Manage XML      ##########################################
+# # ######################      Manage XML      ##########################################
 
-# db = load_db()
-# chapter_list = list(db.keys())
+# # db = load_db()
+# # chapter_list = list(db.keys())
 
-# if chapter_list:
+# # if chapter_list:
 
-#     filesinsidefolder = manage_col.selectbox("Select a zip file", [f for f in os.listdir("images") if f.endswith(('.zip'))])
+# #     filesinsidefolder = manage_col.selectbox("Select a zip file", [f for f in os.listdir("images") if f.endswith(('.zip'))])
 
-#     if filesinsidefolder and filesinsidefolder.endswith('.zip'):
-#         file_path = os.path.join("images", filesinsidefolder)
-#         with open(file_path, "rb") as f:
-#             file_bytes = f.read()
-#         manage_col.download_button(
-#             label="Download Zip File",
-#             data=file_bytes,
-#             file_name=filesinsidefolder,
-#             mime="application/zip",
-#         )
+# #     if filesinsidefolder and filesinsidefolder.endswith('.zip'):
+# #         file_path = os.path.join("images", filesinsidefolder)
+# #         with open(file_path, "rb") as f:
+# #             file_bytes = f.read()
+# #         manage_col.download_button(
+# #             label="Download Zip File",
+# #             data=file_bytes,
+# #             file_name=filesinsidefolder,
+# #             mime="application/zip",
+# #         )
    
-#     else:
-#         manage_col.warning("No file selected.")
+# #     else:
+# #         manage_col.warning("No file selected.")
 
 
 
-#     selected_chapter = manage_col.selectbox("Select a chapter first:", chapter_list)
-#     delete_button = manage_col.button("Delete Chapter")
-#     post_button= manage_col.button("Continue with CourseBOT 2")
+# #     selected_chapter = manage_col.selectbox("Select a chapter first:", chapter_list)
+# #     delete_button = manage_col.button("Delete Chapter")
+# #     post_button= manage_col.button("Continue with CourseBOT 2")
 
 
-#     if post_button:
-#         url = "https://coursebot2.flipick.com/couresbuilderapi/api/Course/ImportCourse"
-#         payload = json.dumps({
-#                                 "ImportXML": str(db[selected_chapter])
-#                                 })
-#         headers = {
-#                     'Content-Type': 'application/json'
-#                     }
+# #     if post_button:
+# #         url = "https://coursebot2.flipick.com/couresbuilderapi/api/Course/ImportCourse"
+# #         payload = json.dumps({
+# #                                 "ImportXML": str(db[selected_chapter])
+# #                                 })
+# #         headers = {
+# #                     'Content-Type': 'application/json'
+# #                     }
 
 
-#         response = requests.request("POST", url, headers=headers, data=payload)
+# #         response = requests.request("POST", url, headers=headers, data=payload)
         
-#         print(response)
-#         response_dict = json.loads(response.text)
+# #         print(response)
+# #         response_dict = json.loads(response.text)
 
-#         url_to_launch = response_dict["result"]["urlToLaunch"]
-#         manage_col.subheader("Click on the url bellow to continue.")
-#         manage_col.write(url_to_launch)
-
-
+# #         url_to_launch = response_dict["result"]["urlToLaunch"]
+# #         manage_col.subheader("Click on the url bellow to continue.")
+# #         manage_col.write(url_to_launch)
 
 
-#     if delete_button:
-#         if delete_chapter(selected_chapter):
-#             manage_col.success(f"Chapter {selected_chapter} deleted successfully.")
-#             db = load_db()
-#             chapter_list = list(db.keys())
-#             if chapter_list:
-#                 selected_chapter = manage_col.selectbox("Select a chapter:", chapter_list)
-#                 manage_col.code(db[selected_chapter], language="xml")
-#             else:
-#                 manage_col.warning("No chapters found. Upload a chapter and save its XML first.")
-#         else:
-#             manage_col.error(f"Failed to delete chapter {selected_chapter}.")
 
-# else:
-#     manage_col.warning("No chapters found. Upload a chapter and save its XML first.")
+
+# #     if delete_button:
+# #         if delete_chapter(selected_chapter):
+# #             manage_col.success(f"Chapter {selected_chapter} deleted successfully.")
+# #             db = load_db()
+# #             chapter_list = list(db.keys())
+# #             if chapter_list:
+# #                 selected_chapter = manage_col.selectbox("Select a chapter:", chapter_list)
+# #                 manage_col.code(db[selected_chapter], language="xml")
+# #             else:
+# #                 manage_col.warning("No chapters found. Upload a chapter and save its XML first.")
+# #         else:
+# #             manage_col.error(f"Failed to delete chapter {selected_chapter}.")
+
+# # else:
+# #     manage_col.warning("No chapters found. Upload a chapter and save its XML first.")
