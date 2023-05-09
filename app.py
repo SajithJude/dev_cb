@@ -358,7 +358,7 @@ elif toc_option == "Copy Paste TOC":
             st.write(str_toc)
             table_of_contents = json.loads(str_toc)
 
-            upload_col.write(table_of_contents)
+            # upload_col.write(table_of_contents)
 
             # if "table_of_contents" not in st.session_state:
             st.session_state.table_of_contents = table_of_contents
