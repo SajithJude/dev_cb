@@ -623,12 +623,12 @@ if ex:
             # Iterate through the subtopics
         for subtopic in topic_value["Subtopics"]:
             subtopic_content = subtopic['content']
-            subtopic_bullet_prompt = f"generate {num_bullets_per_slide} unordered bullet points , where each bullet point should have exactly {num_words_bullet} words, from the following source: {subtopic_content}\n, give the output as a json list."
+            subtopic_bullet_prompt = f"generate {num_bullets_per_slide} unordered bullet points , where each bullet point should have exactly {num_words_bullet} words, from the following source: {subtopic_content}\n, give the output as a comma seperated list."
             bullets = call_openai3(subtopic_bullet_prompt)
             # st.write(bullets)
             listbul = ast.literal_eval(bullets.strip())
             subtopic['Bullets'] = listbul
-            subtopic_voiceover_prompt = f"generate voice over for {num_bullets_per_slide}  bullet points ,where each voice over per bullet point should have exactly {bullet_voiceover_limit} words, from the following source: {subtopic_content}\n, give the output as a json list."
+            subtopic_voiceover_prompt = f"generate voice over for {num_bullets_per_slide}  bullet points ,where each voice over per bullet point should have exactly {bullet_voiceover_limit} words, from the following source: {subtopic_content}\n, give the output as a comma seperated list."
             BulletVoiceOver = call_openai3(subtopic_voiceover_prompt)
             listvoice = ast.literal_eval(BulletVoiceOver.strip())
             subtopic['VoiceOverBullets'] = listvoice
