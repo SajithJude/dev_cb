@@ -628,7 +628,7 @@ if ex:
             bullets = call_openai3(subtopic_bullet_prompt)
             # st.write(bullets)
             bullets
-            # listbul = ast.literal_eval(bullets.strip())
+            listbul = ast.literal_eval(bullets.strip())
             subtopic['Bullets'] = listbul
             subtopic_voiceover_prompt = f"generate voice over for {num_bullets_per_slide}  bullet points ,where each voice over per bullet point should have exactly {bullet_voiceover_limit} words, from the following source: {subtopic_content.strip()}\n, give the output as a json list of strings."
             BulletVoiceOver = call_openai3(subtopic_voiceover_prompt)
