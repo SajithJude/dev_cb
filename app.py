@@ -270,7 +270,7 @@ def generate_xml_structure(new_dict,coursedesctip,coursedescriptionvoiceover,cn)
 
     tpcount=1
     slideName = ET.SubElement(slide, "Slide_Name")
-    # slideName.text = "Topics"
+    slideName.text = "Topics"
     # topic_list = ET.SubElement(slide, "Topics")
 
     for topic in new_dict:
