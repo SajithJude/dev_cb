@@ -374,7 +374,7 @@ elif toc_option == "Copy Paste TOC":
         str_toc = call_openai(toc_res)
         str_to = str(str_toc).strip()
         st.write(str_to)
-        table_of_contents = json.loads(str_to)
+        table_of_contents = json.loads(str_to.strip())
 
      
         # if "table_of_contents" not in st.session_state:
