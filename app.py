@@ -385,7 +385,8 @@ try:
         upload_col.success("TOC loaded, Go to the next tab")
 
 except json.JSONDecodeError as e:
-    table_of_contents = json.loads(str(str_to))
+    str_toc = call_openai(toc_res)
+    table_of_contents = json.loads(str(str_toc))
     st.session_state.table_of_contents = table_of_contents
     upload_col.write(st.session_state.table_of_contents)
     # upload_col.error("Invalid JSON format. Please check your input.")
