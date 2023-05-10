@@ -624,13 +624,13 @@ if ex:
         for subtopic in topic_value["Subtopics"]:
             subtopic_content = subtopic['content']
             subtopic_content
-            subtopic_bullet_prompt = f"Divide the following content :\n {subtopic_content.strip()} \n into {num_bullets_per_slide} unordered bullet points , where each bullet point should have exactly {num_words_bullet} words, give the output json list of strings."
+            subtopic_bullet_prompt = f"Divide the following content :\n {subtopic_content.strip()} \n into {num_bullets_per_slide} unordered bullet points , where each bullet point should have exactly {num_words_bullet} words, The response should be a valid json list of strings."
             bullets = call_openai3(subtopic_bullet_prompt)
             # st.write(bullets)
             bullets
             listbul = ast.literal_eval(bullets.strip())
             subtopic['Bullets'] = listbul
-            subtopic_voiceover_prompt = f"Divide the following content :\n {subtopic_content.strip()} \n into {num_bullets_per_slide} voiceover bullet scripts ,where each voiceover bullet script should have exactly {bullet_voiceover_limit} words, give the output as a json list of strings."
+            subtopic_voiceover_prompt = f"By dividing the following content :\n {subtopic_content.strip()} \n Generate {num_bullets_per_slide} voiceover bullet scripts ,where each voiceover bullet script should consist of exactly {bullet_voiceover_limit} words, The response should be a valid json list of strings."
             BulletVoiceOver = call_openai3(subtopic_voiceover_prompt)
             listvoice = ast.literal_eval(BulletVoiceOver.strip())
             subtopic['VoiceOverBullets'] = listvoice
