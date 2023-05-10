@@ -750,13 +750,13 @@ if excol.button("generate xml"):
     pretty_xml = minidom.parseString(xml_output).toprettyxml()
     
     file_name = f"{cn}.xml"
-    b64_xml = base64.b64encode(pretty_xml.encode("utf-8")).decode("utf-8")
+    b64_xml = base64.b64encode(xml_output.encode("utf-8")).decode("utf-8")
     download_button = f'<a href="data:application/xml;base64,{b64_xml}" download="{file_name}">Download XML file</a>'
 
     # Add the download button
     excol.markdown(download_button, unsafe_allow_html=True)
 
-    excol.code(pretty_xml)
+    excol.code(xml_output)
 
 
 
