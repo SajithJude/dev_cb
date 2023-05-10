@@ -288,7 +288,7 @@ if "toc" not in st.session_state:
 
 
 uploaded_file = upload_col.file_uploader("Upload a Chapter as a PDF file", type="pdf")
-toc_option = upload_col.radio("Choose a method to provide TOC", ("Generate TOC", "Copy Paste TOC"))
+# toc_option = upload_col.radio("Choose a method to provide TOC", ("Generate TOC", "Copy Paste TOC"))
 forma = """"{
   "Topics": [
     {
