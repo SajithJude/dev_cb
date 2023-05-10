@@ -292,20 +292,11 @@ uploaded_file = upload_col.file_uploader("Upload a Chapter as a PDF file", type=
 forma = """"{
   "Topics": [
     {
-      "Topic 1": [
-        "Subtopic ",
-        "Subtopic",
-        "Subtopic "
+      "n.n Topic ": [
+        "n.n.n Subtopic ",
+        "n.n.n Subtopic ",
       ]
-    },
-    {
-      "Topic 2": [
-        "Subtopic ",
-        "Subtopic ",
-        "Subtopic "
-      ]
-    },
-     continue with topics...
+    }
   ]
 }
 
