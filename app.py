@@ -314,6 +314,17 @@ def generate_xml_structure(new_dict,coursedesctip,coursedescriptionvoiceover,cn)
                     bullet_voiceover_elem = ET.SubElement(bullets_VO_element, f"VoiceOver_{vobullet_count}")
                     bullet_voiceover_elem.text = bullet
                     vobullet_count += 1
+            #topic summary for subtopic slides
+            slide = ET.SubElement(root, f"Slide{slide_counter}")
+            slideName = ET.SubElement(slide, "Slide_Name")
+            slideName.text = "Topic_Summary"
+            Topic_Summary = ET.SubElement(slide, "Topic_Summary")
+            Topic_Summary.text= details["Topic_Summary"].strip()
+            topic_elem = ET.SubElement(slide, "VoiceOver")
+            topic_elem.text = details["VoiceOver"].strip()
+
+
+
 
         else:
             slide_counter += 1
