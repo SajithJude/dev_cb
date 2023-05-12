@@ -742,10 +742,10 @@ if excol.button("generate xml"):
     coursedesctip = call_openai3(course_descriptioninput)
     course_descriptionvoin= f"Generate a voice over in exactly {course_description_voiceover_limit} words for a course description containing the following topics:\n"+str(lsttopics) +"\n Exclude objectives in the voice over"
     coursedesctipvo = call_openai3(course_descriptionvoin)
-    coursedesctipvo
-    coursedesctip
+    # coursedesctipvo
+    # coursedesctip
     # st.session_state.new_dict
-
+    edcol.write(st.session_state.new_dict)
     xml_output = generate_xml_structure(st.session_state.new_dict,coursedesctip,coursedesctipvo,cn)
     pretty_xml = minidom.parseString(xml_output).toprettyxml()
     
