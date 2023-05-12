@@ -338,8 +338,8 @@ def generate_xml_structure(new_dict,coursedesctip,coursedescriptionvoiceover,cn)
 
     # Generate XML string
     xml_string = ET.tostring(root, encoding="utf-8", method="xml").decode("utf-8")
-    xml_string = xml_string.replace('<?xml version="1.0" ?>', '')
-    st.write(xml_string)
+    # xml_string = xml_string.replace('<?xml version="1.0" ?>', '')
+    # st.write(xml_string)
     return xml_string
 # Example usage
 # xml_output = generate_xml_structure(your_data_structure)
