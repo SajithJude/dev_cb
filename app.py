@@ -756,7 +756,7 @@ if excol.button("generate xml"):
     # Add the download button
     excol.markdown(download_button, unsafe_allow_html=True)
 
-    excol.code(xml_output)
+    excol.code(pretty_xml)
 
 
 
