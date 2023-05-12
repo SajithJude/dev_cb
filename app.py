@@ -295,13 +295,18 @@ def generate_xml_structure(new_dict,coursedesctip,coursedescriptionvoiceover,cn)
         tpname_element.text = topic
 
         if details["Subtopics"]:
-            
             subtopiccounter=1
             subtopiccounter_1=1
             for subtopic in details["Subtopics"]:
                 sp_element = ET.SubElement(slide, f"SubTopic_{subtopiccounter_1}")
                 sp_element.text = subtopic["Subtopic"]  
-                subtopiccounter_1+=1            
+                subtopiccounter_1+=1 
+            tpname_vo_element = ET.SubElement(slide, "VoiceOver")
+            for subtopic in details["Subtopics"]:
+                vo_tag =  ET.SubElement(tpname_vo_element, f"VoiceOver_{subtopiccounter}")
+                vo_tag.text = subtopic["Subtopic"]  
+
+
             # slide_counter += 1
             for subtopic in details["Subtopics"]:
                 slide_counter += 1
