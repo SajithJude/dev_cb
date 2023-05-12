@@ -152,4 +152,3 @@ for Name in saved_courses:
         
 
 
- saved_courses = [file for file in os.listdir('.') if file.endswith('.json')]
