@@ -287,8 +287,21 @@ def generate_xml_structure(new_dict,coursedesctip,coursedescriptionvoiceover,cn)
     # Iterate through topics and subtopics
     for topic, details in new_dict.items():
         # Add subtopics if they exist
+        slide = ET.SubElement(root, f"Slide{slide_counter}")
+        slideName = ET.SubElement(slide, "Slide_Name")
+        slideName.text = "Topic_Name"
+        tpname_element = ET.SubElement(slide, "Topic_Name")
+        tpname_element.text = topic
+
         if details["Subtopics"]:
+            
             subtopiccounter=1
+            subtopiccounter_1=1
+            for subtopic in details["Subtopics"]:
+                sp_element = ET.SubElement(slide, f"SubTopic_{subtopiccounter_1}")
+                sp_element.text = subtopic["Subtopic"]  
+                subtopiccounter_1+=1            
+            slide_counter += 1
             for subtopic in details["Subtopics"]:
                 slide_counter += 1
                 slide = ET.SubElement(root, f"Slide{slide_counter}")
