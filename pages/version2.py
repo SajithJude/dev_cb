@@ -480,7 +480,7 @@ try:
     if pastecol.button("Process and Save"):
         # try:
             # table_of_contents = json.loads(toc_input)
-        with pastecol.spinner('Please wait, it might take a while to process the structure'):
+        with st.spinner('Please wait, it might take a while to process the structure'):
             toc_res = "Convert the following table of contents into a json string, use the JSON format given bellow:\n"+ "Table of contents:\n"+ toc_input.strip() + "\n JSON format:\n"+ str(forma) + ". Output should be a valid JSON string."
             str_toc = call_openai(toc_res)
             str_to = str(str_toc)
