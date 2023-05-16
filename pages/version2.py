@@ -468,7 +468,7 @@ if toc_option == "Generate TOC":
     # try:
     if toc:
         toc_res = st.session_state.index.query("Generate a table of contents for this book in the following format: " + str(forma))
-        str_toc = str(toc_res.strip())
+        str_toc = str(toc_res.response)
         upload_col.write(str_toc)
 
         table_of_contents = json.loads(str_toc)
