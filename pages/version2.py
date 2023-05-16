@@ -484,7 +484,7 @@ if uploaded_file is not None:
 #     #     print(f"Error: {type(e).__name__} - {e}")
 
 
-pastecol, copycol = upload_col.columns(2,gap=large)
+pastecol, copycol = upload_col.columns(2,gap="large")
 
 sampletoc = copycol.button("SampleTOC")
 if sampletoc:
