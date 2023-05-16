@@ -390,7 +390,7 @@ def process_pdf(uploaded_file):
         temp_file.write(uploaded_file.getvalue())
         documents = loader.load_data(file=Path(temp_file.name))
     
-    llm_predictor = LLMPredictor(llm=OpenAI(temperature=0, model_name="text-davinci-003", max_tokens=3000))
+    llm_predictor = LLMPredictor(llm=OpenAI(temperature=0, model_name="text-davinci-003", max_tokens=3600))
     service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
     
     if "index" not in st.session_state:
@@ -467,7 +467,7 @@ if toc_option == "Generate TOC":
     # edirpeompt = upload_col.text_input("Input prompt ")
     # try:
     if toc:
-        toc_res = st.session_state.index.query("Generate a table of contents for this book in the following format: " + str(forma))
+        toc_res = st.session_state.index.query("Generate a table of contents for this book as a valid JSON string in the following format: " + str(forma))
         str_toc = str(toc_res.response)
         upload_col.write(str_toc)
 
