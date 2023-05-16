@@ -611,7 +611,7 @@ pagecol, ecol = extract_col.columns([2,5],gap="large")
 
 
 for topic_key, topic_value in st.session_state.new_dict.items():
-    pagecol.write(f"#### {topic_key}")
+    pagecol.write(f"###### {topic_key}")
     pagecol.button("Extract Topic", key=f"{topic_key}")
     # expande.write(topic_value["content"])
     for subtopic in topic_value["Subtopics"]:
