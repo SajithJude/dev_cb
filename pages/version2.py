@@ -484,17 +484,17 @@ if uploaded_file is not None:
 #     #     print(f"Error: {type(e).__name__} - {e}")
 
 
-pastecol, copycol = upload_col.columns(2,gap="large")
+pastecol, copycol = upload_col.columns(2,gap="medium")
 
 sampletoc = copycol.button("SampleTOC")
 if sampletoc:
-    sample_table = st.session_state.index.query("Generate a table of contents with topics and subtopics for this book")
+    sample_table = st.session_state.index.query("Generate a table of contents with topics(n.n) and subtopics(n.n.n) for this book")
     copycol.code(sample_table.response)
 
 # elif toc_option == "Copy Paste TOC":
 try:
     
-    toc_input = pastecol.text_area("Paste your Table of contents:")
+    toc_input = pastecol.text_area("Paste your Table of contents Here and click Save TOC:")
 
     if pastecol.button("Save TOC"):
         # try:
