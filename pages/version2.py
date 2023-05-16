@@ -131,7 +131,10 @@ def delete_chapter(chapter_name):
         return True
     return False
 
-
+def form_callback(value):
+    st.write(value)
+    res = st.session_state.index.query("extract all the information belonging to following section into a paragraph "+str(value))
+    st.write(res.response)
 
 # def generate_xml_structure(new_dict,coursedesctip,coursedescriptionvoiceover,cn):
 #     root = ET.Element("Slides")
@@ -504,93 +507,6 @@ except json.JSONDecodeError as e:
 
 
 
-
-# ######################       refining toc start      ##########################################
-
-
-# try:
-#     with refine_toc:
-#         column1, column2 = st.columns(2, gap="large")
-#         data = st.session_state.table_of_contents
-#         topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
-#         if "topic_data" not in st.session_state:
-#             st.session_state['topic_data'] = topic_data
-#         column1.write("# Editor")
-
-#         column1.write("### Topics:")
-#         topic_name = column1.text_input("Enter New topic name:")
-
-#         if column1.button("Save New Topic"):
-#             if topic_name not in st.session_state['topic_data']:
-#                 st.session_state['topic_data'][topic_name] = []
-#                 update_json(topic_data)
-
-#         topic_options = list(st.session_state['topic_data'].keys())
-#         selected_topic = column1.selectbox("Select a Topic to edit Subtopics", topic_options)
-        
-#         delete_topic = column1.button("Remove Selected Topic")
-#         if delete_topic:
-#             if selected_topic in st.session_state['topic_data']:
-#                 del st.session_state['topic_data'][selected_topic]
-#                 update_json(st.session_state['topic_data'])
-#                 st.experimental_rerun()
-                
-                
-#         subtopics = st.session_state['topic_data'][selected_topic]
-
-#         column1.write("### Subtopics:")
-#         subtopics_input = column1.multiselect("Remove Unwanted Subtopics", subtopics, default=subtopics)
-
-#         if subtopics_input:
-#             st.session_state['topic_data'][selected_topic] = subtopics_input
-#             update_json(st.session_state['topic_data'])
-#         add = column1.button("Create New Subtopic")
-#         if "add" in st.session_state  or add:
-#             st.session_state['add'] = True
-#             new_subtopic = column1.text_input("Enter New Subtopic name:")
-#             if column1.button("Save New Subtopic"):
-#                 if new_subtopic not in st.session_state['topic_data'][selected_topic]:
-#                     st.session_state['topic_data'][selected_topic].append(new_subtopic)
-#                     add= None
-#                     st.session_state['add'] = False
-#                     st.experimental_rerun()
-        
-#         if column1.button("Save"):
-
-#             try:
-#                 if "new_dict" not in st.session_state:
-#                         st.session_state.new_dict = {}
-#                 for topic in st.session_state.toc["Topics"]:
-#                     for key, value in topic.items():
-#                         # Add a description for the topic
-#                         st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
-#                         # Add descriptions for the values
-#                         for item in value:
-#                             st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
-
-#                 st.write(st.session_state.new_dict)
-#             except (KeyError, AttributeError) as e:
-#                 print("Error Formating TOC "+str(e))
-#                 print(f"Error: {type(e).__name__} - {e}")
-
-#         column2.write("# Table of Contents")
-
-#         for topic, subtopics in st.session_state['topic_data'].items():
-#             column2.markdown(f"**{topic}**")
-#             for subtopic in subtopics:
-#                 column2.write(f"- {subtopic}")
-
-
-
-
-# except (KeyError, AttributeError) as e:
-#     print("Error refining toc")
-#     print(f"Error: {type(e).__name__} - {e}")
-
-
-
-
-
 ######################       extract content      ##########################################
 
 
@@ -612,14 +528,11 @@ pagecol, ecol = extract_col.columns([2,5],gap="large")
 
 for topic_key, topic_value in st.session_state.new_dict.items():
     pagecol.write(f"###### {topic_key}")
-    if pagecol.button("Extract Topic", key=f"{topic_key}"):
-        topic_res = st.session_state.index.query("extract all the information belonging to following section into a paragraph :"+str(topic_key))
-        topic_value['content'] = topic_res.response
+    pagecol.button("Extract Topic", key=f"{topic_key}",on_click=form_callback,args=(f"{topic_key}"))
     # expande.write(topic_value["content"])
     for subtopic in topic_value["Subtopics"]:
         expande = pagecol.expander(f"{subtopic['Subtopic']}")
-        if expande.button("Extract Subtopic", key=f"{subtopic['Subtopic']}"):
-            subtopic['content'] = st.session_state.index.query("extract all the information under the subtopic  "+str(subtopic['Subtopic'])+ ", in 4 paragraphs where each paragraph has minimum 40 words.").response
+        expande.button("Extract Subtopic", key=f"{subtopic['Subtopic']}",on_click=form_callback, args=(f"{subtopic['Subtopic']}") )
         # expande.write(subtopic["content"])
 
 
