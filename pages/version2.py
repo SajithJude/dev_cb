@@ -464,10 +464,10 @@ if uploaded_file is not None:
 
 if toc_option == "Generate TOC":
     toc = upload_col.button("Genererate TOC")
-    edirpeompt = upload_col.text_input("Input prompt ")
+    # edirpeompt = upload_col.text_input("Input prompt ")
     try:
         if toc:
-            toc_res = st.session_state.index.query(str(edirpeompt) + "\n. The output table of contents should be in the following format: " + str(forma))
+            toc_res = st.session_state.index.query("Generate a table of contents for this book in the following format: " + str(forma))
             str_toc = str(toc_res)
             table_of_contents = json.loads(str_toc)
 
