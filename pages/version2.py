@@ -486,7 +486,8 @@ if uploaded_file is not None:
 
 pastecol, copycol = upload_col.columns(2,gap="medium")
 
-sampletoc = copycol.button("SampleTOC")
+copycol.write("If you dont have a Table of content of your chapter click Sample TOC to let AI generate one, make paste it on the left to make nesscessary edits and click save TOC")
+sampletoc = copycol.button("Sample TOC")
 if sampletoc:
     sample_table = st.session_state.index.query("Generate a table of contents with topics(n.n) and subtopics(n.n.n) for this book")
     copycol.code(sample_table.response)
