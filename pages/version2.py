@@ -475,24 +475,23 @@ if sampletoc:
 # elif toc_option == "Copy Paste TOC":
 try:
     
-    toc_input = pastecol.text_area("Paste your Table of contents Here and click Save TOC:")
+    toc_input = pastecol.text_area("Copy the Table of contents from your book and paste them here")
 
-    if pastecol.button("Save TOC"):
+    if pastecol.button("Process and Save"):
         # try:
             # table_of_contents = json.loads(toc_input)
-        toc_res = "Convert the following table of contents into a json string, use the JSON format given bellow:\n"+ "Table of contents:\n"+ toc_input.strip() + "\n JSON format:\n"+ str(forma) + ". Output should be a valid JSON string."
-        
-        str_toc = call_openai(toc_res)
-        str_to = str(str_toc)
-        st.write(str_to)
+        with pastecol.spinner('Please wait, it might take a while to process the structure')
+            toc_res = "Convert the following table of contents into a json string, use the JSON format given bellow:\n"+ "Table of contents:\n"+ toc_input.strip() + "\n JSON format:\n"+ str(forma) + ". Output should be a valid JSON string."
+            str_toc = call_openai(toc_res)
+            str_to = str(str_toc)
+        # st.write(str_to)
         table_of_contents = json.loads(str_to.strip())
 
         
         # if "table_of_contents" not in st.session_state:
         st.session_state.table_of_contents = table_of_contents
-        pastecol.write(st.session_state.table_of_contents)
-
         pastecol.success("TOC loaded, Go to the next tab")
+        pastecol.write(st.session_state.table_of_contents)
 
 except json.JSONDecodeError as e:
     str_toc = call_openai(toc_res)
