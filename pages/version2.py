@@ -618,8 +618,8 @@ for topic_key, topic_value in st.session_state.new_dict.items():
     # expande.write(topic_value["content"])
     for subtopic in topic_value["Subtopics"]:
         expande = pagecol.expander(f"{subtopic['Subtopic']}")
-        if expande.button("Extract Subtopic", key=f"{subtopic['Subtopic']}")
-            subtopic['content'] = st.session_state.index.query("extract all the information under the subtopic  "+str(subtopic['Subtopic'])+ ", in 4 paragraphs where each paragraph has minimum 40 words.")   
+        if expande.button("Extract Subtopic", key=f"{subtopic['Subtopic']}"):
+            subtopic['content'] = st.session_state.index.query("extract all the information under the subtopic  "+str(subtopic['Subtopic'])+ ", in 4 paragraphs where each paragraph has minimum 40 words.").response
         # expande.write(subtopic["content"])
 
 
