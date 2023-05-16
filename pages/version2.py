@@ -462,34 +462,13 @@ if uploaded_file is not None:
                     image_filename = f"images/image_page{page_index}_{image_index}.{image_ext}"
                     image.save(image_filename)
 
-# if toc_option == "Generate TOC":
-#     toc = upload_col.button("Genererate TOC")
-#     # edirpeompt = upload_col.text_input("Input prompt ")
-#     # try:
-#     if toc:
-#         toc_res = st.session_state.index.query("Generate a table of contents for this book as a valid JSON string in the following format: " + str(forma))
-#         str_toc = str(toc_res.response)
-#         upload_col.write(str_toc)
-
-#         table_of_contents = json.loads(str_toc)
-
-#         if "table_of_contents" not in st.session_state:
-#             st.session_state.table_of_contents = table_of_contents
-#         upload_col.write(st.session_state.table_of_contents)
-
-#         upload_col.success("TOC loaded, Go to the next tab")
-
-#     # except (KeyError, AttributeError) as e:
-#     #     print("Error generating TOC")
-#     #     print(f"Error: {type(e).__name__} - {e}")
-
 
 pastecol, copycol = upload_col.columns(2,gap="medium")
 
 copycol.write("AI Generated TOC for unstructured documents")
 sampletoc = copycol.button("AI Generated Table")
 if sampletoc:
-    sample_table = st.session_state.index.query("Generate a table of contents with topics(n.n) and subtopics(n.n.n) for this book")
+    sample_table = st.session_state.index.query("Generate a table of contents with only sections of topics and subtopics for this book")
     copycol.write("Click on the top right corner to copy, and Paste it on the left, make edits of nessecary and Save")
     copycol.code(sample_table.response)
 
@@ -527,87 +506,87 @@ except json.JSONDecodeError as e:
 
 
 
-######################       refining toc start      ##########################################
+# ######################       refining toc start      ##########################################
 
 
-try:
-    with refine_toc:
-        column1, column2 = st.columns(2, gap="large")
-        data = st.session_state.table_of_contents
-        topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
-        if "topic_data" not in st.session_state:
-            st.session_state['topic_data'] = topic_data
-        column1.write("# Editor")
+# try:
+#     with refine_toc:
+#         column1, column2 = st.columns(2, gap="large")
+#         data = st.session_state.table_of_contents
+#         topic_data = {list(t.keys())[0]: list(t.values())[0] for t in data["Topics"]}
+#         if "topic_data" not in st.session_state:
+#             st.session_state['topic_data'] = topic_data
+#         column1.write("# Editor")
 
-        column1.write("### Topics:")
-        topic_name = column1.text_input("Enter New topic name:")
+#         column1.write("### Topics:")
+#         topic_name = column1.text_input("Enter New topic name:")
 
-        if column1.button("Save New Topic"):
-            if topic_name not in st.session_state['topic_data']:
-                st.session_state['topic_data'][topic_name] = []
-                update_json(topic_data)
+#         if column1.button("Save New Topic"):
+#             if topic_name not in st.session_state['topic_data']:
+#                 st.session_state['topic_data'][topic_name] = []
+#                 update_json(topic_data)
 
-        topic_options = list(st.session_state['topic_data'].keys())
-        selected_topic = column1.selectbox("Select a Topic to edit Subtopics", topic_options)
+#         topic_options = list(st.session_state['topic_data'].keys())
+#         selected_topic = column1.selectbox("Select a Topic to edit Subtopics", topic_options)
         
-        delete_topic = column1.button("Remove Selected Topic")
-        if delete_topic:
-            if selected_topic in st.session_state['topic_data']:
-                del st.session_state['topic_data'][selected_topic]
-                update_json(st.session_state['topic_data'])
-                st.experimental_rerun()
+#         delete_topic = column1.button("Remove Selected Topic")
+#         if delete_topic:
+#             if selected_topic in st.session_state['topic_data']:
+#                 del st.session_state['topic_data'][selected_topic]
+#                 update_json(st.session_state['topic_data'])
+#                 st.experimental_rerun()
                 
                 
-        subtopics = st.session_state['topic_data'][selected_topic]
+#         subtopics = st.session_state['topic_data'][selected_topic]
 
-        column1.write("### Subtopics:")
-        subtopics_input = column1.multiselect("Remove Unwanted Subtopics", subtopics, default=subtopics)
+#         column1.write("### Subtopics:")
+#         subtopics_input = column1.multiselect("Remove Unwanted Subtopics", subtopics, default=subtopics)
 
-        if subtopics_input:
-            st.session_state['topic_data'][selected_topic] = subtopics_input
-            update_json(st.session_state['topic_data'])
-        add = column1.button("Create New Subtopic")
-        if "add" in st.session_state  or add:
-            st.session_state['add'] = True
-            new_subtopic = column1.text_input("Enter New Subtopic name:")
-            if column1.button("Save New Subtopic"):
-                if new_subtopic not in st.session_state['topic_data'][selected_topic]:
-                    st.session_state['topic_data'][selected_topic].append(new_subtopic)
-                    add= None
-                    st.session_state['add'] = False
-                    st.experimental_rerun()
+#         if subtopics_input:
+#             st.session_state['topic_data'][selected_topic] = subtopics_input
+#             update_json(st.session_state['topic_data'])
+#         add = column1.button("Create New Subtopic")
+#         if "add" in st.session_state  or add:
+#             st.session_state['add'] = True
+#             new_subtopic = column1.text_input("Enter New Subtopic name:")
+#             if column1.button("Save New Subtopic"):
+#                 if new_subtopic not in st.session_state['topic_data'][selected_topic]:
+#                     st.session_state['topic_data'][selected_topic].append(new_subtopic)
+#                     add= None
+#                     st.session_state['add'] = False
+#                     st.experimental_rerun()
         
-        if column1.button("Save"):
+#         if column1.button("Save"):
 
-            try:
-                if "new_dict" not in st.session_state:
-                        st.session_state.new_dict = {}
-                for topic in st.session_state.toc["Topics"]:
-                    for key, value in topic.items():
-                        # Add a description for the topic
-                        st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
-                        # Add descriptions for the values
-                        for item in value:
-                            st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
+#             try:
+#                 if "new_dict" not in st.session_state:
+#                         st.session_state.new_dict = {}
+#                 for topic in st.session_state.toc["Topics"]:
+#                     for key, value in topic.items():
+#                         # Add a description for the topic
+#                         st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
+#                         # Add descriptions for the values
+#                         for item in value:
+#                             st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
 
-                st.write(st.session_state.new_dict)
-            except (KeyError, AttributeError) as e:
-                print("Error Formating TOC "+str(e))
-                print(f"Error: {type(e).__name__} - {e}")
+#                 st.write(st.session_state.new_dict)
+#             except (KeyError, AttributeError) as e:
+#                 print("Error Formating TOC "+str(e))
+#                 print(f"Error: {type(e).__name__} - {e}")
 
-        column2.write("# Table of Contents")
+#         column2.write("# Table of Contents")
 
-        for topic, subtopics in st.session_state['topic_data'].items():
-            column2.markdown(f"**{topic}**")
-            for subtopic in subtopics:
-                column2.write(f"- {subtopic}")
-
-
+#         for topic, subtopics in st.session_state['topic_data'].items():
+#             column2.markdown(f"**{topic}**")
+#             for subtopic in subtopics:
+#                 column2.write(f"- {subtopic}")
 
 
-except (KeyError, AttributeError) as e:
-    print("Error refining toc")
-    print(f"Error: {type(e).__name__} - {e}")
+
+
+# except (KeyError, AttributeError) as e:
+#     print("Error refining toc")
+#     print(f"Error: {type(e).__name__} - {e}")
 
 
 
