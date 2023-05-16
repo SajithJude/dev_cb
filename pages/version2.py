@@ -462,54 +462,54 @@ if uploaded_file is not None:
                     image_filename = f"images/image_page{page_index}_{image_index}.{image_ext}"
                     image.save(image_filename)
 
-# if toc_option == "Generate TOC":
-#     toc = upload_col.button("Genererate TOC")
-#     edirpeompt = upload_col.text_input("Input prompt ")
-#     try:
-#         if toc:
-#             toc_res = st.session_state.index.query(str(edirpeompt) + "\n. The output table of contents should be in the following format: " + str(forma))
-#             str_toc = str(toc_res)
-#             table_of_contents = json.loads(str_toc)
+if toc_option == "Generate TOC":
+    toc = upload_col.button("Genererate TOC")
+    edirpeompt = upload_col.text_input("Input prompt ")
+    try:
+        if toc:
+            toc_res = st.session_state.index.query(str(edirpeompt) + "\n. The output table of contents should be in the following format: " + str(forma))
+            str_toc = str(toc_res)
+            table_of_contents = json.loads(str_toc)
 
-#             if "table_of_contents" not in st.session_state:
-#                 st.session_state.table_of_contents = table_of_contents
-#             upload_col.write(st.session_state.table_of_contents)
+            if "table_of_contents" not in st.session_state:
+                st.session_state.table_of_contents = table_of_contents
+            upload_col.write(st.session_state.table_of_contents)
 
-#             upload_col.success("TOC loaded, Go to the next tab")
+            upload_col.success("TOC loaded, Go to the next tab")
 
-#     except (KeyError, AttributeError) as e:
-#         print("Error generating TOC")
-#         print(f"Error: {type(e).__name__} - {e}")
+    except (KeyError, AttributeError) as e:
+        print("Error generating TOC")
+        print(f"Error: {type(e).__name__} - {e}")
 
 
-# elif toc_option == "Copy Paste TOC":
-try:
-    toc_input = upload_col.text_area("Paste your Table of contents:")
+elif toc_option == "Copy Paste TOC":
+    try:
+        toc_input = upload_col.text_area("Paste your Table of contents:")
 
-    if upload_col.button("Save TOC"):
-        # try:
-            # table_of_contents = json.loads(toc_input)
-        toc_res = "Convert the following table of contents into a json string, use the JSON format given bellow:\n"+ "Table of contents:\n"+ toc_input.strip() + "\n JSON format:\n"+ str(forma) + ". Output should be a valid JSON string."
-        
+        if upload_col.button("Save TOC"):
+            # try:
+                # table_of_contents = json.loads(toc_input)
+            toc_res = "Convert the following table of contents into a json string, use the JSON format given bellow:\n"+ "Table of contents:\n"+ toc_input.strip() + "\n JSON format:\n"+ str(forma) + ". Output should be a valid JSON string."
+            
+            str_toc = call_openai(toc_res)
+            str_to = str(str_toc)
+            st.write(str_to)
+            table_of_contents = json.loads(str_to.strip())
+
+            
+            # if "table_of_contents" not in st.session_state:
+            st.session_state.table_of_contents = table_of_contents
+            upload_col.write(st.session_state.table_of_contents)
+
+            upload_col.success("TOC loaded, Go to the next tab")
+
+    except json.JSONDecodeError as e:
         str_toc = call_openai(toc_res)
-        str_to = str(str_toc)
-        st.write(str_to)
-        table_of_contents = json.loads(str_to.strip())
-
-        
-        # if "table_of_contents" not in st.session_state:
+        table_of_contents = json.loads(str(str_toc))
         st.session_state.table_of_contents = table_of_contents
         upload_col.write(st.session_state.table_of_contents)
-
-        upload_col.success("TOC loaded, Go to the next tab")
-
-except json.JSONDecodeError as e:
-    str_toc = call_openai(toc_res)
-    table_of_contents = json.loads(str(str_toc))
-    st.session_state.table_of_contents = table_of_contents
-    upload_col.write(st.session_state.table_of_contents)
-    # upload_col.error("Invalid JSON format. Please check your input.")
-    upload_col.error(e)
+        # upload_col.error("Invalid JSON format. Please check your input.")
+        upload_col.error(e)
 
 
 
