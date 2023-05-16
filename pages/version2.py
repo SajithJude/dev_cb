@@ -595,78 +595,54 @@ except json.JSONDecodeError as e:
 
 
 
-try:
-    pagecol, ecol = extract_col.columns([2,5],gap="large")
-
-    pages_files = [f for f in os.listdir("pages") if f.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))]
-
-    selected_page = pagecol.number_input("Change page number to compare:",step=1)
-    selected_image = f"page-{selected_page}.png"
-    # Display the selected image
-    if selected_image:
-        pagecol.image(os.path.join("pages", selected_image), use_column_width=True)
-    else:
-        pagecol.warning("No images found in the 'pages' folder.")
-
-    
-
-    # course_name = ecol.text_input("Enter course name")
-    quer = ecol.button("Extract Contents")
+# try:
+if extract_col.button("Restructure format"):
+    if "new_dict" not in st.session_state:
+        st.session_state.new_dict = {}
+    for topic in st.session_state.table_of_contents["Topics"]:
+        for key, value in topic.items():
+            # Add a description for the topic
+            st.session_state.new_dict[key] = {'content': '', 'Subtopics': []}
+            # Add descriptions for the values
+            for item in value:
+                st.session_state.new_dict[key]['Subtopics'].append({'content': '', 'Subtopic': item})
 
 
-    # saved_extracts = [file for file in os.listdir('.') if file.endswith('.json')]
+pagecol, ecol = extract_col.columns([2,5],gap="large")
 
-    # course_names = list(set([item['course_name'] for item in data]))
-    
-    # seca, secb = extract_col.columns(2)
-    if quer:
-        progress_bar = ecol.progress(0)
-        total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
-        items_processed = 0
-        for topic, subtopics_dict in st.session_state.new_dict.items():
-            for subtopic_dict in subtopics_dict['Subtopics']:
-                subtopic_name = subtopic_dict['Subtopic']
-                subtopicres = st.session_state.index.query("extract all the information under the subtopic  "+str(subtopic_name)+ ", in 4 paragraphs where each paragraph has minimum 40 words.")
-                subtopic_dict['content'] = subtopicres.response
-                items_processed += 1
-                progress_bar.progress(items_processed / total_items)
-                ecol.info(f"Extracted {subtopic_name}")
-            
-            topicres = st.session_state.index.query("extract all the information belonging to following section into a paragraph "+str(topic))
-            subtopics_dict['content'] = topicres.response
+
+
+quer = ecol.button("Extract Contents")
+if quer:
+    progress_bar = ecol.progress(0)
+    total_items = sum(len(subtopics_dict['Subtopics']) for _, subtopics_dict in st.session_state.new_dict.items()) + len(st.session_state.new_dict)
+    items_processed = 0
+    for topic, subtopics_dict in st.session_state.new_dict.items():
+        for subtopic_dict in subtopics_dict['Subtopics']:
+            subtopic_name = subtopic_dict['Subtopic']
+            subtopicres = st.session_state.index.query("extract all the information under the subtopic  "+str(subtopic_name)+ ", in 4 paragraphs where each paragraph has minimum 40 words.")
+            subtopic_dict['content'] = subtopicres.response
             items_processed += 1
             progress_bar.progress(items_processed / total_items)
-
-    
-    
-                
-
-
-
-    # st.session_state.new_dict = data['data']
-    for topic_key, topic_value in st.session_state.new_dict.items():
-        expander = ecol.expander(f"{topic_key}")
-        expander.write(topic_value["content"])
-        for subtopic in topic_value["Subtopics"]:
-            expander.markdown(f"**{subtopic['Subtopic']}**")
-            expander.write(subtopic["content"])
+            ecol.info(f"Extracted {subtopic_name}")
+        
+        topicres = st.session_state.index.query("extract all the information belonging to following section into a paragraph "+str(topic))
+        subtopics_dict['content'] = topicres.response
+        items_processed += 1
+        progress_bar.progress(items_processed / total_items)
 
 
-
-    # save = ecol.button("Save project")
-
-    # if save:
-    #     json_filename = f"{course_name}.json"
-    #     with open(json_filename, 'w') as outfile:
-    #         json.dump(st.session_state.new_dict, outfile)
-
-                    
+# st.session_state.new_dict = data['data']
+for topic_key, topic_value in st.session_state.new_dict.items():
+    expander = ecol.expander(f"{topic_key}")
+    expander.write(topic_value["content"])
+    for subtopic in topic_value["Subtopics"]:
+        expander.markdown(f"**{subtopic['Subtopic']}**")
+        expander.write(subtopic["content"])
 
 
-except (KeyError, FileNotFoundError,AttributeError) as e:
-    # st.error(e)
-    print("Error Extracting Data")
-    print(f"Error: {type(e).__name__} - {e}")
+       
+
 
 
 
